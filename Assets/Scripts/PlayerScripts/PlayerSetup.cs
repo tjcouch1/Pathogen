@@ -48,6 +48,7 @@ public class PlayerSetup : NetworkBehaviour {
                 _username = transform.name;
 
             CmdSetUsername(transform.name, _username);
+
         }
     }
 

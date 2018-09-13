@@ -18,6 +18,10 @@ public class GameManager : NetworkBehaviour {
     [SerializeField] private int lobbyTime = 180;
     private int roundNumber = 0;
 
+    //List of infected and healthy players still in game
+    private List<Player> healthyPlayers;
+    private List<Player> infectedPlayers;
+
     //Timer events
     private timerEvent suddenDeathEvent;
     private timerEvent roundEnd;
@@ -82,6 +86,12 @@ public class GameManager : NetworkBehaviour {
                 return;
             }
 
+            //Choose one player at random to be infected
+            Player[] players = getAllPlayers();
+            var rand = Random.Range(0, players.Length);
+            players[rand].isInfected = true;
+
+            //Setup timer events
             singleton.initRoundEvents();
             GameTimer.singleton.StartTimer(roundTime);
             inCurrentRound = true;
@@ -133,6 +143,13 @@ public class GameManager : NetworkBehaviour {
             RpcUpdatePlayersTimerUI(Color.blue);
             StartLobby();
             inCurrentRound = false;
+
+            //Reset all players to not infected
+            var players = getAllPlayers();
+            foreach(Player p in players)
+            {
+                p.isInfected = false;
+            }
         }
         else
         {

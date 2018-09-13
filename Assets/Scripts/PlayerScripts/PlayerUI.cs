@@ -7,10 +7,14 @@ public class PlayerUI : MonoBehaviour {
 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject scoreboard;
+    [SerializeField] private GameObject infectedUI;
     [SerializeField] private RectTransform healthFill;
     [SerializeField] private Text ammoText;
     [SerializeField] private Text timerTitle;
     [SerializeField] private Text timerText;
+
+    public Color infectedColor;
+    public Color healthyColor;
 
     private Player player;
     private WeaponManager weaponManager;
@@ -31,6 +35,7 @@ public class PlayerUI : MonoBehaviour {
 
         SetHealthAmount(player.getHealth());
         SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
+        SetInfected(player.isInfected);
         UpdateTimer();
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -47,6 +52,27 @@ public class PlayerUI : MonoBehaviour {
             scoreboard.SetActive(false);
         }
 	}
+
+    private void SetInfected(bool state)
+    {
+        Image hf = healthFill.GetComponent<Image>();
+        if (hf == null)
+        {
+            Debug.LogError("Can't find Image component on health bar");
+            return;
+        }
+
+        if (state)
+        {
+            hf.color = infectedColor;
+            infectedUI.SetActive(true);
+        }
+        else
+        {
+            hf.color = healthyColor;
+            infectedUI.SetActive(false);
+        }
+    }
 
     public void TogglePauseMenu()
     {
