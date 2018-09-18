@@ -24,7 +24,6 @@ public class Player : NetworkBehaviour {
     private int respawnTimer = 3;
     [SyncVar]
     private int currentHealth;
-
     [SyncVar]
     public string username = "(null)";
 
@@ -48,7 +47,6 @@ public class Player : NetworkBehaviour {
             GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
             Cursor.lockState = CursorLockMode.Locked;
         }
-
         CmdBroadcastNewPlayerSetup();
     }
 
@@ -107,7 +105,7 @@ public class Player : NetworkBehaviour {
         if(sourcePlayer != null)
         {
             sourcePlayer.killCount++;
-            GameManager.singleton.onPlayerKilledCallback.Invoke(username, sourcePlayer.username);
+            GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
         }
 
         deathCount++;
@@ -141,7 +139,7 @@ public class Player : NetworkBehaviour {
         Debug.Log(transform.name + " has died. ");
 
         //Call Respawn Method
-        StartCoroutine(Respawn());
+        //StartCoroutine(Respawn());
     }
 
     private IEnumerator Respawn()

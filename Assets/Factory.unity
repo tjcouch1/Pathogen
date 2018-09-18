@@ -507,8 +507,8 @@ MonoBehaviour:
   sceneCamera: {fileID: 493712335}
   requiredPlayers: 2
   roundTime: 300
-  suddenDeathTime: 180
-  lobbyTime: 180
+  suddenDeathTime: 120
+  lobbyTime: 60
 --- !u!4 &63289644
 Transform:
   m_ObjectHideFlags: 0
