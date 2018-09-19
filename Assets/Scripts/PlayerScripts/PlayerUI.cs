@@ -12,6 +12,7 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private Text ammoText;
     [SerializeField] private Text timerTitle;
     [SerializeField] private Text timerText;
+    [SerializeField] private GameObject[] disableWhileInLobby;
 
     public Color infectedColor;
     public Color healthyColor;
@@ -28,6 +29,14 @@ public class PlayerUI : MonoBehaviour {
     {
         player = _player;
         weaponManager = player.GetComponent<WeaponManager>();
+    }
+
+    public void LobbyMode(bool state)
+    {
+        foreach(GameObject g in disableWhileInLobby)
+        {
+            g.SetActive(!state);
+        }
     }
 
     // Update is called once per frame

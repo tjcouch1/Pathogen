@@ -30,7 +30,7 @@ public class GameManager : NetworkBehaviour {
     private timerEvent lobbyEnd;
 
     //OnSpawn, need to check if inCurrentRound to determine whether or not to spawn player
-    [SyncVar] private bool inCurrentRound = false;
+    [SyncVar] public bool inCurrentRound = false;
 
     private void Awake()
     {
@@ -109,14 +109,16 @@ public class GameManager : NetworkBehaviour {
 
     IEnumerator checkWinCondition()
     {
-        if (inCurrentRound)
+        while(inCurrentRound)
         {
+            Debug.Log("Checking for win condition");
             if (checkForWin())
             {
                 EndRound();
             }
+            yield return new WaitForSeconds(1);
         }
-        yield return new WaitForSeconds(0.5f);
+        
     }
 
     //Called when a new player joins, or whenever we are finished in the lobby
@@ -133,8 +135,14 @@ public class GameManager : NetworkBehaviour {
                 return;
             }
 
-            //Add all players to the list of healthy
+            //Setup all the players for new round
             Player[] players = getAllPlayers();
+            foreach(Player p in players)
+            {
+                p.Respawn();
+            }
+
+            //Add all players to the list of healthy
             healthyPlayers.AddRange(players);
 
             //Choose one player at random to be infected
@@ -243,11 +251,19 @@ public class GameManager : NetworkBehaviour {
     //Should only be called in between rounds, or if we don't have enough players
     public void StartLobby()
     {
+        Debug.Log("Starting lobby...");
+        Player[] players = getAllPlayers();
+        foreach (Player p in players)
+        {
+            p.SendPlayerToLobby();
+        }
+
         //Whenever getting ready to start a new GameTimer.singleton, we should make sure to stop old ones that may be running
         GameTimer.singleton.StopTimer();
         singleton.initLobbyEvents();
         GameTimer.singleton.setRoundTitle("Waiting for new players");
         GameTimer.singleton.StartTimer(lobbyTime);
+        Debug.Log("Lobby Set Up!");
     }
 
     //Anything that needs to be done just before the lobby ends
@@ -274,6 +290,8 @@ public class GameManager : NetworkBehaviour {
         string playerID = PLAYER_ID_PREFIX + netID;
         playerDictionary.Add(playerID, _player);
         _player.transform.name = playerID;
+
+        //_player.SendPlayerToLobby();
 
         GameManager.singleton.CmdStartRound();
     }

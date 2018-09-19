@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,14 +15,12 @@ public class Player : NetworkBehaviour {
     //Getter/Setter for isAlive
     public bool isAlive
     {
-        get { return _isAlive;  }
-        protected set { _isAlive = value;  }
+        get { return _isAlive; }
+        protected set { _isAlive = value; }
     }
 
     [SerializeField]
     private int maxHealth = 100;
-    [SerializeField]
-    private int respawnTimer = 3;
     [SyncVar]
     private int currentHealth;
     [SyncVar]
@@ -38,16 +37,9 @@ public class Player : NetworkBehaviour {
     private bool[] wasEnabled;
     private bool firstSetup = true;
 
-    //Called by player setup script
     public void Setup()
     {
-        if (isLocalPlayer) {
-            //Switch cameras
-            GameManager.singleton.SetSceneCameraActive(false);
-            GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        CmdBroadcastNewPlayerSetup();
+        SendPlayerToLobby();
     }
 
     //Tell the server that a new player has spawned
@@ -75,13 +67,6 @@ public class Player : NetworkBehaviour {
         resetDefaults();
     }
 
-    private void Update()
-    {
-        if (!isLocalPlayer)
-            return;
-
-    }
-    
     [ClientRpc]
     public void RpcTakeDamage(int amount, string sourceID)
     {
@@ -101,15 +86,28 @@ public class Player : NetworkBehaviour {
     {
         isAlive = false;
 
-        Player sourcePlayer = GameManager.getPlayer(killerID);
-        if(sourcePlayer != null)
+        try
         {
-            sourcePlayer.killCount++;
-            GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
+            Player sourcePlayer = GameManager.getPlayer(killerID);
+            if (sourcePlayer != null)
+            {
+                sourcePlayer.killCount++;
+                GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
+            }
+        }catch(KeyNotFoundException e)
+        {
+            GameManager.singleton.CallOnDeathCallbacks(transform.name, killerID);
         }
 
         deathCount++;
 
+        SendPlayerToLobby();
+        Debug.Log(transform.name + " has died. ");
+
+    }
+
+    public void SendPlayerToLobby()
+    {
         //Disable components on player
         for (int i = 0; i < disableOnDeath.Length; i++)
         {
@@ -123,62 +121,65 @@ public class Player : NetworkBehaviour {
         }
 
         //Disable collider on player
+        /*
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
             col.enabled = false;
         }
-
+        */
         //Switch cameras
         if (isLocalPlayer)
         {
             GameManager.singleton.SetSceneCameraActive(true);
-            GetComponent<PlayerSetup>().playerUIInstance.SetActive(false);
+            GetComponent<PlayerSetup>().playerUIInstance.GetComponent<PlayerUI>().LobbyMode(true);
         }
-
-        Debug.Log(transform.name + " has died. ");
-
-        //Call Respawn Method
-        //StartCoroutine(Respawn());
     }
 
-    private IEnumerator Respawn()
+    public void Respawn()
     {
-        yield return new WaitForSeconds(respawnTimer);
+        resetDefaults();
 
         Transform respawnPoint = NetworkManager.singleton.GetStartPosition();
         transform.position = respawnPoint.position;
         transform.rotation = respawnPoint.rotation;
 
-        Setup();
-
+        if (isLocalPlayer)
+        {
+            GetComponent<PlayerSetup>().playerUIInstance.GetComponent<PlayerUI>().LobbyMode(false);
+            GameManager.singleton.SetSceneCameraActive(false);
+        }
         Debug.Log(transform.name + " has respawned.");
     }
 
     public void resetDefaults()
     {
-        isAlive = true;
-        currentHealth = maxHealth;
-
-        //Enable the components
-        for (int i = 0; i < disableOnDeath.Length; i++)
+        if (isLocalPlayer)
         {
-            disableOnDeath[i].enabled = wasEnabled[i];
-        }
+            isAlive = true;
+            currentHealth = maxHealth;
 
-        //Enable the GameObjects
-        for (int i = 0; i < disableGOnDeath.Length; i++)
-        {
-            disableGOnDeath[i].SetActive(true); 
-        }
+            //Enable the components
+            for (int i = 0; i < disableOnDeath.Length; i++)
+            {
+                disableOnDeath[i].enabled = true;
+            }
 
-        //Enable the collider
-        Collider col = GetComponent<Collider>();
-        if(col != null)
-        {
-            col.enabled = true;
+            //Enable the GameObjects
+            for (int i = 0; i < disableGOnDeath.Length; i++)
+            {
+                disableGOnDeath[i].SetActive(true);
+            }
+            /*
+            //Enable the collider
+            Collider col = GetComponent<Collider>();
+            if (col != null)
+            {
+                col.enabled = true;
+            }
+            */
+            GameManager.singleton.SetSceneCameraActive(false);
         }
-
     }
 
     public float getHealth()
