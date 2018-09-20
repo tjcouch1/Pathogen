@@ -31,34 +31,13 @@ public class LoginManager : MonoBehaviour {
     private string playerPassword = "";
 
     private UserAccountManager UAM;
-	private EventSystem eSystem;
 
     //Called at the very start of the game
     void Start()
     {
         ResetAllUIElements();
         UAM = UserAccountManager.instance;
-		eSystem = EventSystemManager.currentSystem;
     }
-
-	//update checks for tab pressed, moves selection
-	public void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Tab))
-		{
-			Selectable next = eSystem.currentSelectedObject.GetComponent<Selectable>().FindSelectableOnDown();
-
-			if (next!= null) {
-
-				InputField inputfield = next.GetComponent<InputField>();
-				if (inputfield !=null) inputfield.OnPointerClick(new PointerEventData(eSystem));  //if it's an input field, also set the text caret
-
-				eSystem.SetSelectedGameObject(next.gameObject, new BaseEventData(eSystem));
-			}
-			//else Debug.Log("next nagivation element not found");
-
-		}
-	}
 
     //Called by Button Pressed Methods to Reset UI Fields
     void ResetAllUIElements ()
