@@ -15,7 +15,8 @@ public class TabManager : MonoBehaviour {
     void Start ()
     {
         eSystem = EventSystem.current;
-        selectWithInput(tabStart.GetComponent<Selectable>());
+        if (tabStart != null)
+            selectWithInput(tabStart.GetComponent<Selectable>());
     }
 
     //update checks for tab pressed, moves selection
