@@ -38,9 +38,6 @@ public class PlayerSetup : NetworkBehaviour {
                 Debug.LogError("No PlayerUI component on PlayerUI prefab");
             ui.SetPlayer(GetComponent<Player>());
 
-            //Initialize Player script
-            GetComponent<Player>().Setup();
-
             string _username = "(null)";
             if (UserAccountManager.IsLoggedIn)
                 _username = UserAccountManager.playerUsername;
@@ -48,6 +45,9 @@ public class PlayerSetup : NetworkBehaviour {
                 _username = transform.name;
 
             CmdSetUsername(transform.name, _username);
+
+            GetComponent<Player>().Setup();
+            Debug.Log("Player Set Up!");
         }
     }
 

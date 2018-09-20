@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,7 +10,7 @@ public class GameManager : NetworkBehaviour {
     [SerializeField] private GameObject sceneCamera;
 
     public delegate void OnPlayerKilledCallback(string player, string source);
-    public OnPlayerKilledCallback onPlayerKilledCallback;
+    public List<OnPlayerKilledCallback> onPlayerKilledCallbacks;
 
     //Required number of players for a game to start
     [SerializeField] private int requiredPlayers = 1;
@@ -18,6 +19,10 @@ public class GameManager : NetworkBehaviour {
     [SerializeField] private int lobbyTime = 180;
     private int roundNumber = 0;
 
+    //List of infected and healthy players still in game
+    private List<Player> healthyPlayers;
+    private List<Player> infectedPlayers;
+
     //Timer events
     private timerEvent suddenDeathEvent;
     private timerEvent roundEnd;
@@ -25,7 +30,7 @@ public class GameManager : NetworkBehaviour {
     private timerEvent lobbyEnd;
 
     //OnSpawn, need to check if inCurrentRound to determine whether or not to spawn player
-    [SyncVar] private bool inCurrentRound = false;
+    [SyncVar] public bool inCurrentRound = false;
 
     private void Awake()
     {
@@ -36,6 +41,40 @@ public class GameManager : NetworkBehaviour {
         else
         {
             singleton = this;
+
+            //Initialize Lists
+            onPlayerKilledCallbacks = new List<OnPlayerKilledCallback>();
+            healthyPlayers = new List<Player>();
+            infectedPlayers = new List<Player>();
+            onPlayerKilledCallbacks.Add(OnPlayerKilled);
+        }
+    }
+
+    public void CallOnDeathCallbacks(string player, string source)
+    {
+        foreach(OnPlayerKilledCallback c in onPlayerKilledCallbacks)
+        {
+            c.Invoke(player, source);
+        }
+    }
+
+    private void OnPlayerKilled(string player, string source)
+    {
+        Player p = getPlayer(player);
+        if(p != null)
+        {
+            if (p.isInfected)
+            {
+                infectedPlayers.Remove(p);
+            }
+            else if (!p.isInfected)
+            {
+                healthyPlayers.Remove(p);
+            }
+        }
+        else
+        {
+            Debug.LogError("Could not find " + player + " in player dictionary");
         }
     }
 
@@ -68,6 +107,20 @@ public class GameManager : NetworkBehaviour {
         GameTimer.singleton.addTimerEvent(new timerEvent(EndLobby, 0));
     }
 
+    IEnumerator checkWinCondition()
+    {
+        while(inCurrentRound)
+        {
+            Debug.Log("Checking for win condition");
+            if (checkForWin())
+            {
+                EndRound();
+            }
+            yield return new WaitForSeconds(1);
+        }
+        
+    }
+
     //Called when a new player joins, or whenever we are finished in the lobby
     [Command]
     public void CmdStartRound()
@@ -82,12 +135,36 @@ public class GameManager : NetworkBehaviour {
                 return;
             }
 
+            //Setup all the players for new round
+            Player[] players = getAllPlayers();
+            foreach(Player p in players)
+            {
+                p.Respawn();
+            }
+
+            //Add all players to the list of healthy
+            healthyPlayers.AddRange(players);
+
+            //Choose one player at random to be infected
+            var rand = Random.Range(0, players.Length);
+            players[rand].isInfected = true;
+            infectedPlayers.Add(players[rand]);
+            var check = healthyPlayers.Remove(players[rand]);
+            if (!check)
+            {
+                Debug.LogError("Player " + players[rand] + " was not able to be removed from the list.");
+            }
+
+            //Setup timer events
             singleton.initRoundEvents();
             GameTimer.singleton.StartTimer(roundTime);
             inCurrentRound = true;
             roundNumber++;
             GameTimer.singleton.setRoundTitle( "Round " + roundNumber); 
             Debug.Log("Round started!");
+
+            //Start Coroutine that checks for a win condition
+            StartCoroutine(checkWinCondition());
         }
         else if(inCurrentRound)
         {
@@ -124,15 +201,27 @@ public class GameManager : NetworkBehaviour {
     public void EndRound()
     {
         GameTimer.singleton.StopTimer();
+        StopCoroutine(checkWinCondition());
 
         //TO-DO: Implement checking for win Case
-        bool winCase = true;
+        bool winCase = checkForWin();
         if (winCase)
         {
             //We do not go into overtime
             RpcUpdatePlayersTimerUI(Color.blue);
             StartLobby();
             inCurrentRound = false;
+
+            //Reset all players to not infected
+            var players = getAllPlayers();
+            foreach(Player p in players)
+            {
+                p.isInfected = false;
+            }
+
+            //Clear out our lists
+            healthyPlayers.Clear();
+            infectedPlayers.Clear();
         }
         else
         {
@@ -140,14 +229,41 @@ public class GameManager : NetworkBehaviour {
         }
     }
 
+    private bool checkForWin()
+    {
+        if(healthyPlayers.Count == 0)
+        {
+            Debug.Log("Infected Win!");
+            return true;
+        }
+        else if(infectedPlayers.Count == 0)
+        {
+            Debug.Log("Healthy Win!");
+            return true;
+        }
+        else
+        {
+            //No win condition is reached
+            return false;
+        }
+    }
+
     //Should only be called in between rounds, or if we don't have enough players
     public void StartLobby()
     {
+        Debug.Log("Starting lobby...");
+        Player[] players = getAllPlayers();
+        foreach (Player p in players)
+        {
+            p.SendPlayerToLobby();
+        }
+
         //Whenever getting ready to start a new GameTimer.singleton, we should make sure to stop old ones that may be running
         GameTimer.singleton.StopTimer();
         singleton.initLobbyEvents();
         GameTimer.singleton.setRoundTitle("Waiting for new players");
         GameTimer.singleton.StartTimer(lobbyTime);
+        Debug.Log("Lobby Set Up!");
     }
 
     //Anything that needs to be done just before the lobby ends
@@ -174,6 +290,8 @@ public class GameManager : NetworkBehaviour {
         string playerID = PLAYER_ID_PREFIX + netID;
         playerDictionary.Add(playerID, _player);
         _player.transform.name = playerID;
+
+        //_player.SendPlayerToLobby();
 
         GameManager.singleton.CmdStartRound();
     }
