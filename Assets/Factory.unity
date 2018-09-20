@@ -508,7 +508,7 @@ MonoBehaviour:
   requiredPlayers: 2
   roundTime: 300
   suddenDeathTime: 120
-  lobbyTime: 60
+  lobbyTime: 30
   inCurrentRound: 0
 --- !u!4 &63289644
 Transform:

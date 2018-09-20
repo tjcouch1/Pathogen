@@ -139,7 +139,7 @@ public class GameManager : NetworkBehaviour {
             Player[] players = getAllPlayers();
             foreach(Player p in players)
             {
-                p.Respawn();
+                p.CmdRespawnPlayer();
             }
 
             //Add all players to the list of healthy
@@ -255,7 +255,7 @@ public class GameManager : NetworkBehaviour {
         Player[] players = getAllPlayers();
         foreach (Player p in players)
         {
-            p.SendPlayerToLobby();
+            p.CmdSendPlayerToLobby();
         }
 
         //Whenever getting ready to start a new GameTimer.singleton, we should make sure to stop old ones that may be running

@@ -39,7 +39,8 @@ public class Player : NetworkBehaviour {
 
     public void Setup()
     {
-        SendPlayerToLobby();
+        //CmdBroadcastNewPlayerSetup();
+        CmdSendPlayerToLobby();
     }
 
     //Tell the server that a new player has spawned
@@ -64,7 +65,7 @@ public class Player : NetworkBehaviour {
             firstSetup = false;
         }
 
-        resetDefaults();
+        CmdSendPlayerToLobby();
     }
 
     [ClientRpc]
@@ -101,12 +102,19 @@ public class Player : NetworkBehaviour {
 
         deathCount++;
 
-        SendPlayerToLobby();
+        CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");
 
     }
 
-    public void SendPlayerToLobby()
+    [Command]
+    public void CmdSendPlayerToLobby()
+    {
+        RpcSendPlayerToLobby();
+    }
+
+    [ClientRpc]
+    private void RpcSendPlayerToLobby()
     {
         //Disable components on player
         for (int i = 0; i < disableOnDeath.Length; i++)
@@ -121,13 +129,20 @@ public class Player : NetworkBehaviour {
         }
 
         //Disable collider on player
-        /*
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
             col.enabled = false;
         }
-        */
+
+        //Disable Physics on player
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if(rb != null)
+        {
+            rb.isKinematic = true;
+            rb.detectCollisions = false;
+        }
+
         //Switch cameras
         if (isLocalPlayer)
         {
@@ -136,9 +151,21 @@ public class Player : NetworkBehaviour {
         }
     }
 
-    public void Respawn()
+    [Command]
+    public void CmdRespawnPlayer()
+    {
+        RpcRespawn();
+    }
+
+    [ClientRpc]
+    private void RpcRespawn()
     {
         resetDefaults();
+        //Enable the GameObjects
+        for (int i = 0; i < disableGOnDeath.Length; i++)
+        {
+            disableGOnDeath[i].SetActive(true);
+        }
 
         Transform respawnPoint = NetworkManager.singleton.GetStartPosition();
         transform.position = respawnPoint.position;
@@ -152,32 +179,35 @@ public class Player : NetworkBehaviour {
         Debug.Log(transform.name + " has respawned.");
     }
 
-    public void resetDefaults()
+    private void resetDefaults()
     {
+        isAlive = true;
+        currentHealth = maxHealth;
+
+        //Enable the collider
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = true;
+        }
+
         if (isLocalPlayer)
         {
-            isAlive = true;
-            currentHealth = maxHealth;
-
             //Enable the components
             for (int i = 0; i < disableOnDeath.Length; i++)
             {
                 disableOnDeath[i].enabled = true;
+            }   
+
+            //Enable Physics on player
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.detectCollisions = true;
             }
 
-            //Enable the GameObjects
-            for (int i = 0; i < disableGOnDeath.Length; i++)
-            {
-                disableGOnDeath[i].SetActive(true);
-            }
-            /*
-            //Enable the collider
-            Collider col = GetComponent<Collider>();
-            if (col != null)
-            {
-                col.enabled = true;
-            }
-            */
+            //Disable scene camera for local player
             GameManager.singleton.SetSceneCameraActive(false);
         }
     }
