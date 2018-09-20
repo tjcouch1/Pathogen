@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using DatabaseControl; // << Remember to add this reference to your scripts which use DatabaseControl
 
 public class LoginManager : MonoBehaviour {
