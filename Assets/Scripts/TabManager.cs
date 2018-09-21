@@ -79,12 +79,15 @@ public class TabManager : MonoBehaviour {
 
     public static void SelectWithInput(Selectable selectObject)
     {
-        //if it's an input field, also click into it
-        InputField inputfield = selectObject.GetComponent<InputField>();
-        if (inputfield != null)
-            inputfield.OnPointerClick(new PointerEventData(eSystem));
+		if (eSystem != null)
+		{
+			//if it's an input field, also click into it
+			InputField inputfield = selectObject.GetComponent<InputField> ();
+			if (inputfield != null)
+				inputfield.OnPointerClick (new PointerEventData (eSystem));
 
-        //select it
-        eSystem.SetSelectedGameObject(selectObject.gameObject, new BaseEventData(eSystem));
+			//select it
+			eSystem.SetSelectedGameObject (selectObject.gameObject, new BaseEventData (eSystem));
+		}
     }
 }
