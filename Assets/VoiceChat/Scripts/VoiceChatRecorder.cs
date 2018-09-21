@@ -43,6 +43,10 @@ namespace VoiceChat
 		[SerializeField]
 		int defaultDevice = 0;
 
+        [SerializeField]
+        private GameObject Spr_PushToTalk;
+        private UIShowHide Spr_PushToTalk_ShowHide;
+
         ulong packetId;
         int previousPosition = 0;
         int sampleIndex = 0;
@@ -96,9 +100,14 @@ namespace VoiceChat
             get { return device != null; }
         }
 
+        public bool IsPushingToTalk
+        {
+            get { return transmitToggled || (Input.GetButton("PushToTalk") && (clientPlayer == null || clientPlayer.isAlive)); }
+        }
+
         public bool IsTransmitting
         {
-			get { return transmitToggled || forceTransmit > 0 || Input.GetButton("PushToTalk"); }
+			get { return forceTransmit > 0 || IsPushingToTalk; }
         }
 
         public bool IsRecording
@@ -127,6 +136,9 @@ namespace VoiceChat
 
 			VoiceChatRecorder.Instance.Device = VoiceChatRecorder.Instance.AvailableDevices [defaultDevice];
 			VoiceChatRecorder.Instance.StartRecording();
+
+            if (Spr_PushToTalk != null)
+                Spr_PushToTalk_ShowHide = Spr_PushToTalk.GetComponent<UIShowHide>();
         }
 
         void OnEnable()
@@ -172,8 +184,6 @@ namespace VoiceChat
             {
                 transmitToggled = !transmitToggled;
             }*/
-
-			bool transmit = transmitToggled || (Input.GetButton("PushToTalk") && (clientPlayer == null || clientPlayer.isAlive));
             int currentPosition = Microphone.GetPosition(Device);
 
             // This means we wrapped around
@@ -181,7 +191,7 @@ namespace VoiceChat
             {
                 while (sampleIndex < recordFrequency)
                 {
-                    ReadSample(transmit);
+                    ReadSample(IsPushingToTalk);
                 }
 
                 sampleIndex = 0;
@@ -192,8 +202,14 @@ namespace VoiceChat
 
             while (sampleIndex + recordSampleSize <= currentPosition)
             {
-                ReadSample(transmit);
+                ReadSample(IsPushingToTalk);
             }
+
+            //update the VOIP icon
+            if (IsPushingToTalk && Spr_PushToTalk_ShowHide.Hidden)
+                Spr_PushToTalk.GetComponent<UIShowHide>().Hidden = false;
+            else if (!IsPushingToTalk && !Spr_PushToTalk_ShowHide.Hidden)
+                Spr_PushToTalk.GetComponent<UIShowHide>().Hidden = true;
         }
 
         void Resample(float[] src, float[] dst)
