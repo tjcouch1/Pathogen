@@ -15,7 +15,7 @@ namespace VoiceChat
 
 			NetworkIdentity netIdentity = GameObject.FindObjectOfType < NetworkIdentity> ();
 
-            if (Application.isPlaying && netIdentity.isClient)
+            if (Application.isPlaying && netIdentity != null && netIdentity.isClient)
             {
                 EditorGUILayout.LabelField("Available Devices", EditorStyles.boldLabel);
 
@@ -60,5 +60,5 @@ namespace VoiceChat
                 DrawDefaultInspector();
             }
         }
-    } 
+    }
 }

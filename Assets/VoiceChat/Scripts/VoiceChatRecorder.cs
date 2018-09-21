@@ -27,12 +27,6 @@ namespace VoiceChat
         #endregion
 
         public event Action StartedRecording;
-            
-        [SerializeField]
-        KeyCode toggleToTalkKey = KeyCode.O;
-
-        [SerializeField]
-        KeyCode pushToTalkKey = KeyCode.P;
 
         [SerializeField]
         bool autoDetectSpeaking = false;
@@ -42,6 +36,9 @@ namespace VoiceChat
 
         [SerializeField]
         float forceTransmitTime = 2f;
+
+		[SerializeField]
+		int defaultDevice = 0;
 
         ulong packetId;
         int previousPosition = 0;
@@ -58,18 +55,6 @@ namespace VoiceChat
         float[] fftBuffer = null;
         float[] sampleBuffer = null;
         VoiceChatCircularBuffer<float[]> previousSampleBuffer = new VoiceChatCircularBuffer<float[]>(5);
-
-        public KeyCode PushToTalkKey
-        {
-            get { return pushToTalkKey; }
-            set { pushToTalkKey = value; }
-        }
-
-        public KeyCode ToggleToTalkKey
-        {
-            get { return toggleToTalkKey; }
-            set { toggleToTalkKey = value; }
-        }
 
         public bool AutoDetectSpeech
         {
@@ -110,7 +95,7 @@ namespace VoiceChat
 
         public bool IsTransmitting
         {
-            get { return transmitToggled || forceTransmit > 0 || Input.GetKey(pushToTalkKey); }
+			get { return transmitToggled || forceTransmit > 0 || Input.GetButton("PushToTalk"); }
         }
 
         public bool IsRecording
@@ -136,6 +121,9 @@ namespace VoiceChat
 
             Application.RequestUserAuthorization(UserAuthorization.Microphone);
             instance = this;
+
+			VoiceChatRecorder.Instance.Device = VoiceChatRecorder.Instance.AvailableDevices [defaultDevice];
+			VoiceChatRecorder.Instance.StartRecording();
         }
 
         void OnEnable()
@@ -176,12 +164,13 @@ namespace VoiceChat
 
             forceTransmit -= Time.deltaTime;
 
-            if (Input.GetKeyUp(toggleToTalkKey))
+			//toggle to talk
+			/*if (Input.GetButtonDown("ToggleToTalk"))
             {
                 transmitToggled = !transmitToggled;
-            }
+            }*/
 
-            bool transmit = transmitToggled || Input.GetKey(pushToTalkKey);
+			bool transmit = transmitToggled || Input.GetButton("PushToTalk");
             int currentPosition = Microphone.GetPosition(Device);
 
             // This means we wrapped around
