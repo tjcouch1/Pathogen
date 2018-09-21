@@ -1,0 +1,204 @@
+fileFormatVersion: 2
+guid: c5ce7353a8a2ef2479b2a8b40cc3141b
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Big_Store_West
+    100002: Dept_Store_East
+    100004: Dept_Store_South
+    100006: Dept_Store_West
+    100008: Entrance
+    100010: Exterior_Walls
+    100012: Food_Court
+    100014: Fountain
+    100016: Fountain 1
+    100018: //RootNode
+    100020: Store_East1
+    100022: Store_East2
+    100024: Store_East3
+    100026: Store_East4
+    100028: Store_North
+    100030: Store_South1
+    100032: Store_South2
+    100034: Store_west
+    100036: Store_West2
+    100038: Stores_South
+    100040: Table1
+    100042: Table2
+    100044: Table3
+    100046: Table4
+    400000: Big_Store_West
+    400002: Dept_Store_East
+    400004: Dept_Store_South
+    400006: Dept_Store_West
+    400008: Entrance
+    400010: Exterior_Walls
+    400012: Food_Court
+    400014: Fountain
+    400016: Fountain 1
+    400018: //RootNode
+    400020: Store_East1
+    400022: Store_East2
+    400024: Store_East3
+    400026: Store_East4
+    400028: Store_North
+    400030: Store_South1
+    400032: Store_South2
+    400034: Store_west
+    400036: Store_West2
+    400038: Stores_South
+    400040: Table1
+    400042: Table2
+    400044: Table3
+    400046: Table4
+    2100000: blinn2
+    2100002: lambert2
+    2300000: Big_Store_West
+    2300002: Dept_Store_East
+    2300004: Dept_Store_South
+    2300006: Dept_Store_West
+    2300008: Entrance
+    2300010: Exterior_Walls
+    2300012: Food_Court
+    2300014: Fountain 1
+    2300016: Store_East1
+    2300018: Store_East2
+    2300020: Store_East3
+    2300022: Store_East4
+    2300024: Store_North
+    2300026: Store_South1
+    2300028: Store_South2
+    2300030: Store_west
+    2300032: Store_West2
+    2300034: Stores_South
+    2300036: Table1
+    2300038: Table2
+    2300040: Table3
+    2300042: Table4
+    3300000: Big_Store_West
+    3300002: Dept_Store_East
+    3300004: Dept_Store_South
+    3300006: Dept_Store_West
+    3300008: Entrance
+    3300010: Exterior_Walls
+    3300012: Food_Court
+    3300014: Fountain 1
+    3300016: Store_East1
+    3300018: Store_East2
+    3300020: Store_East3
+    3300022: Store_East4
+    3300024: Store_North
+    3300026: Store_South1
+    3300028: Store_South2
+    3300030: Store_west
+    3300032: Store_West2
+    3300034: Stores_South
+    3300036: Table1
+    3300038: Table2
+    3300040: Table3
+    3300042: Table4
+    4300000: Exterior_Walls
+    4300002: Dept_Store_West
+    4300004: Entrance
+    4300006: Food_Court
+    4300008: Dept_Store_South
+    4300010: Dept_Store_East
+    4300012: Table4
+    4300014: Table3
+    4300016: Table2
+    4300018: Table1
+    4300020: Store_South2
+    4300022: Store_East1
+    4300024: Store_North
+    4300026: Store_west
+    4300028: Big_Store_West
+    4300030: Store_West2
+    4300032: Store_East2
+    4300034: Store_East4
+    4300036: Stores_South
+    4300038: Store_South1
+    4300040: Fountain
+    4300042: Store_East3
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
