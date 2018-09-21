@@ -2574,7 +2574,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInfected: 0
   maxHealth: 100
-  respawnTimer: 3
   username: (null)
   killCount: 0
   deathCount: 0

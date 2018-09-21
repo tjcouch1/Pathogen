@@ -28,6 +28,9 @@ namespace VoiceChat
 
         public event Action StartedRecording;
 
+		[HideInInspector]
+		public Player clientPlayer;
+
         [SerializeField]
         bool autoDetectSpeaking = false;
 
@@ -170,7 +173,7 @@ namespace VoiceChat
                 transmitToggled = !transmitToggled;
             }*/
 
-			bool transmit = transmitToggled || Input.GetButton("PushToTalk");
+			bool transmit = transmitToggled || (Input.GetButton("PushToTalk") && (clientPlayer == null || clientPlayer.isAlive));
             int currentPosition = Microphone.GetPosition(Device);
 
             // This means we wrapped around

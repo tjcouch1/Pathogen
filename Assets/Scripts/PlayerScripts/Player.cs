@@ -83,7 +83,13 @@ public class Player : NetworkBehaviour {
         }
     }
 
-    private void Die(string killerID)
+	public override void OnStartLocalPlayer()
+	{
+		base.OnStartLocalPlayer();
+		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
+	}
+
+	private void Die(string killerID)
     {
         isAlive = false;
 

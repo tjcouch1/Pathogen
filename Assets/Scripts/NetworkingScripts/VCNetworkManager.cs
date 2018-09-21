@@ -22,7 +22,6 @@ public class VCNetworkManager : NetworkManager
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		base.OnServerDisconnect(conn);
-
 		VoiceChat.Networking.VoiceChatNetworkProxy.OnManagerServerDisconnect(conn);
 	}
 

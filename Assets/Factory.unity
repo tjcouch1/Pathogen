@@ -6205,7 +6205,8 @@ MeshCollider:
 --- !u!1 &1050688448
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1081441078803014, guid: 765fc9c2c28389949a20cb3aad138636,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -6224,7 +6225,8 @@ GameObject:
 --- !u!82 &1050688449
 AudioSource:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 82537365568038656, guid: 765fc9c2c28389949a20cb3aad138636,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050688448}
   m_Enabled: 1
@@ -6319,7 +6321,8 @@ AudioSource:
 --- !u!114 &1050688450
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 114607366573730692, guid: 765fc9c2c28389949a20cb3aad138636,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050688448}
   m_Enabled: 1
@@ -6332,7 +6335,8 @@ MonoBehaviour:
 --- !u!114 &1050688451
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 114687303452170126, guid: 765fc9c2c28389949a20cb3aad138636,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050688448}
   m_Enabled: 1
@@ -6340,6 +6344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17547167380002040b8e43f2e4bc2a42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clientPlayer: {fileID: 0}
   autoDetectSpeaking: 0
   autoDetectIndex: 4
   forceTransmitTime: 2
@@ -6347,7 +6352,8 @@ MonoBehaviour:
 --- !u!114 &1050688452
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 114623600222138302, guid: 765fc9c2c28389949a20cb3aad138636,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050688448}
   m_Enabled: 1
@@ -6363,7 +6369,8 @@ MonoBehaviour:
 --- !u!4 &1050688453
 Transform:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 4203266530684150, guid: 765fc9c2c28389949a20cb3aad138636,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1050688448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}

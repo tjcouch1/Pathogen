@@ -45,6 +45,7 @@ namespace VoiceChat.Networking
             {
                 gameObject.AddComponent<AudioSource>();
                 player = gameObject.AddComponent<VoiceChatPlayer>();
+				Debug.Log("Created voice chat player");
             }
 
             if (ProxyStarted != null)
