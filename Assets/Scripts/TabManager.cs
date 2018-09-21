@@ -9,14 +9,14 @@ public class TabManager : MonoBehaviour {
 
     public GameObject tabStart;//object that starts with focus
 
-    private EventSystem eSystem;
+    private static EventSystem eSystem;
 
     // Use this for initialization
     void Start ()
     {
         eSystem = EventSystem.current;
         if (tabStart != null)
-            selectWithInput(tabStart.GetComponent<Selectable>());
+            SelectWithInput(tabStart.GetComponent<Selectable>());
     }
 
     //update checks for tab pressed, moves selection
@@ -45,7 +45,7 @@ public class TabManager : MonoBehaviour {
 
                     //select the choice!
                     if (next != null)
-                        selectWithInput(next);
+                        SelectWithInput(next);
                     //else Debug.Log("next nagivation element not found");
                 }
             }
@@ -69,7 +69,7 @@ public class TabManager : MonoBehaviour {
 
                     //select the choice!
                     if (prev != null)
-                        selectWithInput(prev);
+                        SelectWithInput(prev);
                     //else Debug.Log("next nagivation element not found");
                 }
             }
@@ -77,7 +77,7 @@ public class TabManager : MonoBehaviour {
         }
     }
 
-    void selectWithInput(Selectable selectObject)
+    public static void SelectWithInput(Selectable selectObject)
     {
         //if it's an input field, also click into it
         InputField inputfield = selectObject.GetComponent<InputField>();
