@@ -8,6 +8,7 @@ public class UA_Lobby : MonoBehaviour {
     private void Start()
     {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         if (UserAccountManager.IsLoggedIn)
         {
             usernameText.text = "Welcome, " + UserAccountManager.playerUsername + "! ";

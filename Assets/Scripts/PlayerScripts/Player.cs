@@ -160,29 +160,14 @@ public class Player : NetworkBehaviour {
     [ClientRpc]
     private void RpcRespawn()
     {
-        resetDefaults();
+        isAlive = true;
+        currentHealth = maxHealth;
+
         //Enable the GameObjects
         for (int i = 0; i < disableGOnDeath.Length; i++)
         {
             disableGOnDeath[i].SetActive(true);
         }
-
-        Transform respawnPoint = NetworkManager.singleton.GetStartPosition();
-        transform.position = respawnPoint.position;
-        transform.rotation = respawnPoint.rotation;
-
-        if (isLocalPlayer)
-        {
-            GetComponent<PlayerSetup>().playerUIInstance.GetComponent<PlayerUI>().LobbyMode(false);
-            GameManager.singleton.SetSceneCameraActive(false);
-        }
-        Debug.Log(transform.name + " has respawned.");
-    }
-
-    private void resetDefaults()
-    {
-        isAlive = true;
-        currentHealth = maxHealth;
 
         //Enable the collider
         Collider col = GetComponent<Collider>();
@@ -191,25 +176,30 @@ public class Player : NetworkBehaviour {
             col.enabled = true;
         }
 
+        //Enable Physics on player
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.detectCollisions = true;
+        }
+
+        Transform respawnPoint = NetworkManager.singleton.GetStartPosition();
+        transform.position = respawnPoint.position;
+        transform.rotation = respawnPoint.rotation;
+
         if (isLocalPlayer)
         {
             //Enable the components
             for (int i = 0; i < disableOnDeath.Length; i++)
             {
                 disableOnDeath[i].enabled = true;
-            }   
-
-            //Enable Physics on player
-            Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-                rb.detectCollisions = true;
             }
 
-            //Disable scene camera for local player
+            GetComponent<PlayerSetup>().playerUIInstance.GetComponent<PlayerUI>().LobbyMode(false);
             GameManager.singleton.SetSceneCameraActive(false);
         }
+        Debug.Log(transform.name + " has respawned.");
     }
 
     public float getHealth()

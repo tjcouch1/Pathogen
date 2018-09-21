@@ -3,6 +3,26 @@ guid: a5e7266775b9b1743a6c548b08abb58d
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
+    100000: CrateLid2
+    100002: group1
+    100004: left
+    100006: WeaponCrate1
+    100008: //RootNode
+    400000: CrateLid2
+    400002: group1
+    400004: left
+    400006: WeaponCrate1
+    400008: //RootNode
+    2000000: left
+    2100000: lambert1
+    2300000: CrateLid2
+    2300002: WeaponCrate1
+    3300000: CrateLid2
+    3300002: WeaponCrate1
+    4300000: WeaponCrate1
+    4300002: CrateLid2
+    7400000: Take 001
+    9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
@@ -56,7 +76,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
     previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

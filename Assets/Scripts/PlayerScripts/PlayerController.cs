@@ -19,19 +19,9 @@ public class PlayerController : MonoBehaviour {
     {
         if (PauseMenu.isOn)
         {
-            if(Cursor.lockState != CursorLockMode.None)
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
-
             motor.move(Vector3.zero);
             motor.rotate(Vector3.zero, 0);
             return;
-        }
-            
-        if(Cursor.lockState != CursorLockMode.Locked)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
         }
 
         //Calc movement velocity

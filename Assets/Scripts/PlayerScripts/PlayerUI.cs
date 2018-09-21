@@ -87,6 +87,16 @@ public class PlayerUI : MonoBehaviour {
     {
         pauseMenu.SetActive(!pauseMenu.activeSelf);
         PauseMenu.isOn = pauseMenu.activeSelf;
+        if (PauseMenu.isOn)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else if (!PauseMenu.isOn)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     void SetHealthAmount(float health)
