@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class WeaponManager : NetworkBehaviour {
 
     [SerializeField] private const string remoteLayerName = "RemotePlayer";
-    [SerializeField] public List<PlayerWeapon> weapons;
+    [SerializeField] private List<PlayerWeapon> weapons;
     [SerializeField] private Transform weaponHolder;
 
     private PlayerWeapon currentWeapon;
@@ -15,6 +15,9 @@ public class WeaponManager : NetworkBehaviour {
     private int selectedWeaponIndex = 0;
     public bool isReloading = false;
     public bool isEquipped = false;
+
+    public delegate void OnWeaponSwitched(Direction dir);
+    public OnWeaponSwitched onWeaponSwitchedCallback;
 
 	// Use this for initialization
 	void Start ()
@@ -48,7 +51,7 @@ public class WeaponManager : NetworkBehaviour {
         weaponInstance = Instantiate(currentWeapon.weaponGFX, weaponHolder.position, weaponHolder.rotation);
         weaponInstance.transform.SetParent(weaponHolder);
         currentGraphics = weaponInstance.GetComponent<WeaponGraphics>();
-        if (isLocalPlayer)
+        if (!isLocalPlayer)
         {
             Util.SetLayerRecursively(weaponInstance, LayerMask.NameToLayer(remoteLayerName));
         }
@@ -65,6 +68,7 @@ public class WeaponManager : NetworkBehaviour {
             selectedWeaponIndex = 0;
         }
         SwitchWeapon();
+        onWeaponSwitchedCallback(Direction.down);
     }
 
     public void selectPrevWeapon()
@@ -78,11 +82,36 @@ public class WeaponManager : NetworkBehaviour {
             selectedWeaponIndex--;
         }
         SwitchWeapon();
+        onWeaponSwitchedCallback(Direction.up);
     }
 
     public PlayerWeapon getCurrentWeapon()
     {
         return currentWeapon;
+    }
+
+    public PlayerWeapon getNextWeapon()
+    {
+        if (selectedWeaponIndex + 1 <= weapons.Capacity)
+        {
+            return weapons[selectedWeaponIndex + 1];
+        }
+        else
+        {
+            return weapons[0];
+        }
+    }
+
+    public PlayerWeapon getPrevWeapon()
+    {
+        if (selectedWeaponIndex - 1 <= 0)
+        {
+            return weapons[weapons.Capacity];
+        }
+        else
+        {
+            return weapons[selectedWeaponIndex - 1];
+        }
     }
 
     public WeaponGraphics getCurrentWeaponGraphics()
@@ -132,7 +161,6 @@ public class WeaponManager : NetworkBehaviour {
     [ClientRpc]
     void RpcOnReload()
     {
-        
         if(currentGraphics != null)
         {
             Animator anim = currentGraphics.GetComponent<Animator>();

@@ -16,6 +16,7 @@ public class PlayerWeapon {
     public float sprayHealRate = 0.5f;          //Higher values mean faster heal
 
     public GameObject weaponGFX;
+    public Sprite weaponIcon;
 
     public PlayerWeapon()
     {

@@ -8,6 +8,7 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject scoreboard;
     [SerializeField] private GameObject infectedUI;
+    [SerializeField] private WeaponSpriteManager weaponSpriteManager;
     [SerializeField] private RectTransform healthFill;
     [SerializeField] private Text ammoText;
     [SerializeField] private Text timerTitle;
@@ -23,6 +24,7 @@ public class PlayerUI : MonoBehaviour {
     private void Start()
     {
         PauseMenu.isOn = false;
+        weaponManager.onWeaponSwitchedCallback = SetWeaponUI;
     }
 
     public void SetPlayer(Player _player)
@@ -107,6 +109,15 @@ public class PlayerUI : MonoBehaviour {
     void SetAmmoAmount(int bullets, int clips)
     {
         ammoText.text = bullets.ToString() + " / " + clips.ToString();
+    }
+
+    void SetWeaponUI(Direction dir)
+    {
+        var pw = weaponManager.getPrevWeapon();
+        var cw = weaponManager.getCurrentWeapon();
+        var nw = weaponManager.getNextWeapon();
+
+        weaponSpriteManager.setWeapons(pw, cw, nw, dir);
     }
 
     private void UpdateTimer()

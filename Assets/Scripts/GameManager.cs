@@ -298,6 +298,15 @@ public class GameManager : NetworkBehaviour {
 
     public static void UnRegisterPlayer(string playerID)
     {
+        var p = playerDictionary[playerID];
+        if (p.isInfected)
+        {
+            GameManager.singleton.infectedPlayers.Remove(p);
+        }
+        else
+        {
+            GameManager.singleton.healthyPlayers.Remove(p);
+        }
         playerDictionary.Remove(playerID);
     }
 

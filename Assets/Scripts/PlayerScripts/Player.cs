@@ -198,6 +198,9 @@ public class Player : NetworkBehaviour {
 
             GetComponent<PlayerSetup>().playerUIInstance.GetComponent<PlayerUI>().LobbyMode(false);
             GameManager.singleton.SetSceneCameraActive(false);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         Debug.Log(transform.name + " has respawned.");
     }

@@ -32,6 +32,18 @@ public class PlayerShoot : NetworkBehaviour {
         if (PauseMenu.isOn)
             return;
 
+        var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollWheel > 0f)
+        {
+            // scroll up
+            weaponManager.selectPrevWeapon();
+        }
+        else if (scrollWheel < 0f)
+        {
+            // scroll down
+            weaponManager.selectNextWeapon();
+        }
+
         if (Input.GetButtonDown("Reload"))
         {
             weaponManager.reload();
@@ -104,7 +116,7 @@ public class PlayerShoot : NetworkBehaviour {
         }
 
         currentWeapon.bullets--;
-        Debug.Log("Bullets: " + currentWeapon.bullets);
+        //Debug.Log("Bullets: " + currentWeapon.bullets);
 
         //Call OnShoot method on the server
         CmdOnShoot();
@@ -127,7 +139,7 @@ public class PlayerShoot : NetworkBehaviour {
     [Command]
     void CmdPlayerShot(string playerID, int damage, string sourceID)
     {
-        Debug.Log(playerID + " has been shot");
+        //Debug.Log(playerID + " has been shot");
 
         Player player = GameManager.getPlayer(playerID);
         player.RpcTakeDamage(damage, sourceID);

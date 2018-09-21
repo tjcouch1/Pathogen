@@ -33,3 +33,11 @@ public class timerEvent
         time = _time;
     }
 }
+
+public enum Direction
+{
+    up,
+    down,
+    left,
+    right
+};

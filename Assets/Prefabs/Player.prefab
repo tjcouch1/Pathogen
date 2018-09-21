@@ -2574,7 +2574,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInfected: 0
   maxHealth: 100
-  respawnTimer: 3
   username: (null)
   killCount: 0
   deathCount: 0
@@ -2767,18 +2766,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons:
   - weaponName: Default
-    damage: 10
-    clips: 5
-    bullets: 25
-    clipSize: 25
+    damage: 25
+    clips: 2
+    bullets: 20
+    clipSize: 20
     range: 100
-    fireRate: 0
+    fireRate: 0.1
     reloadTime: 3
     maxInacuracy: 0.02
     sprayDecayRate: 0.5
     sprayHealRate: 0.5
     weaponGFX: {fileID: 1520010304813654, guid: 42fdbe31e1889724ab6ab53e721b65cf,
       type: 2}
+    weaponIcon: {fileID: 21300016, guid: 76bdad1258c27a64fa6bff9c813759cb, type: 3}
+  - weaponName: Knife
+    damage: 25
+    clips: 2
+    bullets: 99999
+    clipSize: 1
+    range: 2
+    fireRate: 0
+    reloadTime: 0
+    maxInacuracy: 0
+    sprayDecayRate: 0.5
+    sprayHealRate: 0.5
+    weaponGFX: {fileID: 100000, guid: bffa678ec4567cc43a9362f2fc2b5b50, type: 3}
+    weaponIcon: {fileID: 21300000, guid: d586ca5ae39db3049979938595abe11e, type: 3}
+  - weaponName: Touch Infect
+    damage: 0
+    clips: 2
+    bullets: 99999
+    clipSize: 1
+    range: 2
+    fireRate: 0
+    reloadTime: 0
+    maxInacuracy: 0
+    sprayDecayRate: 0.5
+    sprayHealRate: 0.5
+    weaponGFX: {fileID: 100000, guid: bffa678ec4567cc43a9362f2fc2b5b50, type: 3}
+    weaponIcon: {fileID: 21300000, guid: 7906e275bd76c0c4cb7296f1be29bec6, type: 3}
   weaponHolder: {fileID: 4076115203499606}
   isReloading: 0
   isEquipped: 0
