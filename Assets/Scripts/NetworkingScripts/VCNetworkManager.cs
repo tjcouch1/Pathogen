@@ -50,7 +50,7 @@ public class VCNetworkManager : NetworkManager
     /// </summary>
     /// <param name="conn"></param>
     /// <param name="playerControllerId"></param>
-    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
+    /*public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
     {
         Debug.Log("OnServerAddPlayer");
 
@@ -93,9 +93,9 @@ public class VCNetworkManager : NetworkManager
         ///
 
         //Simple version for testing
-        /*var player = (GameObject)GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        //var player = (GameObject)GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
-        NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);*/
+        //NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 
 
 
@@ -107,5 +107,5 @@ public class VCNetworkManager : NetworkManager
         //reset the proxy's audio source position, then parent it to the player's camera
         voiceProxy.transform.position = new Vector3(0, 0, 0);
         voiceProxy.transform.SetParent(player.GetComponent<Camera>().transform, false);
-    }
+    }*/
 }
