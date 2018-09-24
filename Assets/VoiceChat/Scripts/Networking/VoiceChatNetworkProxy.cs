@@ -5,6 +5,9 @@ using UnityEngine.Networking.NetworkSystem;
 
 namespace VoiceChat.Networking
 {
+    /// <summary>
+    /// Effectively the voice chat audio source. This creates a voice chat player and makes the sounds emit from it. One of these attaches to every player
+    /// </summary>
     public class VoiceChatNetworkProxy : NetworkBehaviour
     {
         public delegate void MessageHandler<T>(T data);
@@ -176,6 +179,7 @@ namespace VoiceChat.Networking
         private static void OnProxyRequested(NetworkMessage netMsg)
         {
             var id = netMsg.conn.connectionId;
+            Debug.Log("OnProxyRequested: " + id);
 
             if (LogFilter.logDebug)
             {
@@ -194,6 +198,8 @@ namespace VoiceChat.Networking
                     Debug.Log("Local proxy! Setting local proxy id by hand");
                 }
 
+                Debug.Log("Local proxy: " + id);
+
                 VoiceChatNetworkProxy.localProxyId = id;
             }
             else
@@ -203,10 +209,28 @@ namespace VoiceChat.Networking
 
             var proxy = Instantiate<GameObject>(proxyPrefab);
             proxy.SendMessage("SetNetworkId", id);
+            //Debug.Log("Proxy: " + id + " getAllPlayers().Length: " + GameManager.getAllPlayers().Length);
+
+            //Player p = GameManager.getAllPlayers()[id];
+
+            //Debug.Log("Player name: " + p.username);
+
+            //GameObject proxy = p.gameObject; //Instantiate<GameObject>(proxyPrefab);
+            //p.gameObject.SendMessage("SetNetworkId", id);
 
             proxies.Add(id, proxy);
             NetworkServer.Spawn(proxy);
 
+        }
+
+        /// <summary>
+        /// Gets the VoiceChat_NetworkProxy resource object from the given NetworkConnection id
+        /// </summary>
+        /// <param name="connectionID"></param>
+        /// <returns></returns>
+        public static GameObject getProxy(int connectionID)
+        {
+            return proxies[connectionID];
         }
 
         private static void OnProxySpawned(NetworkMessage netMsg)

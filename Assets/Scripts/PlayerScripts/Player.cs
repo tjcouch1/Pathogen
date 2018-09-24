@@ -87,9 +87,11 @@ public class Player : NetworkBehaviour {
 	{
 		base.OnStartLocalPlayer();
 		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
-	}
+        //Link voice proxy here with connectionToClient? connectionToServer? https://docs.unity3d.com/ScriptReference/Networking.NetworkBehaviour-connectionToClient.html
+        //https://docs.unity3d.com/ScriptReference/Networking.NetworkConnection.html
+    }
 
-	private void Die(string killerID)
+    private void Die(string killerID)
     {
         isAlive = false;
 

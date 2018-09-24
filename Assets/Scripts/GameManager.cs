@@ -290,6 +290,7 @@ public class GameManager : NetworkBehaviour {
         string playerID = PLAYER_ID_PREFIX + netID;
         playerDictionary.Add(playerID, _player);
         _player.transform.name = playerID;
+        //Potentially hook up the player to the voice proxy here
 
         //_player.SendPlayerToLobby();
 

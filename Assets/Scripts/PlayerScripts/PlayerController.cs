@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            VoiceChat.Networking.VoiceChatNetworkProxy proxy = GetComponentInChildren<VoiceChat.Networking.VoiceChatNetworkProxy>();
+            Debug.Log("Proxy Transform X: " + proxy.transform.position.x + " Y: " + proxy.transform.position.y + " Z: " + proxy.transform.position.z);
+        }
+
         if (PauseMenu.isOn)
         {
             if(Cursor.lockState != CursorLockMode.None)
