@@ -14,14 +14,6 @@ namespace VoiceChat.Networking
         public static event MessageHandler<VoiceChatPacketMessage> VoiceChatPacketReceived;
         public static event System.Action<VoiceChatNetworkProxy> ProxyStarted;
 
-        private const string ProxyPrefabPath = "VoiceChat_NetworkProxy";
-        private static GameObject proxyPrefab;
-        private static int localProxyId;
-        private static Dictionary<int, GameObject> proxies = new Dictionary<int, GameObject>();
-
-        //public bool isMine { get { return networkId != 0 && networkId == localProxyId; } }
-        public bool isMine { get { return networkId == localProxyId; } }
-
         [SyncVar]
         private int networkId;
 
@@ -29,7 +21,7 @@ namespace VoiceChat.Networking
 
         void Start()
         {
-            if (isMine)
+            if (isLocalPlayer)
             {
                 if (LogFilter.logDebug)
                 {
@@ -44,7 +36,7 @@ namespace VoiceChat.Networking
                 VoiceChatPacketReceived += OnReceivePacket;
             }
 
-            if (isClient && (!isMine || VoiceChatSettings.Instance.LocalDebug))
+            if (isClient && (!isLocalPlayer || VoiceChatSettings.Instance.LocalDebug))
             {
                 gameObject.AddComponent<AudioSource>();
                 player = gameObject.AddComponent<VoiceChatPlayer>();
@@ -64,6 +56,7 @@ namespace VoiceChat.Networking
             VoiceChatPacketReceived -= OnReceivePacket;
         }
 
+        //TODO: Fix up for netId
         private void OnReceivePacket(VoiceChatPacketMessage data)
         {
 
@@ -81,7 +74,7 @@ namespace VoiceChat.Networking
         void OnNewSample(VoiceChatPacket packet)
         {
             var packetMessage = new VoiceChatPacketMessage {
-                proxyId = (short)localProxyId,
+                proxyId = (short)GetComponent<NetworkIdentity>().netId.Value,
                 packet = packet,
             };
 
@@ -114,19 +107,6 @@ namespace VoiceChat.Networking
         public static void OnManagerStartClient(NetworkClient client, GameObject customPrefab = null)
         {
             client.RegisterHandler(VoiceChatMsgType.Packet, OnClientPacketReceived);
-            client.RegisterHandler(VoiceChatMsgType.SpawnProxy, OnProxySpawned);
-
-
-            if (customPrefab == null)
-            {
-                proxyPrefab = Resources.Load<GameObject>(ProxyPrefabPath);
-            }
-            else
-            {
-                proxyPrefab = customPrefab;
-            }
-            
-            ClientScene.RegisterPrefab(proxyPrefab);
         }
 
         public static void OnManagerStopClient()
@@ -135,122 +115,30 @@ namespace VoiceChat.Networking
             if (client == null) return;
 
             client.UnregisterHandler(VoiceChatMsgType.Packet);
-            client.UnregisterHandler(VoiceChatMsgType.SpawnProxy);
-        }
-
-        public static void OnManagerServerDisconnect(NetworkConnection conn)
-        {
-            var id = conn.connectionId;
-
-            if (!proxies.ContainsKey(id))
-            {
-                Debug.LogWarning("Proxy destruction requested for client " + id + " but proxy wasn't registered");
-                return;
-            }
-
-            var proxy = proxies[id];
-            NetworkServer.Destroy(proxy);
-
-            proxies.Remove(id);
         }
 
         public static void OnManagerStartServer()
         {
             NetworkServer.RegisterHandler(VoiceChatMsgType.Packet, OnServerPacketReceived);
-            NetworkServer.RegisterHandler(VoiceChatMsgType.RequestProxy, OnProxyRequested);
         }
 
         public static void OnManagerStopServer()
         {
             NetworkServer.UnregisterHandler(VoiceChatMsgType.Packet);
-            NetworkServer.UnregisterHandler(VoiceChatMsgType.RequestProxy);
         }
 
-        public static void OnManagerClientConnect(NetworkConnection connection)
-        {
-            var client = NetworkManager.singleton.client;
-            client.Send(VoiceChatMsgType.RequestProxy, new EmptyMessage());
-        }
-        
         #endregion
 
         #region Network Message Handlers
 
-        private static void OnProxyRequested(NetworkMessage netMsg)
-        {
-            var id = netMsg.conn.connectionId;
-            Debug.Log("OnProxyRequested: " + id);
-
-            if (LogFilter.logDebug)
-            {
-                Debug.Log("Proxy Requested by " + id);
-            }
-
-            // We need to set the "localProxyId" static variable on the client
-            // before the "Start" method of the local proxy is called.
-            // On Local Clients, the Start method of a spowned obect is faster than
-            // Connection.Send() so we will set the "localProxyId" flag ourselves
-            // since we are in the same instance of the game.
-            if (id == -1)
-            {
-                if (LogFilter.logDebug)
-                {
-                    Debug.Log("Local proxy! Setting local proxy id by hand");
-                }
-
-                Debug.Log("Local proxy: " + id);
-
-                VoiceChatNetworkProxy.localProxyId = id;
-            }
-            else
-            {
-                netMsg.conn.Send(VoiceChatMsgType.SpawnProxy, new IntegerMessage(id));
-            }
-
-            var proxy = Instantiate<GameObject>(proxyPrefab);
-            proxy.SendMessage("SetNetworkId", id);
-            //Debug.Log("Proxy: " + id + " getAllPlayers().Length: " + GameManager.getAllPlayers().Length);
-
-            //Player p = GameManager.getAllPlayers()[id];
-
-            //Debug.Log("Player name: " + p.username);
-
-            //GameObject proxy = p.gameObject; //Instantiate<GameObject>(proxyPrefab);
-            //p.gameObject.SendMessage("SetNetworkId", id);
-
-            proxies.Add(id, proxy);
-            NetworkServer.Spawn(proxy);
-
-        }
-
-        /// <summary>
-        /// Gets the VoiceChat_NetworkProxy resource object from the given NetworkConnection id
-        /// </summary>
-        /// <param name="connectionID"></param>
-        /// <returns></returns>
-        public static GameObject getProxy(int connectionID)
-        {
-            return proxies[connectionID];
-        }
-
-        private static void OnProxySpawned(NetworkMessage netMsg)
-        {
-            localProxyId = netMsg.ReadMessage<IntegerMessage>().value;
-
-            if (LogFilter.logDebug)
-            {
-                Debug.Log("Proxy spawned for " + localProxyId + ", setting local proxy id.");
-            }
-
-        }
-
+        //TODO: Fix this up for netId
         private static void OnServerPacketReceived(NetworkMessage netMsg)
         {
-            var data = netMsg.ReadMessage<VoiceChatPacketMessage>();
+            VoiceChatPacketMessage data = netMsg.ReadMessage<VoiceChatPacketMessage>();
 
             foreach (var connection in NetworkServer.connections)
             {
-                if (connection == null || connection.connectionId == data.proxyId)
+                if (connection == null || connection.connectionId == data.netId)
                     continue;
 
                 connection.SendUnreliable(VoiceChatMsgType.Packet, data);
@@ -258,7 +146,7 @@ namespace VoiceChat.Networking
 
             foreach (var connection in NetworkServer.localConnections)
             {
-                if (connection == null || connection.connectionId == data.proxyId)
+                if (connection == null || connection.connectionId == data.netId)
                     continue;
 
                 connection.SendUnreliable(VoiceChatMsgType.Packet, data);
@@ -266,6 +154,7 @@ namespace VoiceChat.Networking
 
         }
 
+        //TODO: Fix up the netMsg packet for netId
         private static void OnClientPacketReceived(NetworkMessage netMsg)
         {
             if (VoiceChatPacketReceived != null)

@@ -14,15 +14,12 @@ public class VCNetworkManager : NetworkManager
 
 	public override void OnStopClient()
 	{
-		//base.OnStopClient ();
-
 		VoiceChat.Networking.VoiceChatNetworkProxy.OnManagerStopClient();
 	}
 
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		base.OnServerDisconnect(conn);
-		VoiceChat.Networking.VoiceChatNetworkProxy.OnManagerServerDisconnect(conn);
 	}
 
 	public override void OnStartServer()
@@ -42,7 +39,6 @@ public class VCNetworkManager : NetworkManager
 	public override void OnClientConnect(NetworkConnection connection)
 	{
 		base.OnClientConnect(connection);
-		VoiceChat.Networking.VoiceChatNetworkProxy.OnManagerClientConnect(connection);
 	}
 
     /// <summary>

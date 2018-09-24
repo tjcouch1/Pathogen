@@ -306,6 +306,7 @@ namespace VoiceChat
 
         }
 
+        //TODO: Fix this up for netId
         void TransmitBuffer(float[] buffer)
         {
             // Compress into packet
