@@ -292,15 +292,6 @@ public class GameManager : NetworkBehaviour {
         _player.transform.name = playerID;
 		//Potentially hook up the player to the voice proxy here
 
-		Debug.Log("RegisterPlayer! connectionToServer.ConnectionId: " + _player.connectionToClient.connectionId);
-
-		//get the voice proxy thingy that makes noise
-		GameObject voiceProxy = VoiceChat.Networking.VoiceChatNetworkProxy.getProxy(_player.connectionToClient.connectionId);
-
-		//reset the proxy's audio source position, then parent it to the player's camera
-		voiceProxy.transform.position = new Vector3(0, 0, 0);
-		voiceProxy.transform.SetParent(_player.GetComponentInChildren<Camera>().transform, false);
-
 		//_player.SendPlayerToLobby();
 
 		GameManager.singleton.CmdStartRound();
