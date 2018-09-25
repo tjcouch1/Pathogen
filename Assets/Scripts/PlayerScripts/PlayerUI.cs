@@ -109,12 +109,24 @@ public class PlayerUI : MonoBehaviour {
         if (showAudioPositions)
         {
             audioPositionsText.text = "";
+            var listener = player.GetComponentInChildren<AudioListener>();
+            if (listener != null)
+                audioPositionsText.text += "Listener X: " + listener.transform.position.x + " Y: " + listener.transform.position.y + " Z: " + listener.transform.position.z;
+
             foreach (Player p in GameManager.getAllPlayers())
             {
-                VoiceChat.Networking.VoiceChatNetworkProxy proxy = p.gameObject.GetComponentInChildren<VoiceChat.Networking.VoiceChatNetworkProxy>();
-                if (!audioPositionsText.text.Equals(""))
-                    audioPositionsText.text += "\n";
-                audioPositionsText.text += p.username + " Voice X: " + proxy.transform.position.x + " Y: " + proxy.transform.position.y + " Z: " + proxy.transform.position.z;
+                var proxy = p.gameObject.GetComponentInChildren<AudioSource>();
+                if (proxy != null)
+                {
+                    if (!p.isLocalPlayer && proxy != null)
+                    {
+                        if (!audioPositionsText.text.Equals(""))
+                            audioPositionsText.text += "\n";
+                        audioPositionsText.text += p.username + " " + proxy.clip.name + " X: " + proxy.transform.position.x + " Y: " + proxy.transform.position.y + " Z: " + proxy.transform.position.z;
+                    }
+
+                    audioPositionsText.text += " Audio MaxDistance: " + proxy.maxDistance;
+                }
             }
         }
     }
