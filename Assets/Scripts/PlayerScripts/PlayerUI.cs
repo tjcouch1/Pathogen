@@ -14,6 +14,7 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private Text timerText;
     [SerializeField] private Text audioPositionsText;
     [SerializeField] private bool showAudioPositions = false;
+    [SerializeField] private GameObject pushToTalkSprite;
     [SerializeField] private GameObject[] disableWhileInLobby;
 
     public Color infectedColor;
@@ -49,6 +50,7 @@ public class PlayerUI : MonoBehaviour {
         SetInfected(player.isInfected);
         UpdateTimer();
         UpdateAudioPositionsText();
+        UpdatePushToTalkSprite();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -115,6 +117,15 @@ public class PlayerUI : MonoBehaviour {
                 audioPositionsText.text += p.username + " Voice X: " + proxy.transform.position.x + " Y: " + proxy.transform.position.y + " Z: " + proxy.transform.position.z;
             }
         }
+    }
+
+    void UpdatePushToTalkSprite()
+    {
+        //update the VOIP icon
+        if (pushToTalkSprite.GetComponent<UIShowHide>().Hidden && VoiceChat.VoiceChatRecorder.Instance.IsPushingToTalk)
+            pushToTalkSprite.GetComponent<UIShowHide>().Hidden = false;
+        else if (!pushToTalkSprite.GetComponent<UIShowHide>().Hidden && !VoiceChat.VoiceChatRecorder.Instance.IsPushingToTalk)
+            pushToTalkSprite.GetComponent<UIShowHide>().Hidden = true;
     }
 
     private void UpdateTimer()

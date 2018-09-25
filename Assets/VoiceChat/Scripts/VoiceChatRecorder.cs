@@ -43,10 +43,6 @@ namespace VoiceChat
 		[SerializeField]
 		int defaultDevice = 0;
 
-        [SerializeField]
-        private GameObject Spr_PushToTalk;
-        private UIShowHide Spr_PushToTalk_ShowHide;
-
         ulong packetId;
         int previousPosition = 0;
         int sampleIndex = 0;
@@ -136,9 +132,6 @@ namespace VoiceChat
 
 			VoiceChatRecorder.Instance.Device = VoiceChatRecorder.Instance.AvailableDevices [defaultDevice];
 			VoiceChatRecorder.Instance.StartRecording();
-
-            if (Spr_PushToTalk != null)
-                Spr_PushToTalk_ShowHide = Spr_PushToTalk.GetComponent<UIShowHide>();
         }
 
         void OnEnable()
@@ -204,12 +197,6 @@ namespace VoiceChat
             {
                 ReadSample(IsPushingToTalk);
             }
-
-            //update the VOIP icon
-            if (IsPushingToTalk && Spr_PushToTalk_ShowHide.Hidden)
-                Spr_PushToTalk.GetComponent<UIShowHide>().Hidden = false;
-            else if (!IsPushingToTalk && !Spr_PushToTalk_ShowHide.Hidden)
-                Spr_PushToTalk.GetComponent<UIShowHide>().Hidden = true;
         }
 
         void Resample(float[] src, float[] dst)
