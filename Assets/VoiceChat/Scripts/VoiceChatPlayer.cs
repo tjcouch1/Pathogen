@@ -16,7 +16,13 @@ namespace VoiceChat
         int index = 0;
         float[] data;
         float playDelay = 0;
-        bool shouldPlay = false;
+        bool _shouldPlay = false;
+
+        public bool ShouldPlay
+        {
+            get { return _shouldPlay; }
+        }
+
         float lastRecvTime = 0;
         NSpeex.SpeexDecoder speexDec = new NSpeex.SpeexDecoder(NSpeex.BandMode.Narrow);
 
@@ -71,12 +77,12 @@ namespace VoiceChat
                 if (played + GetComponent<AudioSource>().time >= received)
                 {
                     Stop();
-                    shouldPlay = false;
+                    _shouldPlay = false;
                 }
             }
             else
             {
-                if (shouldPlay)
+                if (_shouldPlay)
                 {
                     playDelay -= Time.deltaTime;
 
@@ -143,7 +149,7 @@ namespace VoiceChat
             if (!GetComponent<AudioSource>().isPlaying)
             {
                 // Set that we should be playing
-                shouldPlay = true;
+                _shouldPlay = true;
 
                 // And if we have no delay set, set it.
                 if (playDelay <= 0)

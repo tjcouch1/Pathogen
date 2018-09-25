@@ -31,6 +31,8 @@ public class UIShowHide : MonoBehaviour {
     private void Start()
     {
         canvasGroup = GetComponentInParent<CanvasGroup>();
+        if (canvasGroup == null)
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
         Hidden = StartHidden;
     }
