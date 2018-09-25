@@ -12,13 +12,9 @@ namespace VoiceChat.Networking
     {
         public delegate void MessageHandler<T>(T data);
         public static event MessageHandler<VoiceChatPacketMessage> VoiceChatPacketReceived;
-        public static event System.Action<VoiceChatNetworkProxy> ProxyStarted;
-
-        [SyncVar]
-        private int networkId;
 
         VoiceChatPlayer player = null;
-
+        
         void Start()
         {
             if (isLocalPlayer)
@@ -29,10 +25,11 @@ namespace VoiceChat.Networking
                 }
 
                 VoiceChatRecorder.Instance.NewSample += OnNewSample;
-                VoiceChatRecorder.Instance.NetworkId = networkId;
+                VoiceChatRecorder.Instance.NetworkId = (int) GetComponent<NetworkIdentity>().netId.Value;
             }
             else
             {
+                //links all clients into VoiceChatPacketReceived to send the audio to the right player
                 VoiceChatPacketReceived += OnReceivePacket;
             }
 
@@ -41,11 +38,6 @@ namespace VoiceChat.Networking
                 gameObject.AddComponent<AudioSource>();
                 player = gameObject.AddComponent<VoiceChatPlayer>();
 				Debug.Log("Created voice chat player");
-            }
-
-            if (ProxyStarted != null)
-            {
-                ProxyStarted(this);
             }
         }
 
@@ -56,7 +48,10 @@ namespace VoiceChat.Networking
             VoiceChatPacketReceived -= OnReceivePacket;
         }
 
-        //TODO: Fix up for netId
+        /// <summary>
+        /// Runs on proxies when they receive voice packets. Sends the message to the player if this is the correct proxy to play the sound
+        /// </summary>
+        /// <param name="data"></param>
         private void OnReceivePacket(VoiceChatPacketMessage data)
         {
 
@@ -65,16 +60,14 @@ namespace VoiceChat.Networking
             //    Debug.Log("Received a new Voice Sample. Playing!");
             //}
 
-            if (data.proxyId == networkId)
-            {
+            if (data.netId == GetComponent<NetworkIdentity>().netId.Value)
                 player.OnNewSample(data.packet);
-            }
         }
 
         void OnNewSample(VoiceChatPacket packet)
         {
             var packetMessage = new VoiceChatPacketMessage {
-                proxyId = (short)GetComponent<NetworkIdentity>().netId.Value,
+                netId = (short) packet.NetworkId,
                 packet = packet,
             };
 
@@ -85,22 +78,6 @@ namespace VoiceChat.Networking
 
             NetworkManager.singleton.client.SendUnreliable(VoiceChatMsgType.Packet, packetMessage);
         }
-
-
-
-        void SetNetworkId(int networkId)
-        {
-            var netIdentity = GetComponent<NetworkIdentity>();
-            if (netIdentity.isServer || netIdentity.isClient)
-            {
-                Debug.LogWarning("Can only set NetworkId before spawning");
-                return;
-            }
-
-            this.networkId = networkId;
-            //VoiceChatRecorder.Instance.NetworkId = networkId;
-        }
-
       
         #region NetworkManager Hooks
 
@@ -130,36 +107,42 @@ namespace VoiceChat.Networking
         #endregion
 
         #region Network Message Handlers
-
-        //TODO: Fix this up for netId
+        
+        /// <summary>
+        /// Runs when the server receives a voice transmission packet. Sends the packet to its players and clients
+        /// </summary>
+        /// <param name="netMsg"></param>
         private static void OnServerPacketReceived(NetworkMessage netMsg)
         {
             VoiceChatPacketMessage data = netMsg.ReadMessage<VoiceChatPacketMessage>();
 
-            foreach (var connection in NetworkServer.connections)
+            foreach (NetworkConnection connection in NetworkServer.connections)
             {
-                if (connection == null || connection.connectionId == data.netId)
+                if (connection == null || connection.playerControllers.Count <= 0 || connection.playerControllers[0].gameObject.GetComponent<NetworkIdentity>().netId.Value == data.netId)
                     continue;
 
                 connection.SendUnreliable(VoiceChatMsgType.Packet, data);
             }
 
-            foreach (var connection in NetworkServer.localConnections)
+            foreach (NetworkConnection connection in NetworkServer.localConnections)
             {
-                if (connection == null || connection.connectionId == data.netId)
+                if (connection == null || connection.playerControllers.Count <= 0 || connection.playerControllers[0].gameObject.GetComponent<NetworkIdentity>().netId.Value == data.netId)
                     continue;
 
                 connection.SendUnreliable(VoiceChatMsgType.Packet, data);
             }
 
         }
-
-        //TODO: Fix up the netMsg packet for netId
+        
+        /// <summary>
+        /// Runs when a client receives a voice transmission packet. Sends it to the proper audio source (VoiceChatPacketReceived calls all clients' OnReceivePacket)!
+        /// </summary>
+        /// <param name="netMsg"></param>
         private static void OnClientPacketReceived(NetworkMessage netMsg)
         {
             if (VoiceChatPacketReceived != null)
             {
-                var data = netMsg.ReadMessage<VoiceChatPacketMessage>();
+                VoiceChatPacketMessage data = netMsg.ReadMessage<VoiceChatPacketMessage>();
                 VoiceChatPacketReceived(data);
             }
         }

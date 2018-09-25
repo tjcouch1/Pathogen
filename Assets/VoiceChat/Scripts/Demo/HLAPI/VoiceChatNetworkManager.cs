@@ -27,7 +27,7 @@ namespace VoiceChat.Demo.HLAPI
         {
             base.OnServerDisconnect(conn);
 
-            VoiceChatNetworkProxy.OnManagerServerDisconnect(conn);
+            //VoiceChatNetworkProxy.OnManagerServerDisconnect(conn);
         }
 
         public override void OnStartServer()
@@ -47,7 +47,7 @@ namespace VoiceChat.Demo.HLAPI
         public override void OnClientConnect(NetworkConnection connection)
         {
             base.OnClientConnect(connection);
-            VoiceChatNetworkProxy.OnManagerClientConnect(connection);
+            //VoiceChatNetworkProxy.OnManagerClientConnect(connection);
         }
     }
 }

@@ -3,7 +3,9 @@ using UnityEngine.Networking;
 
 namespace VoiceChat.Networking
 {
-    //TODO: Fix calls to this class to use netId instead of proxy garbo
+    /// <summary>
+    /// Packet that holds the information for transmitting voice chat audio
+    /// </summary>
     public class VoiceChatPacketMessage : MessageBase
     {
         public short netId;

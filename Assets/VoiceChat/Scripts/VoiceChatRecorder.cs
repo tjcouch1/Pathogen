@@ -220,7 +220,6 @@ namespace VoiceChat
             }
             else
             {
-                //TODO: Low-pass filter 
                 float rec = 1.0f / (float)dst.Length;
 
                 for (int i = 0; i < dst.Length; ++i)
@@ -305,8 +304,7 @@ namespace VoiceChat
             }
 
         }
-
-        //TODO: Fix this up for netId
+        
         void TransmitBuffer(float[] buffer)
         {
             // Compress into packet
