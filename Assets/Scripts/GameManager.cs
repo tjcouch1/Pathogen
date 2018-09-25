@@ -111,7 +111,7 @@ public class GameManager : NetworkBehaviour {
     {
         while(inCurrentRound)
         {
-            Debug.Log("Checking for win condition");
+            //Debug.Log("Checking for win condition");
             if (checkForWin())
             {
                 EndRound();

@@ -1383,13 +1383,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1437640850866204}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: -0.021, y: -0.005, z: 0.0283}
+  m_LocalRotation: {x: -0.45447344, y: 0.4671853, z: 0.5879676, w: 0.47904694}
+  m_LocalPosition: {x: -0.0845, y: 0.2375, z: 0.0752}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4324298020465862}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -180}
+  m_LocalEulerAnglesHint: {x: -100, y: 150, z: -53}
 --- !u!4 &4076292345957326
 Transform:
   m_ObjectHideFlags: 1
@@ -2776,7 +2776,7 @@ MonoBehaviour:
     maxInacuracy: 0.02
     sprayDecayRate: 0.5
     sprayHealRate: 0.5
-    weaponGFX: {fileID: 1520010304813654, guid: 42fdbe31e1889724ab6ab53e721b65cf,
+    weaponGFX: {fileID: 1250855496221732, guid: 655637af834c04b4eb4a1d0615a0b014,
       type: 2}
     weaponIcon: {fileID: 21300016, guid: 76bdad1258c27a64fa6bff9c813759cb, type: 3}
   - weaponName: Knife

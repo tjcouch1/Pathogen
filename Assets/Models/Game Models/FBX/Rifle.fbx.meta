@@ -1,0 +1,514 @@
+fileFormatVersion: 2
+guid: d46ad33f3fb568549a456c46007120b3
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Barrel
+    100002: BottomHGRails
+    100004: BottomHGRails1
+    100006: BottomHGRailspCube18
+    100008: BottomHGRailspCube18 1
+    100010: BottomHGRailspCube19
+    100012: BottomHGRailspCube19 1
+    100014: BottomHGRailspCube20
+    100016: BottomHGRailspCube20 1
+    100018: BottomHGRailspCube21
+    100020: BottomHGRailspCube22
+    100022: BottomHGRailspCube23
+    100024: BottomHGRailspCube24
+    100026: BottomHGRailspCube25
+    100028: BottomHGRailspCube26
+    100030: BottomHGRailspCube27
+    100032: BottomHGRailspCube27 1
+    100034: BottomHGRailspCube28
+    100036: BottomHGRailspCube28 1
+    100038: BottomHGRailspCube29
+    100040: BottomHGRailspCube29 1
+    100042: BottomHGRailspCube30
+    100044: BottomHGRailspCube30 1
+    100046: BottomHGRailspCube31
+    100048: BottomHGRailspCube31 1
+    100050: BottomHGRailspCube32
+    100052: BottomHGRailspCube32 1
+    100054: ButtStockRod1
+    100056: FrontSightPost
+    100058: group1
+    100060: HandGaurdKit
+    100062: HandGuards
+    100064: LockingRing
+    100066: Magazine
+    100068: MagazineHolder
+    100070: MagazineHolder1
+    100072: pCube1
+    100074: pCube2
+    100076: pCylinder1
+    100078: pCylinder3
+    100080: pCylinder4
+    100082: pCylinder5
+    100084: pCylinder6
+    100086: PistolGrip
+    100088: //RootNode
+    100090: Scope
+    100092: ScopeMount
+    100094: TopHGRailpCube10
+    100096: TopHGRailpCube10 1
+    100098: TopHGRailpCube11
+    100100: TopHGRailpCube11 1
+    100102: TopHGRailpCube12
+    100104: TopHGRailpCube12 1
+    100106: TopHGRailpCube13
+    100108: TopHGRailpCube13 1
+    100110: TopHGRailpCube14
+    100112: TopHGRailpCube14 1
+    100114: TopHGRailpCube15
+    100116: TopHGRailpCube15 1
+    100118: TopHGRailpCube16
+    100120: TopHGRailpCube16 1
+    100122: TopHGRailpCube16 2
+    100124: TopHGRailpCube17
+    100126: TopHGRailpCube17 1
+    100128: TopHGRailpCube17 2
+    100130: TopHGRailpCube3
+    100132: TopHGRailpCube3 1
+    100134: TopHGRailpCube3 2
+    100136: TopHGRailpCube4
+    100138: TopHGRailpCube4 1
+    100140: TopHGRailpCube4 2
+    100142: TopHGRailpCube5
+    100144: TopHGRailpCube5 1
+    100146: TopHGRailpCube5 2
+    100148: TopHGRailpCube6
+    100150: TopHGRailpCube6 1
+    100152: TopHGRailpCube6 2
+    100154: TopHGRailpCube7
+    100156: TopHGRailpCube7 1
+    100158: TopHGRailpCube7 2
+    100160: TopHGRailpCube8
+    100162: TopHGRailpCube8 1
+    100164: TopHGRailpCube9
+    100166: TopHGRailpCube9 1
+    100168: TopHGRails
+    100170: TopHGRails1
+    100172: TopHGRails2
+    100174: transform1
+    100176: Trigger
+    100178: TriggerGuard
+    100180: UpperReceiver1
+    400000: Barrel
+    400002: BottomHGRails
+    400004: BottomHGRails1
+    400006: BottomHGRailspCube18
+    400008: BottomHGRailspCube18 1
+    400010: BottomHGRailspCube19
+    400012: BottomHGRailspCube19 1
+    400014: BottomHGRailspCube20
+    400016: BottomHGRailspCube20 1
+    400018: BottomHGRailspCube21
+    400020: BottomHGRailspCube22
+    400022: BottomHGRailspCube23
+    400024: BottomHGRailspCube24
+    400026: BottomHGRailspCube25
+    400028: BottomHGRailspCube26
+    400030: BottomHGRailspCube27
+    400032: BottomHGRailspCube27 1
+    400034: BottomHGRailspCube28
+    400036: BottomHGRailspCube28 1
+    400038: BottomHGRailspCube29
+    400040: BottomHGRailspCube29 1
+    400042: BottomHGRailspCube30
+    400044: BottomHGRailspCube30 1
+    400046: BottomHGRailspCube31
+    400048: BottomHGRailspCube31 1
+    400050: BottomHGRailspCube32
+    400052: BottomHGRailspCube32 1
+    400054: ButtStockRod1
+    400056: FrontSightPost
+    400058: group1
+    400060: HandGaurdKit
+    400062: HandGuards
+    400064: LockingRing
+    400066: Magazine
+    400068: MagazineHolder
+    400070: MagazineHolder1
+    400072: pCube1
+    400074: pCube2
+    400076: pCylinder1
+    400078: pCylinder3
+    400080: pCylinder4
+    400082: pCylinder5
+    400084: pCylinder6
+    400086: PistolGrip
+    400088: //RootNode
+    400090: Scope
+    400092: ScopeMount
+    400094: TopHGRailpCube10
+    400096: TopHGRailpCube10 1
+    400098: TopHGRailpCube11
+    400100: TopHGRailpCube11 1
+    400102: TopHGRailpCube12
+    400104: TopHGRailpCube12 1
+    400106: TopHGRailpCube13
+    400108: TopHGRailpCube13 1
+    400110: TopHGRailpCube14
+    400112: TopHGRailpCube14 1
+    400114: TopHGRailpCube15
+    400116: TopHGRailpCube15 1
+    400118: TopHGRailpCube16
+    400120: TopHGRailpCube16 1
+    400122: TopHGRailpCube16 2
+    400124: TopHGRailpCube17
+    400126: TopHGRailpCube17 1
+    400128: TopHGRailpCube17 2
+    400130: TopHGRailpCube3
+    400132: TopHGRailpCube3 1
+    400134: TopHGRailpCube3 2
+    400136: TopHGRailpCube4
+    400138: TopHGRailpCube4 1
+    400140: TopHGRailpCube4 2
+    400142: TopHGRailpCube5
+    400144: TopHGRailpCube5 1
+    400146: TopHGRailpCube5 2
+    400148: TopHGRailpCube6
+    400150: TopHGRailpCube6 1
+    400152: TopHGRailpCube6 2
+    400154: TopHGRailpCube7
+    400156: TopHGRailpCube7 1
+    400158: TopHGRailpCube7 2
+    400160: TopHGRailpCube8
+    400162: TopHGRailpCube8 1
+    400164: TopHGRailpCube9
+    400166: TopHGRailpCube9 1
+    400168: TopHGRails
+    400170: TopHGRails1
+    400172: TopHGRails2
+    400174: transform1
+    400176: Trigger
+    400178: TriggerGuard
+    400180: UpperReceiver1
+    2100000: lambert1
+    2300000: Barrel
+    2300002: BottomHGRailspCube18
+    2300004: BottomHGRailspCube18 1
+    2300006: BottomHGRailspCube19
+    2300008: BottomHGRailspCube19 1
+    2300010: BottomHGRailspCube20
+    2300012: BottomHGRailspCube20 1
+    2300014: BottomHGRailspCube21
+    2300016: BottomHGRailspCube22
+    2300018: BottomHGRailspCube23
+    2300020: BottomHGRailspCube24
+    2300022: BottomHGRailspCube25
+    2300024: BottomHGRailspCube26
+    2300026: BottomHGRailspCube27
+    2300028: BottomHGRailspCube27 1
+    2300030: BottomHGRailspCube28
+    2300032: BottomHGRailspCube28 1
+    2300034: BottomHGRailspCube29
+    2300036: BottomHGRailspCube29 1
+    2300038: BottomHGRailspCube30
+    2300040: BottomHGRailspCube30 1
+    2300042: BottomHGRailspCube31
+    2300044: BottomHGRailspCube31 1
+    2300046: BottomHGRailspCube32
+    2300048: BottomHGRailspCube32 1
+    2300050: ButtStockRod1
+    2300052: FrontSightPost
+    2300054: HandGuards
+    2300056: LockingRing
+    2300058: Magazine
+    2300060: MagazineHolder
+    2300062: MagazineHolder1
+    2300064: pCube1
+    2300066: pCube2
+    2300068: pCylinder1
+    2300070: pCylinder3
+    2300072: pCylinder4
+    2300074: pCylinder5
+    2300076: pCylinder6
+    2300078: PistolGrip
+    2300080: ScopeMount
+    2300082: TopHGRailpCube10
+    2300084: TopHGRailpCube10 1
+    2300086: TopHGRailpCube11
+    2300088: TopHGRailpCube11 1
+    2300090: TopHGRailpCube12
+    2300092: TopHGRailpCube12 1
+    2300094: TopHGRailpCube13
+    2300096: TopHGRailpCube13 1
+    2300098: TopHGRailpCube14
+    2300100: TopHGRailpCube14 1
+    2300102: TopHGRailpCube15
+    2300104: TopHGRailpCube15 1
+    2300106: TopHGRailpCube16
+    2300108: TopHGRailpCube16 1
+    2300110: TopHGRailpCube16 2
+    2300112: TopHGRailpCube17
+    2300114: TopHGRailpCube17 1
+    2300116: TopHGRailpCube17 2
+    2300118: TopHGRailpCube3
+    2300120: TopHGRailpCube3 1
+    2300122: TopHGRailpCube3 2
+    2300124: TopHGRailpCube4
+    2300126: TopHGRailpCube4 1
+    2300128: TopHGRailpCube4 2
+    2300130: TopHGRailpCube5
+    2300132: TopHGRailpCube5 1
+    2300134: TopHGRailpCube5 2
+    2300136: TopHGRailpCube6
+    2300138: TopHGRailpCube6 1
+    2300140: TopHGRailpCube6 2
+    2300142: TopHGRailpCube7
+    2300144: TopHGRailpCube7 1
+    2300146: TopHGRailpCube7 2
+    2300148: TopHGRailpCube8
+    2300150: TopHGRailpCube8 1
+    2300152: TopHGRailpCube9
+    2300154: TopHGRailpCube9 1
+    2300156: Trigger
+    2300158: TriggerGuard
+    2300160: UpperReceiver1
+    3300000: Barrel
+    3300002: BottomHGRailspCube18
+    3300004: BottomHGRailspCube18 1
+    3300006: BottomHGRailspCube19
+    3300008: BottomHGRailspCube19 1
+    3300010: BottomHGRailspCube20
+    3300012: BottomHGRailspCube20 1
+    3300014: BottomHGRailspCube21
+    3300016: BottomHGRailspCube22
+    3300018: BottomHGRailspCube23
+    3300020: BottomHGRailspCube24
+    3300022: BottomHGRailspCube25
+    3300024: BottomHGRailspCube26
+    3300026: BottomHGRailspCube27
+    3300028: BottomHGRailspCube27 1
+    3300030: BottomHGRailspCube28
+    3300032: BottomHGRailspCube28 1
+    3300034: BottomHGRailspCube29
+    3300036: BottomHGRailspCube29 1
+    3300038: BottomHGRailspCube30
+    3300040: BottomHGRailspCube30 1
+    3300042: BottomHGRailspCube31
+    3300044: BottomHGRailspCube31 1
+    3300046: BottomHGRailspCube32
+    3300048: BottomHGRailspCube32 1
+    3300050: ButtStockRod1
+    3300052: FrontSightPost
+    3300054: HandGuards
+    3300056: LockingRing
+    3300058: Magazine
+    3300060: MagazineHolder
+    3300062: MagazineHolder1
+    3300064: pCube1
+    3300066: pCube2
+    3300068: pCylinder1
+    3300070: pCylinder3
+    3300072: pCylinder4
+    3300074: pCylinder5
+    3300076: pCylinder6
+    3300078: PistolGrip
+    3300080: ScopeMount
+    3300082: TopHGRailpCube10
+    3300084: TopHGRailpCube10 1
+    3300086: TopHGRailpCube11
+    3300088: TopHGRailpCube11 1
+    3300090: TopHGRailpCube12
+    3300092: TopHGRailpCube12 1
+    3300094: TopHGRailpCube13
+    3300096: TopHGRailpCube13 1
+    3300098: TopHGRailpCube14
+    3300100: TopHGRailpCube14 1
+    3300102: TopHGRailpCube15
+    3300104: TopHGRailpCube15 1
+    3300106: TopHGRailpCube16
+    3300108: TopHGRailpCube16 1
+    3300110: TopHGRailpCube16 2
+    3300112: TopHGRailpCube17
+    3300114: TopHGRailpCube17 1
+    3300116: TopHGRailpCube17 2
+    3300118: TopHGRailpCube3
+    3300120: TopHGRailpCube3 1
+    3300122: TopHGRailpCube3 2
+    3300124: TopHGRailpCube4
+    3300126: TopHGRailpCube4 1
+    3300128: TopHGRailpCube4 2
+    3300130: TopHGRailpCube5
+    3300132: TopHGRailpCube5 1
+    3300134: TopHGRailpCube5 2
+    3300136: TopHGRailpCube6
+    3300138: TopHGRailpCube6 1
+    3300140: TopHGRailpCube6 2
+    3300142: TopHGRailpCube7
+    3300144: TopHGRailpCube7 1
+    3300146: TopHGRailpCube7 2
+    3300148: TopHGRailpCube8
+    3300150: TopHGRailpCube8 1
+    3300152: TopHGRailpCube9
+    3300154: TopHGRailpCube9 1
+    3300156: Trigger
+    3300158: TriggerGuard
+    3300160: UpperReceiver1
+    4300000: Barrel
+    4300002: LockingRing
+    4300004: FrontSightPost
+    4300006: TopHGRailpCube3
+    4300008: TopHGRailpCube4
+    4300010: TopHGRailpCube5
+    4300012: TopHGRailpCube6
+    4300014: TopHGRailpCube7
+    4300016: TopHGRailpCube8
+    4300018: TopHGRailpCube9
+    4300020: TopHGRailpCube10
+    4300022: TopHGRailpCube11
+    4300024: TopHGRailpCube12
+    4300026: TopHGRailpCube13
+    4300028: TopHGRailpCube14
+    4300030: TopHGRailpCube15
+    4300032: TopHGRailpCube16
+    4300034: TopHGRailpCube17
+    4300036: BottomHGRailspCube18
+    4300038: BottomHGRailspCube19
+    4300040: BottomHGRailspCube20
+    4300042: BottomHGRailspCube27
+    4300044: BottomHGRailspCube28
+    4300046: BottomHGRailspCube29
+    4300048: BottomHGRailspCube30
+    4300050: BottomHGRailspCube31
+    4300052: BottomHGRailspCube32
+    4300054: BottomHGRailspCube18
+    4300056: BottomHGRailspCube19
+    4300058: BottomHGRailspCube20
+    4300060: BottomHGRailspCube21
+    4300062: BottomHGRailspCube22
+    4300064: BottomHGRailspCube23
+    4300066: BottomHGRailspCube24
+    4300068: BottomHGRailspCube25
+    4300070: BottomHGRailspCube26
+    4300072: BottomHGRailspCube27
+    4300074: BottomHGRailspCube28
+    4300076: BottomHGRailspCube29
+    4300078: BottomHGRailspCube30
+    4300080: BottomHGRailspCube31
+    4300082: BottomHGRailspCube32
+    4300084: TopHGRailpCube3
+    4300086: TopHGRailpCube4
+    4300088: TopHGRailpCube5
+    4300090: TopHGRailpCube6
+    4300092: TopHGRailpCube7
+    4300094: TopHGRailpCube8
+    4300096: TopHGRailpCube9
+    4300098: TopHGRailpCube10
+    4300100: TopHGRailpCube11
+    4300102: TopHGRailpCube12
+    4300104: TopHGRailpCube13
+    4300106: TopHGRailpCube14
+    4300108: TopHGRailpCube15
+    4300110: TopHGRailpCube16
+    4300112: TopHGRailpCube17
+    4300114: TopHGRailpCube3
+    4300116: TopHGRailpCube4
+    4300118: TopHGRailpCube5
+    4300120: TopHGRailpCube6
+    4300122: TopHGRailpCube7
+    4300124: TopHGRailpCube16
+    4300126: TopHGRailpCube17
+    4300128: MagazineHolder
+    4300130: Magazine
+    4300132: MagazineHolder1
+    4300134: TriggerGuard
+    4300136: Trigger
+    4300138: PistolGrip
+    4300140: ButtStockRod1
+    4300142: HandGuards
+    4300144: ScopeMount
+    4300146: pCube1
+    4300148: pCube2
+    4300150: pCylinder1
+    4300152: UpperReceiver1
+    4300154: pCylinder3
+    4300156: pCylinder4
+    4300158: pCylinder5
+    4300160: pCylinder6
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

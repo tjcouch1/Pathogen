@@ -16,9 +16,6 @@ public class WeaponManager : NetworkBehaviour {
     public bool isReloading = false;
     public bool isEquipped = false;
 
-    public delegate void OnWeaponSwitched(Direction dir);
-    public OnWeaponSwitched onWeaponSwitchedCallback;
-
 	// Use this for initialization
 	void Start ()
     {
@@ -55,63 +52,38 @@ public class WeaponManager : NetworkBehaviour {
         {
             Util.SetLayerRecursively(weaponInstance, LayerMask.NameToLayer(remoteLayerName));
         }
+        Debug.Log("Selected Weapon is: " + currentWeapon.weaponName + " at index " + selectedWeaponIndex);
     }
 
     public void selectNextWeapon()
     {
-        if (selectedWeaponIndex + 1 <= weapons.Capacity)
-        {
-            selectedWeaponIndex++;
-        }
-        else
+        if (selectedWeaponIndex + 1 >= weapons.Capacity)
         {
             selectedWeaponIndex = 0;
         }
+        else
+        {
+            selectedWeaponIndex++;
+        }
         SwitchWeapon();
-        onWeaponSwitchedCallback(Direction.down);
     }
 
     public void selectPrevWeapon()
     {
-        if (selectedWeaponIndex - 1 <= 0)
+        if (selectedWeaponIndex - 1 < 0)
         {
-            selectedWeaponIndex = weapons.Capacity;
+            selectedWeaponIndex = weapons.Capacity - 1;
         }
         else
         {
             selectedWeaponIndex--;
         }
         SwitchWeapon();
-        onWeaponSwitchedCallback(Direction.up);
     }
 
     public PlayerWeapon getCurrentWeapon()
     {
         return currentWeapon;
-    }
-
-    public PlayerWeapon getNextWeapon()
-    {
-        if (selectedWeaponIndex + 1 <= weapons.Capacity)
-        {
-            return weapons[selectedWeaponIndex + 1];
-        }
-        else
-        {
-            return weapons[0];
-        }
-    }
-
-    public PlayerWeapon getPrevWeapon()
-    {
-        if (selectedWeaponIndex - 1 <= 0)
-        {
-            return weapons[weapons.Capacity];
-        }
-        else
-        {
-            return weapons[selectedWeaponIndex - 1];
-        }
     }
 
     public WeaponGraphics getCurrentWeaponGraphics()
