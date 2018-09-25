@@ -12,6 +12,8 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private Text ammoText;
     [SerializeField] private Text timerTitle;
     [SerializeField] private Text timerText;
+    [SerializeField] private Text audioPositionsText;
+    [SerializeField] private bool showAudioPositions = false;
     [SerializeField] private GameObject[] disableWhileInLobby;
 
     public Color infectedColor;
@@ -46,6 +48,7 @@ public class PlayerUI : MonoBehaviour {
         SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
         SetInfected(player.isInfected);
         UpdateTimer();
+        UpdateAudioPositionsText();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -97,6 +100,21 @@ public class PlayerUI : MonoBehaviour {
     void SetAmmoAmount(int bullets, int clips)
     {
         ammoText.text = bullets.ToString() + " / " + clips.ToString();
+    }
+
+    void UpdateAudioPositionsText()
+    {
+        if (showAudioPositions)
+        {
+            audioPositionsText.text = "";
+            foreach (Player p in GameManager.getAllPlayers())
+            {
+                VoiceChat.Networking.VoiceChatNetworkProxy proxy = p.gameObject.GetComponentInChildren<VoiceChat.Networking.VoiceChatNetworkProxy>();
+                if (!audioPositionsText.text.Equals(""))
+                    audioPositionsText.text += "\n";
+                audioPositionsText.text += p.username + " Voice X: " + proxy.transform.position.x + " Y: " + proxy.transform.position.y + " Z: " + proxy.transform.position.z;
+            }
+        }
     }
 
     private void UpdateTimer()

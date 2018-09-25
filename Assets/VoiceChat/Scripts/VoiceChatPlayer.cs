@@ -40,6 +40,7 @@ namespace VoiceChat
             int size = VoiceChatSettings.Instance.Frequency * 10;
 
             GetComponent<AudioSource>().loop = true;
+            GetComponent<AudioSource>().maxDistance = 15;
             GetComponent<AudioSource>().clip = AudioClip.Create("VoiceChat", size, 1, VoiceChatSettings.Instance.Frequency, false);
             data = new float[size];
 
