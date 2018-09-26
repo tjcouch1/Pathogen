@@ -152,7 +152,7 @@ public class GameManager : NetworkBehaviour {
             var check = healthyPlayers.Remove(players[rand]);
             if (!check)
             {
-                Debug.LogError("Player " + players[rand] + " was not able to be removed from the list.");
+                Debug.LogError("Player " + players[rand] + " was not able to be removed from the healthy list.");
             }
 
             //Setup timer events
@@ -290,10 +290,11 @@ public class GameManager : NetworkBehaviour {
         string playerID = PLAYER_ID_PREFIX + netID;
         playerDictionary.Add(playerID, _player);
         _player.transform.name = playerID;
+		//Potentially hook up the player to the voice proxy here
 
-        //_player.SendPlayerToLobby();
+		//_player.SendPlayerToLobby();
 
-        GameManager.singleton.CmdStartRound();
+		GameManager.singleton.CmdStartRound();
     }
 
     public static void UnRegisterPlayer(string playerID)
