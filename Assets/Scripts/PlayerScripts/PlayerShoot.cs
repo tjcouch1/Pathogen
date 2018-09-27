@@ -109,6 +109,13 @@ public class PlayerShoot : NetworkBehaviour {
             return;
         }
 
+        if(currentWeapon.weaponName == "Infect")
+        {
+            //Let the infection script handle this
+            Debug.Log("Using infection tool");
+            return;
+        }
+
         if(currentWeapon.bullets <= 0)
         {
             Debug.Log("OUT OF AMMO");

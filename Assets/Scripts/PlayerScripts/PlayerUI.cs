@@ -8,11 +8,14 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject scoreboard;
     [SerializeField] private GameObject infectedUI;
-    [SerializeField] private WeaponSpriteManager weaponSpriteManager;
+    [SerializeField] private Image weaponImage;
     [SerializeField] private RectTransform healthFill;
     [SerializeField] private Text ammoText;
     [SerializeField] private Text timerTitle;
     [SerializeField] private Text timerText;
+    [SerializeField] private Text audioPositionsText;
+    [SerializeField] private bool showAudioPositions = false;
+    [SerializeField] private GameObject pushToTalkSprite;
     [SerializeField] private GameObject[] disableWhileInLobby;
 
     public Color infectedColor;
@@ -24,7 +27,6 @@ public class PlayerUI : MonoBehaviour {
     private void Start()
     {
         PauseMenu.isOn = false;
-        weaponManager.onWeaponSwitchedCallback = SetWeaponUI;
     }
 
     public void SetPlayer(Player _player)
@@ -45,9 +47,18 @@ public class PlayerUI : MonoBehaviour {
     void Update () {
 
         SetHealthAmount(player.getHealth());
-        SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
+        if (weaponManager.getCurrentWeapon().weaponName != "Infect")
+        {
+            SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
+        }
+        else{
+            ammoText.text = "Infect";
+        }
+        weaponImage.sprite = weaponManager.getCurrentWeapon().weaponIcon;
         SetInfected(player.isInfected);
         UpdateTimer();
+        UpdateAudioPositionsText();
+        UpdatePushToTalkSprite();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -111,13 +122,40 @@ public class PlayerUI : MonoBehaviour {
         ammoText.text = bullets.ToString() + " / " + clips.ToString();
     }
 
-    void SetWeaponUI(Direction dir)
+    void UpdateAudioPositionsText()
     {
-        var pw = weaponManager.getPrevWeapon();
-        var cw = weaponManager.getCurrentWeapon();
-        var nw = weaponManager.getNextWeapon();
+        if (showAudioPositions)
+        {
+            audioPositionsText.text = "";
+            var listener = player.GetComponentInChildren<AudioListener>();
+            if (listener != null)
+                audioPositionsText.text += "Listener X: " + listener.transform.position.x + " Y: " + listener.transform.position.y + " Z: " + listener.transform.position.z;
 
-        weaponSpriteManager.setWeapons(pw, cw, nw, dir);
+            foreach (Player p in GameManager.getAllPlayers())
+            {
+                var proxy = p.gameObject.GetComponentInChildren<AudioSource>();
+                if (proxy != null)
+                {
+                    if (!p.isLocalPlayer && proxy != null)
+                    {
+                        if (!audioPositionsText.text.Equals(""))
+                            audioPositionsText.text += "\n";
+                        audioPositionsText.text += p.username + " " + proxy.clip.name + " X: " + proxy.transform.position.x + " Y: " + proxy.transform.position.y + " Z: " + proxy.transform.position.z;
+                    }
+
+                    audioPositionsText.text += " Audio MaxDistance: " + proxy.maxDistance;
+                }
+            }
+        }
+    }
+
+    void UpdatePushToTalkSprite()
+    {
+        //update the VOIP icon
+        if (pushToTalkSprite.GetComponent<UIShowHide>().Hidden && VoiceChat.VoiceChatRecorder.Instance.IsPushingToTalk)
+            pushToTalkSprite.GetComponent<UIShowHide>().Hidden = false;
+        else if (!pushToTalkSprite.GetComponent<UIShowHide>().Hidden && !VoiceChat.VoiceChatRecorder.Instance.IsPushingToTalk)
+            pushToTalkSprite.GetComponent<UIShowHide>().Hidden = true;
     }
 
     private void UpdateTimer()

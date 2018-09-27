@@ -12,6 +12,8 @@ public class Player : NetworkBehaviour {
     [SyncVar]
     public bool isInfected = false;     //Bool for storing what team Player is on. Default is human
 
+    [SerializeField] public Behaviour infectionTool;
+
     //Getter/Setter for isAlive
     public bool isAlive
     {
@@ -81,6 +83,20 @@ public class Player : NetworkBehaviour {
         {
             Die(sourceID);
         }
+    }
+
+    [ClientRpc]
+    public void RpcGetInfected()
+    {
+        isInfected = true;
+        infectionTool.enabled = true;
+        GameManager.singleton.RegisterNewInfected(this);
+    }
+
+	public override void OnStartLocalPlayer()
+	{
+		base.OnStartLocalPlayer();
+		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
     }
 
     private void Die(string killerID)
@@ -162,6 +178,9 @@ public class Player : NetworkBehaviour {
     {
         isAlive = true;
         currentHealth = maxHealth;
+        isInfected = false;
+        infectionTool.enabled = false;
+        
 
         //Enable the GameObjects
         for (int i = 0; i < disableGOnDeath.Length; i++)
