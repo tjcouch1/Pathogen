@@ -78,6 +78,23 @@ public class GameManager : NetworkBehaviour {
         }
     }
 
+    public void RegisterNewInfected(Player infPlayer)
+    {
+        if (healthyPlayers.Contains(infPlayer))
+        {
+            healthyPlayers.Remove(infPlayer);
+        }
+
+        if (!infectedPlayers.Contains(infPlayer))
+        {
+            infectedPlayers.Add(infPlayer);
+        }
+        else
+        {
+            Debug.Log("Player " + infPlayer.name + " is already infected!");
+        }
+    }
+
     public void SetSceneCameraActive(bool isActive)
     {
         if (sceneCamera == null)
@@ -147,13 +164,7 @@ public class GameManager : NetworkBehaviour {
 
             //Choose one player at random to be infected
             var rand = Random.Range(0, players.Length);
-            players[rand].isInfected = true;
-            infectedPlayers.Add(players[rand]);
-            var check = healthyPlayers.Remove(players[rand]);
-            if (!check)
-            {
-                Debug.LogError("Player " + players[rand] + " was not able to be removed from the healthy list.");
-            }
+            players[rand].RpcGetInfected();
 
             //Setup timer events
             singleton.initRoundEvents();
@@ -201,12 +212,13 @@ public class GameManager : NetworkBehaviour {
     public void EndRound()
     {
         GameTimer.singleton.StopTimer();
-        StopCoroutine(checkWinCondition());
 
         //TO-DO: Implement checking for win Case
         bool winCase = checkForWin();
         if (winCase)
         {
+            StopCoroutine(checkWinCondition());
+
             //We do not go into overtime
             RpcUpdatePlayersTimerUI(Color.blue);
             StartLobby();

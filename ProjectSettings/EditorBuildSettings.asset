@@ -15,9 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Factory.unity
     guid: 71ecfe57d0505144eb3c1a50812814e7
   - enabled: 1
-    path: Assets/Scenes/EricTestMap.unity
-    guid: f2c1e1e1d0644b849a280d992b355566
-  - enabled: 1
     path: Assets/Scenes/MallMap.unity
     guid: 279cb1e9bb933a8429960717ca1d20c1
+  - enabled: 1
+    path: Assets/Scenes/EricBuildingMap.unity
+    guid: f2c1e1e1d0644b849a280d992b355566
   m_configObjects: {}

@@ -492,12 +492,13 @@ GameObject:
   - component: {fileID: 114460557211638246}
   - component: {fileID: 114898922887527562}
   - component: {fileID: 114677199130525918}
+  - component: {fileID: 114274364004943402}
+  - component: {fileID: 114648638091090256}
   - component: {fileID: 114936025303600774}
   - component: {fileID: 114622668242531870}
   - component: {fileID: 114741910040539562}
   - component: {fileID: 95720482938099428}
   - component: {fileID: 114902582104419856}
-  - component: {fileID: 114648638091090256}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -2592,6 +2593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInfected: 0
+  infectionTool: {fileID: 114274364004943402}
   maxHealth: 100
   username: (null)
   killCount: 0
@@ -2600,6 +2602,7 @@ MonoBehaviour:
   disableOnDeath:
   - {fileID: 114460557211638246}
   - {fileID: 114898922887527562}
+  - {fileID: 114274364004943402}
   disableGOnDeath:
   - {fileID: 1992960846065634}
   - {fileID: 1496368008810458}
@@ -2700,6 +2703,36 @@ MonoBehaviour:
   playerUIprefab: {fileID: 1074519790425018, guid: c7d1e958afb59914c9060c5453594139,
     type: 2}
   playerUIInstance: {fileID: 0}
+--- !u!114 &114274364004943402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1340817644079000}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9a382ae54a213408ed280564101494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 20017678660094722}
+  infectionTool:
+    weaponName: Infect
+    damage: 0
+    clips: 0
+    bullets: 0
+    clipSize: 0
+    range: 5
+    fireRate: 0
+    reloadTime: 0
+    maxInacuracy: 0
+    sprayDecayRate: 0.5
+    sprayHealRate: 0.5
+    weaponGFX: {fileID: 1672061850738770, guid: dba496da54728a9428e0e07393d549df,
+      type: 2}
+    weaponIcon: {fileID: 21300000, guid: fceef2ef66f3f7543abe29f577083e5a, type: 3}
+  mask:
+    serializedVersion: 2
+    m_Bits: 3639
 --- !u!114 &114323452514043290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2849,19 +2882,6 @@ MonoBehaviour:
     sprayHealRate: 0.5
     weaponGFX: {fileID: 100000, guid: bffa678ec4567cc43a9362f2fc2b5b50, type: 3}
     weaponIcon: {fileID: 21300000, guid: d586ca5ae39db3049979938595abe11e, type: 3}
-  - weaponName: Touch Infect
-    damage: 0
-    clips: 2
-    bullets: 99999
-    clipSize: 1
-    range: 2
-    fireRate: 0
-    reloadTime: 0
-    maxInacuracy: 0
-    sprayDecayRate: 0.5
-    sprayHealRate: 0.5
-    weaponGFX: {fileID: 100000, guid: bffa678ec4567cc43a9362f2fc2b5b50, type: 3}
-    weaponIcon: {fileID: 21300000, guid: 7906e275bd76c0c4cb7296f1be29bec6, type: 3}
   weaponHolder: {fileID: 4076115203499606}
   isReloading: 0
   isEquipped: 0

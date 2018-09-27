@@ -12,6 +12,7 @@ public class WeaponManager : NetworkBehaviour {
     private PlayerWeapon currentWeapon;
     private WeaponGraphics currentGraphics;
     private GameObject weaponInstance;
+    private List<PlayerWeapon> defaultWeapons;
     private int selectedWeaponIndex = 0;
     public bool isReloading = false;
     public bool isEquipped = false;
@@ -19,6 +20,7 @@ public class WeaponManager : NetworkBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        defaultWeapons = weapons;
         currentWeapon = weapons[selectedWeaponIndex];
         weaponInstance = Instantiate(currentWeapon.weaponGFX, weaponHolder.position, weaponHolder.rotation);
         weaponInstance.transform.SetParent(weaponHolder);
@@ -29,6 +31,16 @@ public class WeaponManager : NetworkBehaviour {
         }
     }
 	
+    public void PickupWeapon(PlayerWeapon weapon)
+    {
+        weapons.Add(weapon);
+    }
+
+    public void ResetWeaponsToDefaults()
+    {
+        weapons = defaultWeapons;
+    }
+
     public void EquipWeapon()
     {
         weaponInstance.SetActive(true);

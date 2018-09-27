@@ -47,7 +47,13 @@ public class PlayerUI : MonoBehaviour {
     void Update () {
 
         SetHealthAmount(player.getHealth());
-        SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
+        if (weaponManager.getCurrentWeapon().weaponName != "Infect")
+        {
+            SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
+        }
+        else{
+            ammoText.text = "Infect";
+        }
         weaponImage.sprite = weaponManager.getCurrentWeapon().weaponIcon;
         SetInfected(player.isInfected);
         UpdateTimer();
