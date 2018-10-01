@@ -162,7 +162,7 @@ public class PlayerShoot : NetworkBehaviour {
         sprayTime -= deltaTime*currentWeapon.sprayHealRate;
         sprayTime = Mathf.Clamp(sprayTime, 0, currentWeapon.maxInacuracy);        
 
-        Debug.Log(sprayTime);
+        //Debug.Log(sprayTime);
 
         //Basic variance
         fV = new Vector3(fV.x + Random.Range(-sprayTime, sprayTime) * sprayMultiplier, fV.y + Random.Range(-sprayTime, sprayTime) * sprayMultiplier, fV.z);

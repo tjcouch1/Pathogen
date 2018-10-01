@@ -47,7 +47,7 @@ public class PlayerSetup : NetworkBehaviour {
             CmdSetUsername(transform.name, _username);
 
             GetComponent<Player>().Setup();
-            Debug.Log("Player Set Up!");
+            Debug.Log("Local Player Set Up!");
         }
     }
 

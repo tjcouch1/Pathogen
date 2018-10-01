@@ -10,7 +10,7 @@ public class Player : NetworkBehaviour {
     private bool _isAlive = true;
 
     [SyncVar]
-    public bool isInfected = false;     //Bool for storing what team Player is on. Default is human
+    private bool isInfected = false;     //Bool for storing what team Player is on. Default is human
 
     [SerializeField] public Behaviour infectionTool;
 
@@ -41,32 +41,7 @@ public class Player : NetworkBehaviour {
 
     public void Setup()
     {
-        //CmdBroadcastNewPlayerSetup();
-        CmdSendPlayerToLobby();
-    }
-
-    //Tell the server that a new player has spawned
-    [Command]
-    private void CmdBroadcastNewPlayerSetup()
-    {
-        RpcSetupPlayerOnAllClients();
-    }
-
-    //Update all the clients with the new GameObjects data
-    [ClientRpc]
-    private void RpcSetupPlayerOnAllClients()
-    {
-        if (firstSetup)
-        {
-            //Player setup logic
-            wasEnabled = new bool[disableOnDeath.Length];
-            for (int i = 0; i < wasEnabled.Length; i++)
-            {
-                wasEnabled[i] = disableOnDeath[i].enabled;
-            }
-            firstSetup = false;
-        }
-
+        //Start all players in the lobby as soon as they join
         CmdSendPlayerToLobby();
     }
 
@@ -85,12 +60,32 @@ public class Player : NetworkBehaviour {
         }
     }
 
-    [ClientRpc]
-    public void RpcGetInfected()
+    public void SetInfected(bool value)
     {
-        isInfected = true;
-        infectionTool.enabled = true;
-        GameManager.singleton.RegisterNewInfected(this);
+        if (value)
+        {
+            isInfected = true;
+            infectionTool.enabled = true;
+            GameManager.singleton.RegisterNewInfected(this);
+        }
+        else
+        {
+            isInfected = false;
+            infectionTool.enabled = false;
+            
+        }
+    }
+
+    public bool GetInfected()
+    {
+        if (isInfected)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 	public override void OnStartLocalPlayer()
@@ -167,6 +162,7 @@ public class Player : NetworkBehaviour {
         }
     }
 
+    //Called everytime a new round starts
     [Command]
     public void CmdRespawnPlayer()
     {
@@ -178,9 +174,6 @@ public class Player : NetworkBehaviour {
     {
         isAlive = true;
         currentHealth = maxHealth;
-        isInfected = false;
-        infectionTool.enabled = false;
-        
 
         //Enable the GameObjects
         for (int i = 0; i < disableGOnDeath.Length; i++)

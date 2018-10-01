@@ -19,7 +19,6 @@ public class GameTimer : NetworkBehaviour {
         }
         else
         {
-
             singleton = this;
         }
     }
@@ -39,14 +38,20 @@ public class GameTimer : NetworkBehaviour {
         title = _title;
     }
 
-    //Only the server should be able to start and stop the timer
     public void StartTimer(int _roundTime)
     {
+        //Only the server should be able to start and stop the timer
         if (!isServer)
         {
             return;
         }
+        if (timerIsRunning)
+        {
+            Debug.LogError("Cannot start timer - Timer is already running!");
+            return;
+        }
         roundTime = _roundTime;
+        Debug.LogWarning("Timer was started");
         StartCoroutine(roundTimer());
     }
 
@@ -58,6 +63,7 @@ public class GameTimer : NetworkBehaviour {
             return;
         }
         StopCoroutine(roundTimer());
+        Debug.LogWarning("Timer was stopped");
         timerIsRunning = false;
     }
 
@@ -94,5 +100,4 @@ public class GameTimer : NetworkBehaviour {
             roundTime--;
         }
     }
-
 }

@@ -55,7 +55,7 @@ public class PlayerUI : MonoBehaviour {
             ammoText.text = "Infect";
         }
         weaponImage.sprite = weaponManager.getCurrentWeapon().weaponIcon;
-        SetInfected(player.isInfected);
+        SetInfected(player.GetInfected());
         UpdateTimer();
         UpdateAudioPositionsText();
         UpdatePushToTalkSprite();
