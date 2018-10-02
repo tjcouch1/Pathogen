@@ -2592,7 +2592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7019607e31fc8843b5499572a028378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInfected: 0
   infectionTool: {fileID: 114274364004943402}
   maxHealth: 100
   username: (null)
@@ -2823,7 +2822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.1
+  m_SendInterval: 0.04761905
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -2898,7 +2897,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 4268578006324048}
   m_ChildIndex: 0
-  m_SendInterval: 0.1
+  m_SendInterval: 0.04761905
   m_SyncRotationAxis: 1
   m_RotationSyncCompression: 0
   m_MovementThreshold: 0.001

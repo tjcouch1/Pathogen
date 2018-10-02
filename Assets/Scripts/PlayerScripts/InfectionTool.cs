@@ -69,6 +69,6 @@ public class InfectionTool : NetworkBehaviour {
         //Debug.Log(playerID + " has been shot");
 
         Player player = GameManager.getPlayer(playerID);
-        player.RpcGetInfected();
+        player.SetInfected(true);
     }
 }

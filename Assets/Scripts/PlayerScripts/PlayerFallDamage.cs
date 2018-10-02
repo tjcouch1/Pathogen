@@ -44,7 +44,7 @@ public class PlayerFallDamage : MonoBehaviour {
     private void checkFallDamage()
     {
         float deltaY = Mathf.Abs(oldTrans - gameObject.transform.position.y);
-        Debug.Log("Player Fell " + deltaY);
+        //Debug.Log("Player Fell " + deltaY);
         if (deltaY >= fallThreshold)
         {
             float damage = deltaY * damagePerUnitFall;

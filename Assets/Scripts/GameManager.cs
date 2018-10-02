@@ -63,11 +63,12 @@ public class GameManager : NetworkBehaviour {
         Player p = getPlayer(player);
         if(p != null)
         {
-            if (p.isInfected)
+            if (p.GetInfected())
             {
                 infectedPlayers.Remove(p);
+                p.SetInfected(false);
             }
-            else if (!p.isInfected)
+            else if (!p.GetInfected())
             {
                 healthyPlayers.Remove(p);
             }
@@ -142,21 +143,21 @@ public class GameManager : NetworkBehaviour {
     [Command]
     public void CmdStartRound()
     {
-
         //We only want to start a round if enough players are connected, and we are not currently in a round already
         if(getAllPlayers().Length >= requiredPlayers && inCurrentRound == false)
         {
             if (GameTimer.singleton.timerIsRunning)
             {
-                Debug.LogError("GameTimer is running! Cannot start new round");
                 return;
             }
+            Debug.Log("Round starting...");
 
             //Setup all the players for new round
             Player[] players = getAllPlayers();
             foreach(Player p in players)
             {
                 p.CmdRespawnPlayer();
+                p.SetInfected(false);
             }
 
             //Add all players to the list of healthy
@@ -164,14 +165,15 @@ public class GameManager : NetworkBehaviour {
 
             //Choose one player at random to be infected
             var rand = Random.Range(0, players.Length);
-            players[rand].RpcGetInfected();
-
+            players[rand].SetInfected(true);
+            RegisterNewInfected(players[rand]);
+            
             //Setup timer events
             singleton.initRoundEvents();
-            GameTimer.singleton.StartTimer(roundTime);
             inCurrentRound = true;
             roundNumber++;
-            GameTimer.singleton.setRoundTitle( "Round " + roundNumber); 
+            GameTimer.singleton.setRoundTitle( "Round " + roundNumber);
+            GameTimer.singleton.StartTimer(roundTime);
             Debug.Log("Round started!");
 
             //Start Coroutine that checks for a win condition
@@ -221,19 +223,21 @@ public class GameManager : NetworkBehaviour {
 
             //We do not go into overtime
             RpcUpdatePlayersTimerUI(Color.blue);
-            StartLobby();
             inCurrentRound = false;
 
             //Reset all players to not infected
             var players = getAllPlayers();
             foreach(Player p in players)
             {
-                p.isInfected = false;
+                p.SetInfected(false);
             }
 
             //Clear out our lists
             healthyPlayers.Clear();
             infectedPlayers.Clear();
+
+            //Go to lobby
+            StartLobby();
         }
         else
         {
@@ -263,6 +267,9 @@ public class GameManager : NetworkBehaviour {
     //Should only be called in between rounds, or if we don't have enough players
     public void StartLobby()
     {
+        //Whenever getting ready to start a new GameTimer.singleton, we should make sure to stop old ones that may be running
+        GameTimer.singleton.StopTimer();
+
         Debug.Log("Starting lobby...");
         Player[] players = getAllPlayers();
         foreach (Player p in players)
@@ -270,8 +277,6 @@ public class GameManager : NetworkBehaviour {
             p.CmdSendPlayerToLobby();
         }
 
-        //Whenever getting ready to start a new GameTimer.singleton, we should make sure to stop old ones that may be running
-        GameTimer.singleton.StopTimer();
         singleton.initLobbyEvents();
         GameTimer.singleton.setRoundTitle("Waiting for new players");
         GameTimer.singleton.StartTimer(lobbyTime);
@@ -304,15 +309,13 @@ public class GameManager : NetworkBehaviour {
         _player.transform.name = playerID;
 		//Potentially hook up the player to the voice proxy here
 
-		//_player.SendPlayerToLobby();
-
 		GameManager.singleton.CmdStartRound();
     }
 
     public static void UnRegisterPlayer(string playerID)
     {
         var p = playerDictionary[playerID];
-        if (p.isInfected)
+        if (p.GetInfected())
         {
             GameManager.singleton.infectedPlayers.Remove(p);
         }
