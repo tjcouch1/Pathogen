@@ -50,6 +50,7 @@ public class GameTimer : NetworkBehaviour {
             Debug.LogError("Cannot start timer - Timer is already running!");
             return;
         }
+        timerIsRunning = true;
         roundTime = _roundTime;
         Debug.LogWarning("Timer was started");
         StartCoroutine(roundTimer());
@@ -81,7 +82,7 @@ public class GameTimer : NetworkBehaviour {
     [Server]
     IEnumerator roundTimer()
     {
-        while (true)
+        while (timerIsRunning)
         {
             timerIsRunning = true;
             foreach (timerEvent timerEvent in events)
