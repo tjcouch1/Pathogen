@@ -34,20 +34,6 @@ public class PlayerController : MonoBehaviour {
             motor.Jump(jumpForce);
         }
 
-        //Right mouse button down = aim weapon
-        if (Input.GetMouseButtonDown(1))
-        {
-            motor.GunOut = true;
-            weaponManger.EquipWeapon();
-        }
-
-        //Right mouse button up = holster weapon
-        if (Input.GetMouseButtonUp(1))
-        {
-            motor.GunOut = false;
-            weaponManger.DequipWeapon();
-        }
-
         Vector3 movHorizontal = transform.right * X_mov;
         Vector3 movVertical = transform.forward * Z_mov;
 

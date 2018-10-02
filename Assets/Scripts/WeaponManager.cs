@@ -6,13 +6,12 @@ using System.Collections.Generic;
 public class WeaponManager : NetworkBehaviour {
 
     [SerializeField] private const string remoteLayerName = "RemotePlayer";
-    [SerializeField] private List<PlayerWeapon> weapons;
+    [SerializeField] private List<PlayerWeapon> defaultWeapons;
     [SerializeField] private Transform weaponHolder;
 
-    private PlayerWeapon currentWeapon;
-    private WeaponGraphics currentGraphics;
-    private GameObject weaponInstance;
-    private List<PlayerWeapon> defaultWeapons;
+    //Maps each weapon to its instance
+    private List<KeyValuePair<PlayerWeapon, GameObject>> weapons;
+
     private int selectedWeaponIndex = 0;
     public bool isReloading = false;
     public bool isEquipped = false;
@@ -20,64 +19,55 @@ public class WeaponManager : NetworkBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        defaultWeapons = weapons;
-        currentWeapon = weapons[selectedWeaponIndex];
-        weaponInstance = Instantiate(currentWeapon.weaponGFX, weaponHolder.position, weaponHolder.rotation);
-        weaponInstance.transform.SetParent(weaponHolder);
-        currentGraphics = weaponInstance.GetComponent<WeaponGraphics>();
-        if (!isLocalPlayer)
+        weapons = new List<KeyValuePair<PlayerWeapon, GameObject>>();
+        foreach (PlayerWeapon w in defaultWeapons)
         {
-            Util.SetLayerRecursively(weaponInstance, LayerMask.NameToLayer(remoteLayerName));
+            var instance = SpawnWeapon(w);
+            weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(w, instance));
+        }
+    }
+
+    private GameObject SpawnWeapon(PlayerWeapon w)
+    {
+        if (w.weaponGFX != null)
+        {
+            var w_instance = Instantiate(w.weaponGFX, weaponHolder.position, weaponHolder.rotation);
+            w_instance.transform.SetParent(weaponHolder);
+            if (!isLocalPlayer)
+            {
+                Util.SetLayerRecursively(w_instance, LayerMask.NameToLayer(remoteLayerName));
+            }
+            NetworkServer.Spawn(w_instance);
+            return w_instance;
+        }
+        else
+        {
+            Debug.Log("Weapon " + w.weaponName + " has no graphics");
+            return null;
         }
     }
 	
     public void PickupWeapon(PlayerWeapon weapon)
     {
-        weapons.Add(weapon);
-    }
-
-    public void ResetWeaponsToDefaults()
-    {
-        weapons = defaultWeapons;
-    }
-
-    public void EquipWeapon()
-    {
-        weaponInstance.SetActive(true);
-        isEquipped = true;
-
-    }
-
-    public void DequipWeapon() {
-        weaponInstance.SetActive(false);
-        isEquipped = false;
+        weapons.Add(weapon, SpawnWeapon(weapon));
     }
 
     private void SwitchWeapon()
     {
-        Destroy(weaponInstance);
-        currentWeapon = weapons[selectedWeaponIndex];
-        weaponInstance = Instantiate(currentWeapon.weaponGFX, weaponHolder.position, weaponHolder.rotation);
-        weaponInstance.transform.SetParent(weaponHolder);
-        currentGraphics = weaponInstance.GetComponent<WeaponGraphics>();
-        if (!isLocalPlayer)
-        {
-            Util.SetLayerRecursively(weaponInstance, LayerMask.NameToLayer(remoteLayerName));
-        }
-        Debug.Log("Selected Weapon is: " + currentWeapon.weaponName + " at index " + selectedWeaponIndex);
+        
     }
 
     public void selectNextWeapon()
     {
-        if (selectedWeaponIndex + 1 >= weapons.Capacity)
+        try
         {
-            selectedWeaponIndex = 0;
-        }
-        else
+
+
+
+        }catch(KeyNotFoundException k)
         {
-            selectedWeaponIndex++;
+
         }
-        SwitchWeapon();
     }
 
     public void selectPrevWeapon()
