@@ -63,9 +63,10 @@ public class GameTimer : NetworkBehaviour {
         {
             return;
         }
-        StopCoroutine(roundTimer());
         Debug.LogWarning("Timer was stopped");
         timerIsRunning = false;
+        //StopCoroutine(roundTimer());
+        StopAllCoroutines();
     }
 
     public void addTimerEvent(timerEvent newEvent)
