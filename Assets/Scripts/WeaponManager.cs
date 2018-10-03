@@ -24,7 +24,10 @@ public class WeaponManager : NetworkBehaviour {
         {
             var instance = SpawnWeapon(w);
             weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(w, instance));
+            if(instance != null)
+                instance.SetActive(false);
         }
+        weapons[selectedWeaponIndex].Value.SetActive(true);
     }
 
     private GameObject SpawnWeapon(PlayerWeapon w)
@@ -49,29 +52,38 @@ public class WeaponManager : NetworkBehaviour {
 	
     public void PickupWeapon(PlayerWeapon weapon)
     {
-        weapons.Add(weapon, SpawnWeapon(weapon));
+        weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(weapon, SpawnWeapon(weapon)));
     }
 
-    private void SwitchWeapon()
+    public void RemoveWeapon(PlayerWeapon weapon)
     {
-        
+        foreach(KeyValuePair<PlayerWeapon, GameObject> pair in weapons)
+        {
+            if(pair.Key == weapon)
+            {
+                weapons.Remove(pair);
+            }
+        }
     }
 
     public void selectNextWeapon()
     {
-        try
+        var prev = selectedWeaponIndex;
+        if (selectedWeaponIndex + 1 >= weapons.Capacity)
         {
-
-
-
-        }catch(KeyNotFoundException k)
-        {
-
+            selectedWeaponIndex = 0;
         }
+        else
+        {
+            selectedWeaponIndex++;
+        }
+        weapons[prev].Value.SetActive(false);
+        weapons[selectedWeaponIndex].Value.SetActive(true);
     }
 
     public void selectPrevWeapon()
     {
+        var prev = selectedWeaponIndex;
         if (selectedWeaponIndex - 1 < 0)
         {
             selectedWeaponIndex = weapons.Capacity - 1;
@@ -80,23 +92,35 @@ public class WeaponManager : NetworkBehaviour {
         {
             selectedWeaponIndex--;
         }
-        SwitchWeapon();
+        weapons[prev].Value.SetActive(false);
+        weapons[selectedWeaponIndex].Value.SetActive(true);
     }
 
     public PlayerWeapon getCurrentWeapon()
     {
-        return currentWeapon;
+        return weapons[selectedWeaponIndex].Key;
     }
 
     public WeaponGraphics getCurrentWeaponGraphics()
     {
-        return currentGraphics;
+        var weaponGFX = weapons[selectedWeaponIndex].Value.GetComponent<WeaponGraphics>();
+        if(weaponGFX != null)
+        {
+            return weaponGFX;
+        }
+        else
+        {
+            Debug.Log("Weapon " + weapons[selectedWeaponIndex].Key.weaponName + " has no graphics");
+            return null;
+        }
     }
 
     public void reload()
     {
         if (isReloading)
             return;
+
+        var currentWeapon = weapons[selectedWeaponIndex].Key;
 
         if(currentWeapon.bullets == currentWeapon.clipSize)
         {
@@ -106,10 +130,10 @@ public class WeaponManager : NetworkBehaviour {
 
         isReloading = true;
 
-        StartCoroutine(reloadCoroutine());
+        StartCoroutine(reloadCoroutine(currentWeapon));
     }
 
-    private IEnumerator reloadCoroutine()
+    private IEnumerator reloadCoroutine(PlayerWeapon currentWeapon)
     {
         if (currentWeapon.clips > 0)
         {
@@ -135,10 +159,22 @@ public class WeaponManager : NetworkBehaviour {
     [ClientRpc]
     void RpcOnReload()
     {
+        var currentGraphics = weapons[selectedWeaponIndex].Value;
         if(currentGraphics != null)
         {
-            Animator anim = currentGraphics.GetComponent<Animator>();
-            anim.SetTrigger("Reload");
+            try
+            {
+                Animator anim = currentGraphics.GetComponent<Animator>();
+                anim.SetTrigger("Reload");
+            }
+            catch (MissingReferenceException e)
+            {
+                Debug.Log("The weapon instance of " + currentGraphics.name + " does not have an animator component attached");
+            }
+        }
+        else
+        {
+            Debug.Log("Weapon " + weapons[selectedWeaponIndex].Key.weaponName + " has no graphics");
         }
     }
 }

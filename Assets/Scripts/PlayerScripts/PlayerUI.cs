@@ -46,14 +46,24 @@ public class PlayerUI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        SetHealthAmount(player.getHealth());
-        if (weaponManager.getCurrentWeapon().weaponName != "Infect")
+        //Proabably a better way of doing this, but this is the list of overrides for weapons/tools that don't have bullets
+        switch (weaponManager.getCurrentWeapon().weaponName)
         {
-            SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
+            case "Infect":
+                ammoText.text = "Infect";
+                break;
+            case "Knife":
+                ammoText.text = "Knife";
+                break;
+            case "Holster":
+                ammoText.text = "Holstered";
+                break;
+            default:
+                SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
+                break;
         }
-        else{
-            ammoText.text = "Infect";
-        }
+
+        SetHealthAmount(player.getHealth());
         weaponImage.sprite = weaponManager.getCurrentWeapon().weaponIcon;
         SetInfected(player.GetInfected());
         UpdateTimer();
