@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 23325358915775332}
   - component: {fileID: 114690747203250064}
   - component: {fileID: 95023708286597958}
+  - component: {fileID: 114542180966206484}
   m_Layer: 11
   m_Name: Infect
   m_TagString: Untagged
@@ -165,6 +166,38 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114542180966206484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1672061850738770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 219
+    i1: 164
+    i2: 150
+    i3: 218
+    i4: 84
+    i5: 114
+    i6: 138
+    i7: 148
+    i8: 40
+    i9: 224
+    i10: 224
+    i11: 115
+    i12: 147
+    i13: 213
+    i14: 73
+    i15: 223
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114690747203250064
 MonoBehaviour:
   m_ObjectHideFlags: 1

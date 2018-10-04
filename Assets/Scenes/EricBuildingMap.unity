@@ -281,6 +281,16 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: m_Channels.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4389650705719794, guid: eeb211708e19b474488157e2938f3447, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -312,6 +322,44 @@ Prefab:
     - target: {fileID: 4389650705719794, guid: eeb211708e19b474488157e2938f3447, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: matchSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1672061850738770, guid: dba496da54728a9428e0e07393d549df,
+        type: 2}
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1060565668771620, guid: 367537fbdbcff81499c8564e0ba11c3d,
+        type: 2}
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 1250855496221732, guid: 655637af834c04b4eb4a1d0615a0b014,
+        type: 2}
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: m_Channels.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: m_CustomConfig
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
+        type: 2}
+      propertyPath: m_UseSimulator
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eeb211708e19b474488157e2938f3447, type: 2}

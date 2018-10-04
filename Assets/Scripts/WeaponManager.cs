@@ -14,17 +14,28 @@ public class WeaponManager : NetworkBehaviour {
 
     private int selectedWeaponIndex = 0;
     public bool isReloading = false;
-    public bool isEquipped = false;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         weapons = new List<KeyValuePair<PlayerWeapon, GameObject>>();
+        CmdSetupWeapons();
+    }
+
+    [Command]
+    private void CmdSetupWeapons()
+    {
+        RpcSetupWeapons();
+    }
+
+    [ClientRpc]
+    private void RpcSetupWeapons()
+    {
         foreach (PlayerWeapon w in defaultWeapons)
         {
             var instance = SpawnWeapon(w);
             weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(w, instance));
-            if(instance != null)
+            if (instance != null)
                 instance.SetActive(false);
         }
         weapons[selectedWeaponIndex].Value.SetActive(true);
@@ -40,7 +51,7 @@ public class WeaponManager : NetworkBehaviour {
             {
                 Util.SetLayerRecursively(w_instance, LayerMask.NameToLayer(remoteLayerName));
             }
-            NetworkServer.Spawn(w_instance);
+            //NetworkServer.Spawn(w_instance);
             return w_instance;
         }
         else
@@ -69,7 +80,7 @@ public class WeaponManager : NetworkBehaviour {
     public void selectNextWeapon()
     {
         var prev = selectedWeaponIndex;
-        if (selectedWeaponIndex + 1 >= weapons.Capacity)
+        if (selectedWeaponIndex + 1 >= weapons.Count)
         {
             selectedWeaponIndex = 0;
         }
@@ -77,8 +88,8 @@ public class WeaponManager : NetworkBehaviour {
         {
             selectedWeaponIndex++;
         }
-        weapons[prev].Value.SetActive(false);
-        weapons[selectedWeaponIndex].Value.SetActive(true);
+        //if(isLocalPlayer)
+            CmdSwitchWeapon(prev);
     }
 
     public void selectPrevWeapon()
@@ -86,14 +97,30 @@ public class WeaponManager : NetworkBehaviour {
         var prev = selectedWeaponIndex;
         if (selectedWeaponIndex - 1 < 0)
         {
-            selectedWeaponIndex = weapons.Capacity - 1;
+            selectedWeaponIndex = weapons.Count-1;
         }
         else
         {
             selectedWeaponIndex--;
         }
-        weapons[prev].Value.SetActive(false);
-        weapons[selectedWeaponIndex].Value.SetActive(true);
+        //if(isLocalPlayer)
+            CmdSwitchWeapon(prev);
+    }
+
+    [Command]
+    private void CmdSwitchWeapon(int prevIndex)
+    {
+        RpcSwitchWeapon(prevIndex);
+    }
+
+    //Call the weapon switch on all clients so they can see
+    [ClientRpc]
+    private void RpcSwitchWeapon(int prev)
+    {
+        if (weapons[prev].Value != null)
+            weapons[prev].Value.SetActive(false);
+        if (weapons[selectedWeaponIndex].Value != null)
+            weapons[selectedWeaponIndex].Value.SetActive(true);
     }
 
     public PlayerWeapon getCurrentWeapon()
