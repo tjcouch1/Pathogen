@@ -81,10 +81,13 @@ public class PlayerShoot : NetworkBehaviour {
     [ClientRpc]
     void RpcDoHitEffect(Vector3 pos, Vector3 normal)
     {
-        GameObject hitEffect = Instantiate(weaponManager.getCurrentWeaponGraphics().hitEffectPrefab, pos, Quaternion.LookRotation(normal));
-        
-        //Destroy the effect after it has played to clean up memory
-        Destroy(hitEffect, 1f);
+        if(weaponManager.getCurrentWeaponGraphics() != null)
+        {
+            GameObject hitEffect = Instantiate(weaponManager.getCurrentWeaponGraphics().hitEffectPrefab, pos, Quaternion.LookRotation(normal));
+
+            //Destroy the effect after it has played to clean up memory
+            Destroy(hitEffect, 1f);
+        }   
     }
 
     //Called on the server when the player shoots
@@ -98,7 +101,10 @@ public class PlayerShoot : NetworkBehaviour {
     [ClientRpc]
     void RpcDoMuzzleFlash()
     {
-        weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
+        if (weaponManager.getCurrentWeaponGraphics() != null)
+        {
+            weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
+        }
     }
 
     [Client]

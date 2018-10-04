@@ -6,13 +6,12 @@ using System.Collections.Generic;
 public class WeaponManager : NetworkBehaviour {
 
     [SerializeField] private const string remoteLayerName = "RemotePlayer";
-    [SerializeField] private List<PlayerWeapon> weapons;
+    [SerializeField] private List<PlayerWeapon> defaultWeapons;
     [SerializeField] private Transform weaponHolder;
 
-    private PlayerWeapon currentWeapon;
-    private WeaponGraphics currentGraphics;
-    private GameObject weaponInstance;
-    private List<PlayerWeapon> defaultWeapons;
+    //Maps each weapon to its instance
+    private List<KeyValuePair<PlayerWeapon, GameObject>> weapons;
+
     private int selectedWeaponIndex = 0;
     public bool isReloading = false;
     public bool isEquipped = false;
@@ -20,55 +19,56 @@ public class WeaponManager : NetworkBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        defaultWeapons = weapons;
-        currentWeapon = weapons[selectedWeaponIndex];
-        weaponInstance = Instantiate(currentWeapon.weaponGFX, weaponHolder.position, weaponHolder.rotation);
-        weaponInstance.transform.SetParent(weaponHolder);
-        currentGraphics = weaponInstance.GetComponent<WeaponGraphics>();
-        if (!isLocalPlayer)
+        weapons = new List<KeyValuePair<PlayerWeapon, GameObject>>();
+        foreach (PlayerWeapon w in defaultWeapons)
         {
-            Util.SetLayerRecursively(weaponInstance, LayerMask.NameToLayer(remoteLayerName));
+            var instance = SpawnWeapon(w);
+            weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(w, instance));
+            if(instance != null)
+                instance.SetActive(false);
+        }
+        weapons[selectedWeaponIndex].Value.SetActive(true);
+    }
+
+    private GameObject SpawnWeapon(PlayerWeapon w)
+    {
+        if (w.weaponGFX != null)
+        {
+            var w_instance = Instantiate(w.weaponGFX, weaponHolder.position, weaponHolder.rotation);
+            w_instance.transform.SetParent(weaponHolder);
+            if (!isLocalPlayer)
+            {
+                Util.SetLayerRecursively(w_instance, LayerMask.NameToLayer(remoteLayerName));
+            }
+            NetworkServer.Spawn(w_instance);
+            return w_instance;
+        }
+        else
+        {
+            Debug.Log("Weapon " + w.weaponName + " has no graphics");
+            return null;
         }
     }
 	
     public void PickupWeapon(PlayerWeapon weapon)
     {
-        weapons.Add(weapon);
+        weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(weapon, SpawnWeapon(weapon)));
     }
 
-    public void ResetWeaponsToDefaults()
+    public void RemoveWeapon(PlayerWeapon weapon)
     {
-        weapons = defaultWeapons;
-    }
-
-    public void EquipWeapon()
-    {
-        weaponInstance.SetActive(true);
-        isEquipped = true;
-
-    }
-
-    public void DequipWeapon() {
-        weaponInstance.SetActive(false);
-        isEquipped = false;
-    }
-
-    private void SwitchWeapon()
-    {
-        Destroy(weaponInstance);
-        currentWeapon = weapons[selectedWeaponIndex];
-        weaponInstance = Instantiate(currentWeapon.weaponGFX, weaponHolder.position, weaponHolder.rotation);
-        weaponInstance.transform.SetParent(weaponHolder);
-        currentGraphics = weaponInstance.GetComponent<WeaponGraphics>();
-        if (!isLocalPlayer)
+        foreach(KeyValuePair<PlayerWeapon, GameObject> pair in weapons)
         {
-            Util.SetLayerRecursively(weaponInstance, LayerMask.NameToLayer(remoteLayerName));
+            if(pair.Key == weapon)
+            {
+                weapons.Remove(pair);
+            }
         }
-        Debug.Log("Selected Weapon is: " + currentWeapon.weaponName + " at index " + selectedWeaponIndex);
     }
 
     public void selectNextWeapon()
     {
+        var prev = selectedWeaponIndex;
         if (selectedWeaponIndex + 1 >= weapons.Capacity)
         {
             selectedWeaponIndex = 0;
@@ -77,11 +77,13 @@ public class WeaponManager : NetworkBehaviour {
         {
             selectedWeaponIndex++;
         }
-        SwitchWeapon();
+        weapons[prev].Value.SetActive(false);
+        weapons[selectedWeaponIndex].Value.SetActive(true);
     }
 
     public void selectPrevWeapon()
     {
+        var prev = selectedWeaponIndex;
         if (selectedWeaponIndex - 1 < 0)
         {
             selectedWeaponIndex = weapons.Capacity - 1;
@@ -90,23 +92,35 @@ public class WeaponManager : NetworkBehaviour {
         {
             selectedWeaponIndex--;
         }
-        SwitchWeapon();
+        weapons[prev].Value.SetActive(false);
+        weapons[selectedWeaponIndex].Value.SetActive(true);
     }
 
     public PlayerWeapon getCurrentWeapon()
     {
-        return currentWeapon;
+        return weapons[selectedWeaponIndex].Key;
     }
 
     public WeaponGraphics getCurrentWeaponGraphics()
     {
-        return currentGraphics;
+        var weaponGFX = weapons[selectedWeaponIndex].Value.GetComponent<WeaponGraphics>();
+        if(weaponGFX != null)
+        {
+            return weaponGFX;
+        }
+        else
+        {
+            Debug.Log("Weapon " + weapons[selectedWeaponIndex].Key.weaponName + " has no graphics");
+            return null;
+        }
     }
 
     public void reload()
     {
         if (isReloading)
             return;
+
+        var currentWeapon = weapons[selectedWeaponIndex].Key;
 
         if(currentWeapon.bullets == currentWeapon.clipSize)
         {
@@ -116,10 +130,10 @@ public class WeaponManager : NetworkBehaviour {
 
         isReloading = true;
 
-        StartCoroutine(reloadCoroutine());
+        StartCoroutine(reloadCoroutine(currentWeapon));
     }
 
-    private IEnumerator reloadCoroutine()
+    private IEnumerator reloadCoroutine(PlayerWeapon currentWeapon)
     {
         if (currentWeapon.clips > 0)
         {
@@ -145,10 +159,22 @@ public class WeaponManager : NetworkBehaviour {
     [ClientRpc]
     void RpcOnReload()
     {
+        var currentGraphics = weapons[selectedWeaponIndex].Value;
         if(currentGraphics != null)
         {
-            Animator anim = currentGraphics.GetComponent<Animator>();
-            anim.SetTrigger("Reload");
+            try
+            {
+                Animator anim = currentGraphics.GetComponent<Animator>();
+                anim.SetTrigger("Reload");
+            }
+            catch (MissingReferenceException e)
+            {
+                Debug.Log("The weapon instance of " + currentGraphics.name + " does not have an animator component attached");
+            }
+        }
+        else
+        {
+            Debug.Log("Weapon " + weapons[selectedWeaponIndex].Key.weaponName + " has no graphics");
         }
     }
 }

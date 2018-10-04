@@ -127,12 +127,14 @@ public class GameManager : NetworkBehaviour {
 
     IEnumerator checkWinCondition()
     {
+        Debug.LogWarning("Starting Check for win condition");
         while(inCurrentRound)
         {
             //Debug.Log("Checking for win condition");
             if (checkForWin())
             {
                 EndRound();
+                yield break;
             }
             yield return new WaitForSeconds(1);
         }

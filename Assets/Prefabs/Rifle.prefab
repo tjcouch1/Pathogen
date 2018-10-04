@@ -470,6 +470,7 @@ GameObject:
   - component: {fileID: 4598124687250998}
   - component: {fileID: 114562424699858446}
   - component: {fileID: 95730020528476228}
+  - component: {fileID: 114087162536141536}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Untagged
@@ -6324,6 +6325,38 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114087162536141536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1250855496221732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 101
+    i1: 86
+    i2: 55
+    i3: 175
+    i4: 131
+    i5: 76
+    i6: 4
+    i7: 180
+    i8: 235
+    i9: 74
+    i10: 29
+    i11: 6
+    i12: 21
+    i13: 160
+    i14: 176
+    i15: 20
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114562424699858446
 MonoBehaviour:
   m_ObjectHideFlags: 1

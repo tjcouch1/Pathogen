@@ -39,7 +39,7 @@ public class InfectionTool : NetworkBehaviour {
     {
         if(weaponManager != null)
         {
-            weaponManager.ResetWeaponsToDefaults();
+            weaponManager.RemoveWeapon(infectionTool);
         }
     }
 
