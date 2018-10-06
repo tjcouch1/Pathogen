@@ -35,7 +35,6 @@ namespace VoiceChat.Networking
 
             if (isClient && (!isLocalPlayer || VoiceChatSettings.Instance.LocalDebug))
             {
-                //set up 3d sound settings in VoiceChatPlayer
                 gameObject.AddComponent<AudioSource>();
                 player = gameObject.AddComponent<VoiceChatPlayer>();
 				Debug.Log("Created voice chat player");
@@ -117,16 +116,20 @@ namespace VoiceChat.Networking
         {
             VoiceChatPacketMessage data = netMsg.ReadMessage<VoiceChatPacketMessage>();
 
+            //send the packets to the proper players
             foreach (NetworkConnection connection in NetworkServer.connections)
             {
+                //skip if the connection is null, the connection has no players, or the associated player is the same as the player that sent the packet
                 if (connection == null || connection.playerControllers.Count <= 0 || connection.playerControllers[0].gameObject.GetComponent<NetworkIdentity>().netId.Value == data.netId)
                     continue;
 
                 connection.SendUnreliable(VoiceChatMsgType.Packet, data);
             }
 
+            //send the packets to the proper local players
             foreach (NetworkConnection connection in NetworkServer.localConnections)
             {
+                //skip if the connection is null or, has no players, or the associated player is the same as the player that sent the packet
                 if (connection == null || connection.playerControllers.Count <= 0 || connection.playerControllers[0].gameObject.GetComponent<NetworkIdentity>().netId.Value == data.netId)
                     continue;
 

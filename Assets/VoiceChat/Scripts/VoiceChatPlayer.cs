@@ -18,6 +18,8 @@ namespace VoiceChat
         float playDelay = 0;
         bool _shouldPlay = false;
 
+        private float audioLiveDistance = 15;
+
         public bool ShouldPlay
         {
             get { return _shouldPlay; }
@@ -46,9 +48,10 @@ namespace VoiceChat
             int size = VoiceChatSettings.Instance.Frequency * 10;
 
             GetComponent<AudioSource>().loop = true;
-            GetComponent<AudioSource>().maxDistance = 15;
-            GetComponent<AudioSource>().spatialBlend = 1;
+            GetComponent<AudioSource>().maxDistance = audioLiveDistance;
+            setAlive(GameManager.singleton.inCurrentRound && GetComponent<Player>().isAlive);
             GetComponent<AudioSource>().clip = AudioClip.Create("VoiceChat", size, 1, VoiceChatSettings.Instance.Frequency, false);
+			
             data = new float[size];
 
             if (VoiceChatSettings.Instance.LocalDebug)
@@ -95,6 +98,14 @@ namespace VoiceChat
             }
         }
 
+        public void setAlive(bool alive)
+        {
+            if (alive)
+                GetComponent<AudioSource>().spatialBlend = 1;
+            else GetComponent<AudioSource>().spatialBlend = 0;
+            Debug.Log("Player spatialBlend set to " + GetComponent<AudioSource>().spatialBlend);
+        }
+
         void Stop()
         {
             GetComponent<AudioSource>().Stop();
@@ -108,10 +119,17 @@ namespace VoiceChat
         public void OnNewSample(VoiceChatPacket newPacket)
         {
             // Set last time we got something
-            // Set last time we got something
             lastRecvTime = Time.time;
-            // Add this new line;
-            if ( packetsToPlay.ContainsKey( newPacket.PacketId ) ) return;
+
+            // If the packet has already been added, don't add it
+            if (packetsToPlay.ContainsKey(newPacket.PacketId))
+                return;
+
+            //don't record if speaking player is dead and local player is alive and the round is not over
+            Player speakingPlayer = GetComponent<Player>();
+            Player localPlayer = GameManager.getLocalPlayer();
+            if (!speakingPlayer.isAlive && localPlayer.isAlive && GameManager.singleton.inCurrentRound)
+                return;
  
             packetsToPlay.Add(newPacket.PacketId, newPacket);
  

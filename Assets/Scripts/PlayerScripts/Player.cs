@@ -113,6 +113,10 @@ public class Player : NetworkBehaviour {
 
         deathCount++;
 
+		//set dead player's voice chat to dead
+		if (!isLocalPlayer)
+			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(false);
+
         CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");
 
@@ -213,8 +217,11 @@ public class Player : NetworkBehaviour {
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-        }
-        Debug.Log(transform.name + " has respawned.");
+		}
+		else//set the voice chat player's falloff back to live falloff
+			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(true);
+
+		Debug.Log(transform.name + " has respawned.");
     }
 
     public float getHealth()
