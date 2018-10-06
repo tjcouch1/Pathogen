@@ -92,9 +92,16 @@ public class Player : NetworkBehaviour {
 	{
 		base.OnStartLocalPlayer();
 		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
-    }
+		GetComponentInChildren<AudioListener>().enabled = true;
+	}
 
-    private void Die(string killerID)
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		GetComponentInChildren<AudioListener>().enabled = false;
+	}
+
+	private void Die(string killerID)
     {
         isAlive = false;
 
