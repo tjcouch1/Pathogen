@@ -56,7 +56,7 @@ public class PlayerUI : MonoBehaviour {
                 ammoText.text = "Knife";
                 break;
             case "Holster":
-                ammoText.text = "Holstered";
+                ammoText.text = "Holster";
                 break;
             default:
                 SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);

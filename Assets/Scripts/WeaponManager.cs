@@ -40,7 +40,7 @@ public class WeaponManager : NetworkBehaviour {
             {
                 Util.SetLayerRecursively(w_instance, LayerMask.NameToLayer(remoteLayerName));
             }
-            NetworkServer.Spawn(w_instance);
+            NetworkServer.SpawnWithClientAuthority(w_instance, gameObject);
             return w_instance;
         }
         else
@@ -61,6 +61,8 @@ public class WeaponManager : NetworkBehaviour {
         {
             if(pair.Key == weapon)
             {
+                Destroy(pair.Value);
+                NetworkServer.Destroy(pair.Value);
                 weapons.Remove(pair);
             }
         }
@@ -68,32 +70,47 @@ public class WeaponManager : NetworkBehaviour {
 
     public void selectNextWeapon()
     {
-        var prev = selectedWeaponIndex;
-        if (selectedWeaponIndex + 1 >= weapons.Capacity)
+        if (selectedWeaponIndex + 1 >= weapons.Count)
         {
-            selectedWeaponIndex = 0;
+            CmdRequestWeaponSwitch(0);
         }
         else
         {
-            selectedWeaponIndex++;
+            CmdRequestWeaponSwitch(selectedWeaponIndex + 1);
         }
-        weapons[prev].Value.SetActive(false);
-        weapons[selectedWeaponIndex].Value.SetActive(true);
     }
 
     public void selectPrevWeapon()
     {
-        var prev = selectedWeaponIndex;
         if (selectedWeaponIndex - 1 < 0)
         {
-            selectedWeaponIndex = weapons.Capacity - 1;
+            CmdRequestWeaponSwitch(weapons.Count - 1);
         }
         else
         {
-            selectedWeaponIndex--;
+            CmdRequestWeaponSwitch(selectedWeaponIndex-1);
+        }        
+    }
+
+    [Command]
+    public void CmdRequestWeaponSwitch(int newWeaponIndex)
+    {
+        RpcSwitchWeapon(newWeaponIndex);
+    } 
+
+    [ClientRpc]
+    public void RpcSwitchWeapon(int requestedIndex)
+    {
+        if (weapons[selectedWeaponIndex].Value != null)
+            weapons[selectedWeaponIndex].Value.SetActive(false);
+        if (weapons[requestedIndex].Value != null)
+            weapons[requestedIndex].Value.SetActive(true);
+
+        if (isLocalPlayer)
+        {
+            selectedWeaponIndex = requestedIndex;
+
         }
-        weapons[prev].Value.SetActive(false);
-        weapons[selectedWeaponIndex].Value.SetActive(true);
     }
 
     public PlayerWeapon getCurrentWeapon()

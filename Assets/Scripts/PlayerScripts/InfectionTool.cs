@@ -46,7 +46,7 @@ public class InfectionTool : NetworkBehaviour {
     [Client]
     private void Infect()
     {
-        if (!isLocalPlayer || !weaponManager.isEquipped)
+        if (!isLocalPlayer)
         {
             return;
         }
