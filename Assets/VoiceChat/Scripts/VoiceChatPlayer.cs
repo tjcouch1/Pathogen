@@ -49,8 +49,9 @@ namespace VoiceChat
 
             GetComponent<AudioSource>().loop = true;
             GetComponent<AudioSource>().maxDistance = audioLiveDistance;
-            setAlive(true);
+            setAlive(GameManager.singleton.inCurrentRound && GetComponent<Player>().isAlive);
             GetComponent<AudioSource>().clip = AudioClip.Create("VoiceChat", size, 1, VoiceChatSettings.Instance.Frequency, false);
+			
             data = new float[size];
 
             if (VoiceChatSettings.Instance.LocalDebug)
@@ -124,10 +125,10 @@ namespace VoiceChat
             if (packetsToPlay.ContainsKey(newPacket.PacketId))
                 return;
 
-            //don't record if both players exist, speaking player is dead and local player is alive
-            Player speakingPlayer = GameManager.getPlayerWithNetID(newPacket.NetworkId);
+            //don't record if speaking player is dead and local player is alive and the round is not over
+            Player speakingPlayer = GetComponent<Player>();
             Player localPlayer = GameManager.getLocalPlayer();
-            if (speakingPlayer != null && localPlayer != null && speakingPlayer.isAlive && localPlayer.isAlive)
+            if (!speakingPlayer.isAlive && localPlayer.isAlive && GameManager.singleton.inCurrentRound)
                 return;
  
             packetsToPlay.Add(newPacket.PacketId, newPacket);

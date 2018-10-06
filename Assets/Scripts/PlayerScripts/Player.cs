@@ -92,17 +92,6 @@ public class Player : NetworkBehaviour {
 	{
 		base.OnStartLocalPlayer();
 		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
-
-        //set the voice chat player's falloff back to live falloff
-        foreach (Player p in GameManager.getAllPlayers())
-        {
-            if (p.isLocalPlayer)
-                continue;
-            VoiceChat.VoiceChatPlayer vc = p.GetComponent<VoiceChat.VoiceChatPlayer>();
-            if (vc != null)
-                vc.setAlive(GameManager.singleton.inCurrentRound && isAlive);
-            else Debug.LogWarning("VoiceChatPlayer is null!");
-        }
     }
 
     private void Die(string killerID)
@@ -124,16 +113,9 @@ public class Player : NetworkBehaviour {
 
         deathCount++;
 
-        //set the voice chat player's falloff back to live falloff
-        foreach (Player p in GameManager.getAllPlayers())
-        {
-            if (p.isLocalPlayer)
-                continue;
-            VoiceChat.VoiceChatPlayer vc = p.GetComponent<VoiceChat.VoiceChatPlayer>();
-            if (vc != null)
-                vc.setAlive(false);
-            else Debug.LogWarning("VoiceChatPlayer is null!");
-        }
+		//set dead player's voice chat to dead
+		if (!isLocalPlayer)
+			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(false);
 
         CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");
@@ -235,20 +217,11 @@ public class Player : NetworkBehaviour {
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+		}
+		else//set the voice chat player's falloff back to live falloff
+			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(true);
 
-            //set the voice chat player's falloff back to live falloff
-            foreach (Player p in GameManager.getAllPlayers())
-            {
-                if (p.isLocalPlayer)
-                    continue;
-                VoiceChat.VoiceChatPlayer vc = p.GetComponent<VoiceChat.VoiceChatPlayer>();
-                if (vc != null)
-                    vc.setAlive(true);
-                else Debug.LogWarning("VoiceChatPlayer is null!");
-            }
-        }
-
-        Debug.Log(transform.name + " has respawned.");
+		Debug.Log(transform.name + " has respawned.");
     }
 
     public float getHealth()
