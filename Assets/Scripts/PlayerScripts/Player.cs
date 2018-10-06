@@ -12,7 +12,7 @@ public class Player : NetworkBehaviour {
     [SyncVar]
     private bool isInfected = false;     //Bool for storing what team Player is on. Default is human
 
-    [SerializeField] public Behaviour infectionTool;
+    [SerializeField] public InfectionTool infectionTool;
 
     //Getter/Setter for isAlive
     public bool isAlive
@@ -65,18 +65,17 @@ public class Player : NetworkBehaviour {
         if (value)
         {
             isInfected = true;
-            infectionTool.enabled = true;
+            infectionTool.Setup();
             GameManager.singleton.RegisterNewInfected(this);
         }
         else
         {
             isInfected = false;
-            infectionTool.enabled = false;
-            
+            infectionTool.Disable();         
         }
     }
 
-    public bool GetInfected()
+    public bool GetInfectedState()
     {
         if (isInfected)
         {

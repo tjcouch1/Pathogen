@@ -63,12 +63,12 @@ public class GameManager : NetworkBehaviour {
         Player p = getPlayer(player);
         if(p != null)
         {
-            if (p.GetInfected())
+            if (p.GetInfectedState())
             {
                 infectedPlayers.Remove(p);
                 p.SetInfected(false);
             }
-            else if (!p.GetInfected())
+            else if (!p.GetInfectedState())
             {
                 healthyPlayers.Remove(p);
             }
@@ -317,7 +317,7 @@ public class GameManager : NetworkBehaviour {
     public static void UnRegisterPlayer(string playerID)
     {
         var p = playerDictionary[playerID];
-        if (p.GetInfected())
+        if (p.GetInfectedState())
         {
             GameManager.singleton.infectedPlayers.Remove(p);
         }

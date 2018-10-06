@@ -14,7 +14,6 @@ public class WeaponManager : NetworkBehaviour {
 
     private int selectedWeaponIndex = 0;
     public bool isReloading = false;
-    public bool isEquipped = false;
 
 	// Use this for initialization
 	void Start ()
@@ -64,6 +63,7 @@ public class WeaponManager : NetworkBehaviour {
                 Destroy(pair.Value);
                 NetworkServer.Destroy(pair.Value);
                 weapons.Remove(pair);
+                break;
             }
         }
     }
@@ -109,7 +109,6 @@ public class WeaponManager : NetworkBehaviour {
         if (isLocalPlayer)
         {
             selectedWeaponIndex = requestedIndex;
-
         }
     }
 

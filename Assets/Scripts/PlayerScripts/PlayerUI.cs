@@ -65,7 +65,7 @@ public class PlayerUI : MonoBehaviour {
 
         SetHealthAmount(player.getHealth());
         weaponImage.sprite = weaponManager.getCurrentWeapon().weaponIcon;
-        SetInfected(player.GetInfected());
+        SetInfected(player.GetInfectedState());
         UpdateTimer();
         UpdateAudioPositionsText();
         UpdatePushToTalkSprite();
