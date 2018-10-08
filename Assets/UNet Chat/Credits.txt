@@ -1,0 +1,11 @@
+UNet Multiplayer Chat is a free asset on the Unity Asset Store.
+https://assetstore.unity.com/packages/tools/network/unet-multiplayer-chat-24108
+
+Modified in various ways to suit the needs of Pathogen.
+
+Probably attach ChatUI to player, link in player name as instructed in ReadMe
+Move to corner of screen somehow, make sure not blocking any clickable elements
+Remove frame around the chat window, lengthen chat length
+Make enter select the chat input bar and disable game inputs
+Can probably set up group 1 alive, group 2 dead
+filter out dead messages for alive players in bl_ChatManager.OnChatMessage

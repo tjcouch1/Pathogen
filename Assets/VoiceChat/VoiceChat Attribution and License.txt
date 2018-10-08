@@ -1,6 +1,8 @@
 VoiceChat from git repository unityassets by alkamegames: https://github.com/alkamegames/unityassets/tree/master/VoiceChat
 Thank you! What a life saver!
 
+VoiceChat has been heavily modified from its original version on that git repository.
+
 LICENSE
 =======
 
