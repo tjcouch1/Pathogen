@@ -92,9 +92,16 @@ public class Player : NetworkBehaviour {
 	{
 		base.OnStartLocalPlayer();
 		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
-    }
+		GetComponentInChildren<AudioListener>().enabled = true;
+	}
 
-    private void Die(string killerID)
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		GetComponentInChildren<AudioListener>().enabled = false;
+	}
+
+	private void Die(string killerID)
     {
         isAlive = false;
 
@@ -112,6 +119,10 @@ public class Player : NetworkBehaviour {
         }
 
         deathCount++;
+
+		//set dead player's voice chat to dead
+		if (!isLocalPlayer)
+			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(false);
 
         CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");
@@ -213,8 +224,11 @@ public class Player : NetworkBehaviour {
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-        }
-        Debug.Log(transform.name + " has respawned.");
+		}
+		else//set the voice chat player's falloff back to live falloff
+			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(true);
+
+		Debug.Log(transform.name + " has respawned.");
     }
 
     public float getHealth()

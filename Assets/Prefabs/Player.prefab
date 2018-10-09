@@ -458,6 +458,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1306508001676522
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4852359537542150}
+  - component: {fileID: 81767803741543740}
+  m_Layer: 8
+  m_Name: FlippedListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1329079240171208
 GameObject:
   m_ObjectHideFlags: 1
@@ -1319,7 +1335,6 @@ GameObject:
   - component: {fileID: 4268578006324048}
   - component: {fileID: 20017678660094722}
   - component: {fileID: 124973421061378686}
-  - component: {fileID: 81570744860500360}
   m_Layer: 8
   m_Name: Camera
   m_TagString: MainCamera
@@ -1657,6 +1672,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4243259855396448}
+  - {fileID: 4852359537542150}
   m_Father: {fileID: 4825180199065764}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2286,6 +2302,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4852359537542150
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1306508001676522}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4268578006324048}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4882592404305050
 Transform:
   m_ObjectHideFlags: 1
@@ -2544,12 +2573,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!81 &81570744860500360
+--- !u!81 &81767803741543740
 AudioListener:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1992960846065634}
+  m_GameObject: {fileID: 1306508001676522}
   m_Enabled: 1
 --- !u!95 &95720482938099428
 Animator:
@@ -2693,7 +2722,7 @@ MonoBehaviour:
   - {fileID: 114585097902952958}
   - {fileID: 114460557211638246}
   - {fileID: 20017678660094722}
-  - {fileID: 81570744860500360}
+  - {fileID: 0}
   - {fileID: 114047413726360128}
   - {fileID: 20931867338741952}
   remoteLayerName: RemotePlayer
@@ -2897,7 +2926,6 @@ MonoBehaviour:
     weaponIcon: {fileID: 21300134, guid: b295b6401049aca4faf1374aad10abde, type: 3}
   weaponHolder: {fileID: 4076115203499606}
   isReloading: 0
-  isEquipped: 0
 --- !u!114 &114741910040539562
 MonoBehaviour:
   m_ObjectHideFlags: 1

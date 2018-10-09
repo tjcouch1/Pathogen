@@ -232,7 +232,11 @@ public class GameManager : NetworkBehaviour {
             foreach(Player p in players)
             {
                 p.SetInfected(false);
-            }
+
+				//set voice chat player to dead (so everyone can hear everyone)
+				if (!p.isLocalPlayer)
+					p.GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(false);
+			}
 
             //Clear out our lists
             healthyPlayers.Clear();
@@ -336,6 +340,35 @@ public class GameManager : NetworkBehaviour {
     public static Player[] getAllPlayers()
     {
         return playerDictionary.Values.ToArray();
+    }
+
+    /// <summary>
+    /// Returns the local player for the current game or null if not found
+    /// </summary>
+    /// <returns></returns>
+    public static Player getLocalPlayer()
+    {
+        foreach (Player p in GameManager.getAllPlayers())
+        {
+            if (p.isLocalPlayer)
+                return p;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Returns the player with the supplied network identity or null if not found
+    /// </summary>
+    /// <param name="netId"></param>
+    /// <returns></returns>
+    public static Player getPlayerWithNetID(int netId)
+    {
+        foreach (Player p in GameManager.getAllPlayers())
+        {
+            if (p.GetComponent<NetworkIdentity>().netId.Value == netId)
+                return p;
+        }
+        return null;
     }
 
     
