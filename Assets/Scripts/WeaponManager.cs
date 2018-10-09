@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class WeaponManager : NetworkBehaviour {
 
@@ -114,7 +115,14 @@ public class WeaponManager : NetworkBehaviour {
 
     public PlayerWeapon getCurrentWeapon()
     {
-        return weapons[selectedWeaponIndex].Key;
+        try
+        {
+            var weapon = weapons[selectedWeaponIndex].Key;
+            return weapon;
+        }catch(ArgumentOutOfRangeException a)
+        {
+            return null;
+        }
     }
 
     public WeaponGraphics getCurrentWeaponGraphics()

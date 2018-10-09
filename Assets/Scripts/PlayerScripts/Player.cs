@@ -71,7 +71,6 @@ public class Player : NetworkBehaviour {
         else
         {
             isInfected = false;
-            infectionTool.Disable();         
         }
     }
 
