@@ -55,9 +55,7 @@ public class bl_ChatManager : NetworkBehaviour
     void Start()
     {
         if (!isSetup)
-        {
             SetupClient();
-        }
         //Check if client ready
         if (isClientInitializated && !isServer)
         {
@@ -119,7 +117,7 @@ public class bl_ChatManager : NetworkBehaviour
         //if this are server
         if (isServer)
         {
-            //register server message listener
+			//register server message listener
             NetworkServer.RegisterHandler(MyMsgType.ChatMsn, OnChatMessage);
         }
         isSetup = true;
@@ -231,8 +229,8 @@ public class bl_ChatManager : NetworkBehaviour
         ClientName = n;
         //if first time send the name, then is time for register in chat
         if (register)
-        {
-            Client.RegisterHandler(MyMsgType.ChatMsn, OnChatMessage);
+		{
+			Client.RegisterHandler(MyMsgType.ChatMsn, OnChatMessage);
             ChatUI.ShowChat(true);
         }
     }

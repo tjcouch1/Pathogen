@@ -38,7 +38,7 @@ public class PlayerSetup : NetworkBehaviour {
                 Debug.LogError("No PlayerUI component on PlayerUI prefab");
             ui.SetPlayer(GetComponent<Player>());
 
-            string _username = "(null)";
+			string _username = "(null)";
             if (UserAccountManager.IsLoggedIn)
                 _username = UserAccountManager.playerUsername;
             else

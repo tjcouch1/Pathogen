@@ -17,6 +17,8 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private bool showAudioPositions = false;
     [SerializeField] private GameObject pushToTalkSprite;
     [SerializeField] private GameObject[] disableWhileInLobby;
+	[SerializeField] private GameObject chatUI;
+	private bool isChatUISetUp = false;
 
     public Color infectedColor;
     public Color healthyColor;
@@ -45,6 +47,11 @@ public class PlayerUI : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+		if (!isChatUISetUp)
+		{
+			chatUI.GetComponent<bl_ChatManager>().SetPlayerName(player.username, true);
+			isChatUISetUp = true;
+		}
 
         //Proabably a better way of doing this, but this is the list of overrides for weapons/tools that don't have bullets
         switch (weaponManager.getCurrentWeapon().weaponName)
