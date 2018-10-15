@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        if (PauseMenu.isOn)
+        if (PauseMenu.isOn || GetComponent<Player>().isTyping)
         {
             motor.move(Vector3.zero);
             motor.rotate(Vector3.zero, 0);

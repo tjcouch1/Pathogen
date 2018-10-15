@@ -12,6 +12,9 @@ public class Player : NetworkBehaviour {
     [SyncVar]
     private bool isInfected = false;     //Bool for storing what team Player is on. Default is human
 
+	//[SyncVar]
+	public bool isTyping = false;//when true, disables input
+
     [SerializeField] public Behaviour infectionTool;
 
     //Getter/Setter for isAlive
