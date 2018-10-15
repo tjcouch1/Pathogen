@@ -34,7 +34,7 @@ public class bl_ChatManager : NetworkBehaviour
 
     public class MyMsgType
     {
-        public static short ChatMsn = MsgType.Highest + 1;
+        public static short ChatMsn = MsgType.Highest + 2;
     };
 
     /// <summary>

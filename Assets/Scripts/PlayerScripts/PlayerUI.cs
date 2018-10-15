@@ -17,8 +17,6 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private bool showAudioPositions = false;
     [SerializeField] private GameObject pushToTalkSprite;
     [SerializeField] private GameObject[] disableWhileInLobby;
-	[SerializeField] private GameObject chatUI;
-	private bool isChatUISetUp = false;
 
     public Color infectedColor;
     public Color healthyColor;
@@ -26,9 +24,14 @@ public class PlayerUI : MonoBehaviour {
     private Player player;
     private WeaponManager weaponManager;
 
-    private void Start()
+	private bl_ChatManager chatManager;
+	private bool isChatUISetUp = false;
+
+	private void Start()
     {
         PauseMenu.isOn = false;
+
+		chatManager = FindObjectOfType<bl_ChatManager>();
     }
 
     public void SetPlayer(Player _player)
@@ -49,7 +52,10 @@ public class PlayerUI : MonoBehaviour {
     void Update () {
 		if (!isChatUISetUp)
 		{
-			chatUI.GetComponent<bl_ChatManager>().SetPlayerName(player.username, true);
+			GameObject textChatCanvas = chatManager.gameObject.transform.parent.gameObject;
+			chatManager.gameObject.transform.SetParent(transform, true);
+			Object.Destroy(textChatCanvas);
+			chatManager.SetPlayerName(player.username, true);
 			isChatUISetUp = true;
 		}
 
