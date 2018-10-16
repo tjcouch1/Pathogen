@@ -16,15 +16,15 @@ public class WeaponManager : NetworkBehaviour {
     private int selectedWeaponIndex = 0;
     public bool isReloading = false;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         weapons = new List<KeyValuePair<PlayerWeapon, GameObject>>();
         foreach (PlayerWeapon w in defaultWeapons)
         {
             var instance = SpawnWeapon(w);
             weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(w, instance));
-            if(instance != null)
+            if (instance != null)
                 instance.SetActive(false);
         }
         weapons[selectedWeaponIndex].Value.SetActive(true);
@@ -49,10 +49,11 @@ public class WeaponManager : NetworkBehaviour {
             return null;
         }
     }
-	
+
     public void PickupWeapon(PlayerWeapon weapon)
     {
         weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(weapon, SpawnWeapon(weapon)));
+        Debug.LogWarning("Pickup weapon was called for " + gameObject.name);
     }
 
     public void RemoveWeapon(PlayerWeapon weapon)

@@ -21,6 +21,7 @@ public class InfectionTool : NetworkBehaviour {
     }
 
     public void Setup () {
+        Debug.Log("Infection tool setup was called for " + gameObject.name);
         weaponManager.PickupWeapon(infectionTool);
         isSetup = true;
     }

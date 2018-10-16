@@ -22,4 +22,5 @@ public class PlayerWeapon {
     {
         bullets = clipSize;
     }
+    
 }
