@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Add this to the input desired to make it send the text when clicked enter in
 /// </summary>
-public class SubmitInput : MonoBehaviour, IDeselectHandler {
+public class SubmitInput : MonoBehaviour {
 
 	private InputField inputToSubmit;
 	private static EventSystem eSystem;
@@ -26,26 +26,22 @@ public class SubmitInput : MonoBehaviour, IDeselectHandler {
 			if (eSystem.currentSelectedGameObject == gameObject)//if the player is typing, send it
 			{
 				GetComponentInParent<bl_ChatManager>().SendChatText(inputToSubmit);
+				inputToSubmit.DeactivateInputField();
 				eSystem.SetSelectedGameObject(null);
-			}
-			else//if the player isn't typing, select it
-			{
-				inputToSubmit.interactable = true;
-				GameManager.getLocalPlayer().isTyping = true;
 
-				if (eSystem != null)
-				{
-					//select it
-					inputToSubmit.ActivateInputField();
-					eSystem.SetSelectedGameObject(gameObject, new BaseEventData(eSystem));
-				}
+				GameManager.getLocalPlayer().isTyping = false;
 			}
 		}
-	}
+		if (Input.GetButtonDown("Chat"))//open the chat box
+		{
+			GameManager.getLocalPlayer().isTyping = true;
 
-	public void OnDeselect(BaseEventData eventData)
-	{
-		inputToSubmit.interactable = false;
-		GameManager.getLocalPlayer().isTyping = false;
+			if (eSystem != null)
+			{
+				//select it
+				inputToSubmit.ActivateInputField();
+				eSystem.SetSelectedGameObject(gameObject, new BaseEventData(eSystem));
+			}
+		}
 	}
 }

@@ -24,14 +24,9 @@ public class PlayerUI : MonoBehaviour {
     private Player player;
     private WeaponManager weaponManager;
 
-	private bl_ChatManager chatManager;
-	private bool isChatUISetUp = false;
-
 	private void Start()
     {
         PauseMenu.isOn = false;
-
-		chatManager = FindObjectOfType<bl_ChatManager>();
     }
 
     public void SetPlayer(Player _player)
@@ -48,16 +43,8 @@ public class PlayerUI : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		if (!isChatUISetUp)
-		{
-			GameObject textChatCanvas = chatManager.gameObject.transform.parent.gameObject;
-			chatManager.gameObject.transform.SetParent(transform, true);
-			Object.Destroy(textChatCanvas);
-			chatManager.SetPlayerName(player.username, true);
-			isChatUISetUp = true;
-		}
+		// Update is called once per frame
+	void Update () {
 
         //Proabably a better way of doing this, but this is the list of overrides for weapons/tools that don't have bullets
         switch (weaponManager.getCurrentWeapon().weaponName)

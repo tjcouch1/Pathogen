@@ -16,9 +16,12 @@ public class PlayerSetup : NetworkBehaviour {
     private GameObject playerUIprefab;
     [HideInInspector] public GameObject playerUIInstance;
 
-    void Start()
-    {
-        if (!isLocalPlayer)
+	private bl_ChatManager chatManager;
+	private bool isChatUISetUp = false;
+
+	void Start()
+	{
+		if (!isLocalPlayer)
         {
             DisableComponents();
             AssignRemoteLayer();
@@ -46,12 +49,25 @@ public class PlayerSetup : NetworkBehaviour {
 
             CmdSetUsername(transform.name, _username);
 
+			chatManager = FindObjectOfType<bl_ChatManager>();
+
             GetComponent<Player>().Setup();
             Debug.Log("Local Player Set Up!");
         }
-    }
+	}
 
-    [Command]
+	public void SetUpChatUI(string username)
+	{
+		Player player = GetComponent<Player>();
+		Debug.Log("Setup ChatUI! Name:" + username);
+		GameObject textChatCanvas = chatManager.gameObject.transform.parent.gameObject;
+		chatManager.gameObject.transform.SetParent(playerUIInstance.transform, true);
+		Object.Destroy(textChatCanvas);
+		chatManager.SetPlayerName(username, true);
+		isChatUISetUp = true;
+	}
+
+	[Command]
     void CmdSetUsername(string playerID, string username)
     {
         Player player = GameManager.getPlayer(playerID);
@@ -59,8 +75,16 @@ public class PlayerSetup : NetworkBehaviour {
         {
             Debug.Log(username + " has joined the game!");
             player.username = username;
+			RpcSetupChatUI(playerID, username);
         }
     }
+
+	[ClientRpc]
+	void RpcSetupChatUI(string playerID, string username)
+	{
+		if (!isChatUISetUp && transform.name == playerID)
+			SetUpChatUI(username);
+	}
 
     public override void OnStartClient()
     {
