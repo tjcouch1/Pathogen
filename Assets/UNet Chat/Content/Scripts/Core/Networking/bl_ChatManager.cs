@@ -11,6 +11,8 @@ public class bl_ChatManager : NetworkBehaviour
     [HideInInspector]
     public int GroupID = 0;
     public List<bl_GroupInfo> Groups = new List<bl_GroupInfo>();
+	[HideInInspector] public const int ALIVE = 0;
+	[HideInInspector] public const int DEAD = 1;
     public string ClientName = string.Empty;
 
     public bool useBothSides = true;
@@ -148,8 +150,9 @@ public class bl_ChatManager : NetworkBehaviour
             {
                 myTeam = (msg.GroupID == GroupID) ? true : false;
             }
-            //add message in chat
-            ChatUI.AddNewLine(t, FadeMessage, FadeMessageIn, FadeMessageSpeed, myTeam);
+            //add message in chat if not in round or dead or alive == alive
+			if (!GameManager.singleton.inCurrentRound || !GameManager.getLocalPlayer().isAlive || GroupID == msg.GroupID)
+				ChatUI.AddNewLine(t, FadeMessage, FadeMessageIn, FadeMessageSpeed, myTeam);
         }
     }
 
@@ -210,6 +213,13 @@ public class bl_ChatManager : NetworkBehaviour
         }
         return m;
     }
+
+	public void SetAlive(bool alive)
+	{
+		if (alive)
+			ChangeGroup(ALIVE);
+		else ChangeGroup(DEAD);
+	}
 
     /// <summary>
     /// Call this for change of chat group.

@@ -49,7 +49,7 @@ namespace VoiceChat
 
             GetComponent<AudioSource>().loop = true;
             GetComponent<AudioSource>().maxDistance = audioLiveDistance;
-            setAlive(GameManager.singleton.inCurrentRound && GetComponent<Player>().isAlive);
+            SetAlive(GameManager.singleton.inCurrentRound && GetComponent<Player>().isAlive);
             GetComponent<AudioSource>().clip = AudioClip.Create("VoiceChat", size, 1, VoiceChatSettings.Instance.Frequency, false);
 			
             data = new float[size];
@@ -98,7 +98,7 @@ namespace VoiceChat
             }
         }
 
-        public void setAlive(bool alive)
+        public void SetAlive(bool alive)
         {
             if (alive)
                 GetComponent<AudioSource>().spatialBlend = 1;

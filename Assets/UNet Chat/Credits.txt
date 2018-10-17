@@ -9,3 +9,6 @@ Remove frame around the chat window, lengthen chat length
 Make enter select the chat input bar and disable game inputs
 Can probably set up group 1 alive, group 2 dead
 filter out dead messages for alive players in bl_ChatManager.OnChatMessage
+
+Fix weird chat locations
+Enable mouse when in chat box

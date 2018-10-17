@@ -42,6 +42,8 @@ public class Player : NetworkBehaviour {
     private bool[] wasEnabled;
     private bool firstSetup = true;
 
+	public bl_ChatManager chatManager;
+
     public void Setup()
     {
         //Start all players in the lobby as soon as they join
@@ -125,7 +127,8 @@ public class Player : NetworkBehaviour {
 
 		//set dead player's voice chat to dead
 		if (!isLocalPlayer)
-			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(false);
+			GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(false);
+		else chatManager.SetAlive(false);
 
         CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");
@@ -227,9 +230,11 @@ public class Player : NetworkBehaviour {
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+			chatManager.SetAlive(true);
 		}
 		else//set the voice chat player's falloff back to live falloff
-			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(true);
+			GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(true);
 
 		Debug.Log(transform.name + " has respawned.");
     }

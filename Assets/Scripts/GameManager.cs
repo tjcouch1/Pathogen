@@ -235,7 +235,7 @@ public class GameManager : NetworkBehaviour {
 
 				//set voice chat player to dead (so everyone can hear everyone)
 				if (!p.isLocalPlayer)
-					p.GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(false);
+					p.GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(false);
 			}
 
             //Clear out our lists

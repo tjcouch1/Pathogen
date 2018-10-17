@@ -50,6 +50,7 @@ public class PlayerSetup : NetworkBehaviour {
             CmdSetUsername(transform.name, _username);
 
 			chatManager = FindObjectOfType<bl_ChatManager>();
+			GetComponent<Player>().chatManager = chatManager;
 
             GetComponent<Player>().Setup();
             Debug.Log("Local Player Set Up!");
@@ -64,6 +65,7 @@ public class PlayerSetup : NetworkBehaviour {
 		chatManager.gameObject.transform.SetParent(playerUIInstance.transform, true);
 		Object.Destroy(textChatCanvas);
 		chatManager.SetPlayerName(username, true);
+		chatManager.SetAlive(!GameManager.singleton.inCurrentRound || (GameManager.singleton.inCurrentRound && player.isAlive));
 		isChatUISetUp = true;
 	}
 
