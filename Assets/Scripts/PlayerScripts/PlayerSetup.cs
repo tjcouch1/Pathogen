@@ -84,7 +84,7 @@ public class PlayerSetup : NetworkBehaviour {
 	[ClientRpc]
 	void RpcSetupChatUI(string playerID, string username)
 	{
-		if (!isChatUISetUp && transform.name == playerID)
+		if (GetComponent<Player>().isLocalPlayer && !isChatUISetUp && transform.name == playerID)
 			SetUpChatUI(username);
 	}
 
