@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33913801902844766}
   - component: {fileID: 23522546268057070}
   - component: {fileID: 114325702839937292}
+  - component: {fileID: 114703647707348530}
   m_Layer: 0
   m_Name: Knife
   m_TagString: Untagged
@@ -116,3 +117,16 @@ MonoBehaviour:
     i15: 61
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114703647707348530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1060565668771620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0140bd4ea01d6e94f88abfdc1e5b82a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzleFlash: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
