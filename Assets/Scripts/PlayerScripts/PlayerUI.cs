@@ -46,6 +46,11 @@ public class PlayerUI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+        if(weaponManager.getCurrentWeapon() == null)
+        {
+            return;
+        }
+
         //Proabably a better way of doing this, but this is the list of overrides for weapons/tools that don't have bullets
         switch (weaponManager.getCurrentWeapon().weaponName)
         {
@@ -65,7 +70,7 @@ public class PlayerUI : MonoBehaviour {
 
         SetHealthAmount(player.getHealth());
         weaponImage.sprite = weaponManager.getCurrentWeapon().weaponIcon;
-        SetInfected(player.GetInfected());
+        SetInfected(player.GetInfectedState());
         UpdateTimer();
         UpdateAudioPositionsText();
         UpdatePushToTalkSprite();

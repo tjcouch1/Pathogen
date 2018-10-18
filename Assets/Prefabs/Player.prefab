@@ -2737,7 +2737,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1340817644079000}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea9a382ae54a213408ed280564101494, type: 3}
   m_Name: 
@@ -2900,7 +2900,7 @@ MonoBehaviour:
   - weaponName: Knife
     damage: 40
     clips: 0
-    bullets: 0
+    bullets: -1
     clipSize: 0
     range: 5
     fireRate: 0

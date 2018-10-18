@@ -12,11 +12,18 @@ public class InfectionTool : NetworkBehaviour {
 
     private WeaponManager weaponManager;
     private PlayerWeapon currentWeapon;
-    
 
-    void Start () {
+    private bool isSetup = false;
+
+    private void Start()
+    {
         weaponManager = GetComponent<WeaponManager>();
+    }
+
+    public void Setup () {
+        Debug.Log("Infection tool setup was called for " + gameObject.name);
         weaponManager.PickupWeapon(infectionTool);
+        isSetup = true;
     }
 
     void Update () {
@@ -24,6 +31,9 @@ public class InfectionTool : NetworkBehaviour {
         if (PauseMenu.isOn)
             return;
 
+        if (!isSetup)
+            return;
+        
         currentWeapon = weaponManager.getCurrentWeapon();
 
         if (currentWeapon.Equals(infectionTool))
@@ -35,8 +45,9 @@ public class InfectionTool : NetworkBehaviour {
         }
     }
 
-    private void OnDisable()
+    public void Disable()
     {
+        isSetup = false;
         if(weaponManager != null)
         {
             weaponManager.RemoveWeapon(infectionTool);
