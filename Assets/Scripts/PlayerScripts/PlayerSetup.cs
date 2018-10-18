@@ -32,7 +32,7 @@ public class PlayerSetup : NetworkBehaviour {
             Util.SetLayerRecursively(playerGraphics, LayerMask.NameToLayer(dontDrawLayerName));
 
             //Create player UI
-            playerUIInstance = Instantiate(playerUIprefab);
+            playerUIInstance = FindObjectOfType<PlayerUI>().gameObject;
             playerUIInstance.name = playerUIprefab.name;
 
             //Configure Player UI
@@ -49,7 +49,7 @@ public class PlayerSetup : NetworkBehaviour {
 
             CmdSetUsername(transform.name, _username);
 
-			chatManager = FindObjectOfType<bl_ChatManager>();
+			chatManager = playerUIInstance.GetComponentInChildren<bl_ChatManager>();
 			GetComponent<Player>().chatManager = chatManager;
 
             GetComponent<Player>().Setup();
@@ -61,9 +61,9 @@ public class PlayerSetup : NetworkBehaviour {
 	{
 		Player player = GetComponent<Player>();
 		Debug.Log("Setup ChatUI! Name:" + username);
-		GameObject textChatCanvas = chatManager.gameObject.transform.parent.gameObject;
+		/*GameObject textChatCanvas = chatManager.gameObject.transform.parent.gameObject;
 		chatManager.gameObject.transform.SetParent(playerUIInstance.transform, true);
-		Object.Destroy(textChatCanvas);
+		Object.Destroy(textChatCanvas);*/
 		chatManager.SetPlayerName(username, true);
 		chatManager.SetAlive(!GameManager.singleton.inCurrentRound || (GameManager.singleton.inCurrentRound && player.isAlive));
 		isChatUISetUp = true;
