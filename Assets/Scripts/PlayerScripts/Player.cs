@@ -13,9 +13,14 @@ public class Player : NetworkBehaviour {
     private bool isInfected = false;     //Bool for storing what team Player is on. Default is human
 
 	//[SyncVar]
-	public bool isTyping = false;//when true, disables input
+	public bool isTyping = false;//when true, player is typing into text chat
 
-    [SerializeField] public Behaviour infectionTool;
+	public bool shouldPreventInput//when true, should prevent typing
+	{
+		get { return PauseMenu.isOn || isTyping; }
+	}
+
+	[SerializeField] public Behaviour infectionTool;
 
     //Getter/Setter for isAlive
     public bool isAlive
@@ -42,6 +47,7 @@ public class Player : NetworkBehaviour {
     private bool[] wasEnabled;
     private bool firstSetup = true;
 
+	[HideInInspector]
 	public bl_ChatManager chatManager;
 
     public void Setup()

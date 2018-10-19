@@ -32,7 +32,7 @@ public class SubmitInput : MonoBehaviour {
 				GameManager.getLocalPlayer().isTyping = false;
 			}
 		}
-		if (Input.GetButtonDown("Chat"))//open the chat box
+		if (Input.GetButtonDown("Chat") && !GameManager.getLocalPlayer().shouldPreventInput)//open the chat box
 		{
 			GameManager.getLocalPlayer().isTyping = true;
 

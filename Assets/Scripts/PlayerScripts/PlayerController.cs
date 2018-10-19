@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        if (PauseMenu.isOn || GetComponent<Player>().isTyping)
+        if (GetComponent<Player>().shouldPreventInput)
         {
             motor.move(Vector3.zero);
             motor.rotate(Vector3.zero, 0);
