@@ -7,18 +7,13 @@ using UnityEngine.Networking;
 public class InfectionTool : NetworkBehaviour {
 
     [SerializeField] private Camera cam;
+    [SerializeField] private WeaponManager weaponManager;
     [SerializeField] private PlayerWeapon infectionTool;
     [SerializeField] private LayerMask mask;
-
-    private WeaponManager weaponManager;
+    
     private PlayerWeapon currentWeapon;
 
     private bool isSetup = false;
-
-    private void Start()
-    {
-        weaponManager = GetComponent<WeaponManager>();
-    }
 
     public void Setup () {
         Debug.Log("Infection tool setup was called for " + gameObject.name);

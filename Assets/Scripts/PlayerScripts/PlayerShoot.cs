@@ -103,7 +103,10 @@ public class PlayerShoot : NetworkBehaviour {
     {
         if (weaponManager.getCurrentWeaponGraphics() != null)
         {
-            weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
+            if(weaponManager.getCurrentWeaponGraphics().muzzleFlash != null)
+            {
+                weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
+            }
         }
     }
 
