@@ -16,9 +16,12 @@ public class PlayerSetup : NetworkBehaviour {
     private GameObject playerUIprefab;
     [HideInInspector] public GameObject playerUIInstance;
 
-    void Start()
-    {
-        if (!isLocalPlayer)
+	private bl_ChatManager chatManager;
+	private bool isChatUISetUp = false;
+
+	void Start()
+	{
+		if (!isLocalPlayer)
         {
             DisableComponents();
             AssignRemoteLayer();
@@ -29,7 +32,7 @@ public class PlayerSetup : NetworkBehaviour {
             Util.SetLayerRecursively(playerGraphics, LayerMask.NameToLayer(dontDrawLayerName));
 
             //Create player UI
-            playerUIInstance = Instantiate(playerUIprefab);
+            playerUIInstance = FindObjectOfType<PlayerUI>().gameObject;
             playerUIInstance.name = playerUIprefab.name;
 
             //Configure Player UI
@@ -38,7 +41,7 @@ public class PlayerSetup : NetworkBehaviour {
                 Debug.LogError("No PlayerUI component on PlayerUI prefab");
             ui.SetPlayer(GetComponent<Player>());
 
-            string _username = "(null)";
+			string _username = "(null)";
             if (UserAccountManager.IsLoggedIn)
                 _username = UserAccountManager.playerUsername;
             else
@@ -46,12 +49,24 @@ public class PlayerSetup : NetworkBehaviour {
 
             CmdSetUsername(transform.name, _username);
 
+			chatManager = playerUIInstance.GetComponentInChildren<bl_ChatManager>();
+			GetComponent<Player>().chatManager = chatManager;
+
             GetComponent<Player>().Setup();
             Debug.Log("Local Player Set Up!");
         }
-    }
+	}
 
-    [Command]
+	public void SetUpChatUI(string username)
+	{
+		Player player = GetComponent<Player>();
+		Debug.Log("Setup ChatUI! Name:" + username);
+		chatManager.SetPlayerName(username, true);
+		chatManager.SetAlive(false);
+		isChatUISetUp = true;
+	}
+
+	[Command]
     void CmdSetUsername(string playerID, string username)
     {
         Player player = GameManager.getPlayer(playerID);
@@ -59,8 +74,16 @@ public class PlayerSetup : NetworkBehaviour {
         {
             Debug.Log(username + " has joined the game!");
             player.username = username;
+			RpcSetupChatUI(playerID, username);
         }
     }
+
+	[ClientRpc]
+	void RpcSetupChatUI(string playerID, string username)
+	{
+		if (GetComponent<Player>().isLocalPlayer && !isChatUISetUp && transform.name == playerID)
+			SetUpChatUI(username);
+	}
 
     public override void OnStartClient()
     {

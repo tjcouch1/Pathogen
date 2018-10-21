@@ -24,7 +24,7 @@ public class PlayerUI : MonoBehaviour {
     private Player player;
     private WeaponManager weaponManager;
 
-    private void Start()
+	private void Start()
     {
         PauseMenu.isOn = false;
     }
@@ -43,8 +43,8 @@ public class PlayerUI : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
+		// Update is called once per frame
+	void Update () {
 
         if(weaponManager.getCurrentWeapon() == null)
         {

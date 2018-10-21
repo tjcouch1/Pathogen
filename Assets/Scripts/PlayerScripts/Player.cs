@@ -11,8 +11,22 @@ public class Player : NetworkBehaviour {
 
     [SyncVar]
     private bool isInfected = false;     //Bool for storing what team Player is on. Default is human
-
+	
     [SerializeField] private InfectionTool infectionTool;
+
+	[SyncVar]
+	private bool _isTyping = false;//when true, player is typing into text chat
+
+	public bool isTyping
+	{
+		get { return _isTyping; }
+		protected set { _isTyping = value; }
+	}
+
+	public bool shouldPreventInput//when true, should prevent typing
+	{
+		get { return PauseMenu.isOn || isTyping; }
+	}
 
     //Getter/Setter for isAlive
     public bool isAlive
@@ -38,6 +52,9 @@ public class Player : NetworkBehaviour {
     private GameObject[] disableGOnDeath;
     private bool[] wasEnabled;
     private bool firstSetup = true;
+
+	[HideInInspector]
+	public bl_ChatManager chatManager;
 
     public void Setup()
     {
@@ -88,17 +105,18 @@ public class Player : NetworkBehaviour {
         }
     }
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		GetComponentInChildren<AudioListener>().enabled = false;
+	}
+
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
 		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
 		GetComponentInChildren<AudioListener>().enabled = true;
-	}
-
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		GetComponentInChildren<AudioListener>().enabled = false;
+		GetComponent<AudioSource>().enabled = false;
 	}
 
 	private void Die(string killerID)
@@ -122,7 +140,8 @@ public class Player : NetworkBehaviour {
 
 		//set dead player's voice chat to dead
 		if (!isLocalPlayer)
-			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(false);
+			GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(false);
+		else chatManager.SetAlive(false);
 
         CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");
@@ -224,12 +243,20 @@ public class Player : NetworkBehaviour {
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+			chatManager.SetAlive(true);
 		}
 		else//set the voice chat player's falloff back to live falloff
-			GetComponent<VoiceChat.VoiceChatPlayer>().setAlive(true);
+			GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(true);
 
 		Debug.Log(transform.name + " has respawned.");
     }
+
+	[Command]
+	public void CmdPlayerSetTyping(bool typing)
+	{
+		isTyping = typing;
+	}
 
     public float getHealth()
     {

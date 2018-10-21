@@ -17,8 +17,9 @@ namespace VoiceChat
         float[] data;
         float playDelay = 0;
         bool _shouldPlay = false;
+		private bool isAlive = false;
 
-        private float audioLiveDistance = 15;
+        public const float audioLiveDistance = 25;
 
         public bool ShouldPlay
         {
@@ -49,7 +50,7 @@ namespace VoiceChat
 
             GetComponent<AudioSource>().loop = true;
             GetComponent<AudioSource>().maxDistance = audioLiveDistance;
-            setAlive(GameManager.singleton.inCurrentRound && GetComponent<Player>().isAlive);
+			SetAlive(false);
             GetComponent<AudioSource>().clip = AudioClip.Create("VoiceChat", size, 1, VoiceChatSettings.Instance.Frequency, false);
 			
             data = new float[size];
@@ -98,11 +99,12 @@ namespace VoiceChat
             }
         }
 
-        public void setAlive(bool alive)
+        public void SetAlive(bool alive)
         {
             if (alive)
                 GetComponent<AudioSource>().spatialBlend = 1;
             else GetComponent<AudioSource>().spatialBlend = 0;
+			isAlive = alive;
             Debug.Log("Player spatialBlend set to " + GetComponent<AudioSource>().spatialBlend);
         }
 
@@ -126,9 +128,8 @@ namespace VoiceChat
                 return;
 
             //don't record if speaking player is dead and local player is alive and the round is not over
-            Player speakingPlayer = GetComponent<Player>();
             Player localPlayer = GameManager.getLocalPlayer();
-            if (!speakingPlayer.isAlive && localPlayer.isAlive && GameManager.singleton.inCurrentRound)
+            if (!isAlive && localPlayer.isAlive && GameManager.singleton.inCurrentRound)
                 return;
  
             packetsToPlay.Add(newPacket.PacketId, newPacket);

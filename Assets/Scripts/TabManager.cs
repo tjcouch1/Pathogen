@@ -75,7 +75,16 @@ public class TabManager : MonoBehaviour {
             }
 
         }
-    }
+
+		//submit with space - messes up entering chat with enter (SubmitInput.cs)
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Debug.Log("ASAHH");
+			Selectable selectedObject = eSystem.currentSelectedGameObject.GetComponent<Selectable>();
+			if (selectedObject.GetComponent<SubmitInput>() == null)
+				ExecuteEvents.Execute(selectedObject.gameObject, null, ExecuteEvents.submitHandler);
+		}
+	}
 
     public static void SelectWithInput(Selectable selectObject)
     {
@@ -84,7 +93,8 @@ public class TabManager : MonoBehaviour {
 			//if it's an input field, also click into it
 			InputField inputfield = selectObject.GetComponent<InputField> ();
 			if (inputfield != null)
-				inputfield.OnPointerClick (new PointerEventData (eSystem));
+				inputfield.ActivateInputField();
+				//inputfield.OnPointerClick (new PointerEventData (eSystem));
 
 			//select it
 			eSystem.SetSelectedGameObject (selectObject.gameObject, new BaseEventData (eSystem));
