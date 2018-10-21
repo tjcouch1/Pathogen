@@ -99,6 +99,7 @@ public class bl_ChatManager : NetworkBehaviour
         info.Text = t;
         info.GroupID = id;
         info.Sender = ClientName;
+		info.sendNetID = GameManager.getLocalPlayer().GetComponent<NetworkIdentity>().netId.Value;
 
         if (Client.isConnected)
         {
@@ -147,11 +148,17 @@ public class bl_ChatManager : NetworkBehaviour
             string t = GetMessageFormat(msg.Text, msg.Sender, GetGroup(msg.GroupID));
             bool myTeam = true;
             if (useBothSides)
-            {
-                myTeam = (msg.GroupID == GroupID) ? true : false;
-            }
-            //add message in chat if not in round or dead or alive == alive
-			if (!GameManager.singleton.inCurrentRound || !GameManager.getLocalPlayer().isAlive || GroupID == msg.GroupID)
+                myTeam = msg.GroupID == GroupID;
+			if (GroupID == DEAD)
+				myTeam = false;
+
+			//add message in chat if (get ready for a ton of confusing conditions)
+			//not in round OR
+			//both are dead OR
+			//speaker is alive and within distance of one another
+			Player localPlayer = GameManager.getLocalPlayer();
+			Player speakingPlayer = GameManager.getPlayerWithNetID((int) msg.sendNetID);
+			if (!GameManager.singleton.inCurrentRound || (GroupID == DEAD && msg.GroupID == DEAD) || (msg.GroupID == ALIVE && (localPlayer == speakingPlayer || Vector3.Distance(localPlayer.transform.position, speakingPlayer.transform.position) <= VoiceChat.VoiceChatPlayer.audioLiveDistance)))
 				ChatUI.AddNewLine(t, FadeMessage, FadeMessageIn, FadeMessageSpeed, myTeam);
         }
     }

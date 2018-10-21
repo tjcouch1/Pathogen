@@ -35,7 +35,6 @@ namespace VoiceChat.Networking
 
             if (isClient && (!isLocalPlayer || VoiceChatSettings.Instance.LocalDebug))
             {
-                gameObject.AddComponent<AudioSource>();
                 player = gameObject.AddComponent<VoiceChatPlayer>();
 				Debug.Log("Created voice chat player");
             }

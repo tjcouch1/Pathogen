@@ -61,11 +61,8 @@ public class PlayerSetup : NetworkBehaviour {
 	{
 		Player player = GetComponent<Player>();
 		Debug.Log("Setup ChatUI! Name:" + username);
-		/*GameObject textChatCanvas = chatManager.gameObject.transform.parent.gameObject;
-		chatManager.gameObject.transform.SetParent(playerUIInstance.transform, true);
-		Object.Destroy(textChatCanvas);*/
 		chatManager.SetPlayerName(username, true);
-		chatManager.SetAlive(!GameManager.singleton.inCurrentRound || (GameManager.singleton.inCurrentRound && player.isAlive));
+		chatManager.SetAlive(false);
 		isChatUISetUp = true;
 	}
 

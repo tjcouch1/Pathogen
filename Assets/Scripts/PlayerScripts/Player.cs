@@ -99,17 +99,18 @@ public class Player : NetworkBehaviour {
         }
     }
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		GetComponentInChildren<AudioListener>().enabled = false;
+	}
+
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
 		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
 		GetComponentInChildren<AudioListener>().enabled = true;
-	}
-
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		GetComponentInChildren<AudioListener>().enabled = false;
+		GetComponent<AudioSource>().enabled = false;
 	}
 
 	private void Die(string killerID)
