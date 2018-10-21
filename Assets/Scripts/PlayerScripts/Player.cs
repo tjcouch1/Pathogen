@@ -12,8 +12,14 @@ public class Player : NetworkBehaviour {
     [SyncVar]
     private bool isInfected = false;     //Bool for storing what team Player is on. Default is human
 
-	//[SyncVar]
-	public bool isTyping = false;//when true, player is typing into text chat
+	[SyncVar]
+	private bool _isTyping = false;//when true, player is typing into text chat
+
+	public bool isTyping
+	{
+		get { return _isTyping; }
+		protected set { _isTyping = value; }
+	}
 
 	public bool shouldPreventInput//when true, should prevent typing
 	{
@@ -245,6 +251,12 @@ public class Player : NetworkBehaviour {
 
 		Debug.Log(transform.name + " has respawned.");
     }
+
+	[Command]
+	public void CmdPlayerSetTyping(bool typing)
+	{
+		isTyping = typing;
+	}
 
     public float getHealth()
     {

@@ -11,30 +11,33 @@ public class SubmitInput : MonoBehaviour {
 
 	private InputField inputToSubmit;
 	private static EventSystem eSystem;
+	private Player localPlayer;
+	private string submissionText;
 
 	// Use this for initialization
 	void Start () {
 		inputToSubmit = GetComponent<InputField>();
 		eSystem = EventSystem.current;
+		localPlayer = GameManager.getLocalPlayer();
+		inputToSubmit.onEndEdit.AddListener(delegate { EndEdit(inputToSubmit); });
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 
 		if (Input.GetButtonDown("Submit"))
 		{
 			if (eSystem.currentSelectedGameObject == gameObject)//if the player is typing, send it
 			{
+				inputToSubmit.text = submissionText;
 				GetComponentInParent<bl_ChatManager>().SendChatText(inputToSubmit);
-				inputToSubmit.DeactivateInputField();
 				eSystem.SetSelectedGameObject(null);
-
-				GameManager.getLocalPlayer().isTyping = false;
 			}
 		}
-		if (Input.GetButtonDown("Chat") && !GameManager.getLocalPlayer().shouldPreventInput)//open the chat box
+		if (Input.GetButtonDown("Chat") && !localPlayer.shouldPreventInput)//open the chat box
 		{
-			GameManager.getLocalPlayer().isTyping = true;
+			localPlayer.CmdPlayerSetTyping(true);
 
 			if (eSystem != null)
 			{
@@ -43,5 +46,13 @@ public class SubmitInput : MonoBehaviour {
 				eSystem.SetSelectedGameObject(gameObject, new BaseEventData(eSystem));
 			}
 		}
+	}
+
+	void EndEdit(InputField input)
+	{
+		submissionText = input.text;
+		input.text = "";
+		input.DeactivateInputField();
+		localPlayer.CmdPlayerSetTyping(false);
 	}
 }
