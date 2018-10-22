@@ -8,7 +8,7 @@ public class PlayerShoot : NetworkBehaviour {
     private Camera cam;
     [SerializeField]
     private LayerMask mask;
-    private WeaponManager weaponManager;
+    [SerializeField] private WeaponManager weaponManager;
     private PlayerWeapon currentWeapon;
     private float sprayTime = 0;                //How long the player has been spraying for
     private float lastCallToApplySpray = 0;     //I hope this variable name is descriptive enough
@@ -17,7 +17,7 @@ public class PlayerShoot : NetworkBehaviour {
 
     private void Start()
     {
-        weaponManager = GetComponent<WeaponManager>();
+        //weaponManager = GetComponent<WeaponManager>();
         if(cam == null)
         {
             Debug.LogError("PlayerShoot: No Camera referenced!");

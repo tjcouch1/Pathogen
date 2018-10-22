@@ -46,6 +46,11 @@ public class PlayerUI : MonoBehaviour {
 		// Update is called once per frame
 	void Update () {
 
+        if(weaponManager == null){
+            //Weapon manager not set up yet. Need to wait until SetPlayer is called
+            return;
+        }
+
         if(weaponManager.getCurrentWeapon() == null)
         {
             return;

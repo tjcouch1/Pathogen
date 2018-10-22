@@ -3176,6 +3176,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 4294967039
+  weaponManager: {fileID: 114677199130525918}
   sprayMultiplier: 0.01
 --- !u!114 &114902582104419856
 MonoBehaviour:
