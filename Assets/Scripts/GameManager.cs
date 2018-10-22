@@ -30,6 +30,8 @@ public class GameManager : NetworkBehaviour {
     private timerEvent roundStartAlert;
     private timerEvent lobbyEnd;
 
+	public GameObject QuarantineZone;
+
     //OnSpawn, need to check if inCurrentRound to determine whether or not to spawn player
     [SyncVar] public bool inCurrentRound = false;
 
@@ -166,8 +168,11 @@ public class GameManager : NetworkBehaviour {
             }
             Debug.Log("Round starting...");
 
-            //Setup all the players for new round
-            Player[] players = getAllPlayers();
+			//reset quarantine box
+			RpcQuarantineZoneSetActive(false);
+
+			//Setup all the players for new round
+			Player[] players = getAllPlayers();
             foreach(Player p in players)
             {
                 p.CmdRespawnPlayer();
@@ -210,9 +215,19 @@ public class GameManager : NetworkBehaviour {
     public void BeginSuddenDeath()
     {
         Debug.Log("BEGINNING SUDDEN DEATH CODE");
-        //TO-DO: Implement sudden death
+
+		//Activate quarantine box
+		RpcQuarantineZoneSetActive(true);
+
         RpcUpdatePlayersTimerUI(Color.red);
     }
+
+	//activate or deactivate the quarantine zone
+	[ClientRpc]
+	void RpcQuarantineZoneSetActive(bool active)
+	{
+		QuarantineZone.SetActive(active);
+	}
 
     [ClientRpc]
     void RpcUpdatePlayersTimerUI(Color c)

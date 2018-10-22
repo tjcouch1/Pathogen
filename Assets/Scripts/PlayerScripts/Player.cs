@@ -123,18 +123,19 @@ public class Player : NetworkBehaviour {
     {
         isAlive = false;
 
-        try
-        {
-            Player sourcePlayer = GameManager.getPlayer(killerID);
-            if (sourcePlayer != null)
-            {
-                sourcePlayer.killCount++;
-                GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
-            }
-        }catch(KeyNotFoundException e)
-        {
-            GameManager.singleton.CallOnDeathCallbacks(transform.name, killerID);
-        }
+		if (string.IsNullOrEmpty(killerID) && killerID != "Quarantine")
+			try
+			{
+				Player sourcePlayer = GameManager.getPlayer(killerID);
+				if (sourcePlayer != null)
+				{
+					sourcePlayer.killCount++;
+					GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
+				}
+			}catch(KeyNotFoundException e)
+			{
+				GameManager.singleton.CallOnDeathCallbacks(transform.name, killerID);
+			}
 
         deathCount++;
 
@@ -261,5 +262,13 @@ public class Player : NetworkBehaviour {
     public float getHealth()
     {
         return (float)currentHealth / maxHealth;
-    }
+	}
+
+	//check if players enter the quarantine zone
+	[Server]
+	public void OnTriggerEnter(Collider other)
+	{
+		if (other.GetComponent<Collider>().CompareTag("QuarantineZone"))
+			RpcTakeDamage(maxHealth, "Quarantine");
+	}
 }
