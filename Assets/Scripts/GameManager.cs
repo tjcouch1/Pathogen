@@ -17,6 +17,7 @@ public class GameManager : NetworkBehaviour {
     [SerializeField] private int roundTime = 600;
     [SerializeField] private int suddenDeathTime = 180;
     [SerializeField] private int lobbyTime = 180;
+	[SerializeField] private int startGameTime = 5;
     private int roundNumber = 0;
 
     //List of infected and healthy players still in game
@@ -145,12 +146,23 @@ public class GameManager : NetworkBehaviour {
     [Command]
     public void CmdStartRound()
     {
-        //We only want to start a round if enough players are connected, and we are not currently in a round already
+
+		//We only want to start a round if enough players are connected, and we are not currently in a round already
         if(getAllPlayers().Length >= requiredPlayers && inCurrentRound == false)
         {
-            if (GameTimer.singleton.timerIsRunning)
+            if (GameTimer.singleton.timerIsRunning)//speed up the timer
             {
-                return;
+				if (GameTimer.singleton.getRoundTime() > startGameTime)
+				{
+					//Whenever getting ready to start a new GameTimer.singleton, we should make sure to stop old ones that may be running
+					GameTimer.singleton.StopTimer();
+
+					GameTimer.singleton.setRoundTitle("About to start...");
+					GameTimer.singleton.StartTimer(startGameTime);
+					Debug.Log("Speeding up lobby...");
+				}
+
+				return;
             }
             Debug.Log("Round starting...");
 
