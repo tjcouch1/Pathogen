@@ -23,10 +23,13 @@ public class PlayerUI : MonoBehaviour {
 
     private Player player;
     private WeaponManager weaponManager;
+    private NotificationsManager notificationsManager;
 
 	private void Start()
     {
         PauseMenu.isOn = false;
+        notificationsManager = NotificationsManager.instance;
+        GameManager.singleton.onPlayerKilledCallbacks.Add(UIOnDeathCallback);
     }
 
     public void SetPlayer(Player _player)
@@ -130,6 +133,40 @@ public class PlayerUI : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+    }
+
+    //TO-DO: Refactor this into the points system
+    //Anything that the UI needs to do on death happens here
+    public void UIOnDeathCallback(string playerName, string sourceName)
+    {
+        //Our player killed someone
+        if(sourceName == player.username)
+        {
+            var killedPlayer = GameManager.getPlayer(playerName);
+            if(killedPlayer.GetInfectedState() == player.GetInfectedState())
+            {
+                //Player teamkilled! Bad bad!
+                notificationsManager.CreateNotification("Teamkill!", "You killed someone on your own team! -10 karma");
+            }
+            else
+            {
+                //Player was infected and killed a healthy person
+                if(player.GetInfectedState() == true)
+                {
+                    notificationsManager.CreateNotification("Killed Healthy", "You killed a potential host. Infect healthy players, don't kill them. -5 karma");
+                }
+                //Player was healthy and killed an infected person
+                else 
+                {
+                    notificationsManager.CreateNotification("Killed Infected", "You killed an infected! +10 karma");
+                }
+            }
+        }
+        //Our player got killed
+        else if(playerName == player.username){
+            notificationsManager.CreateNotification("You were killed by: ", sourceName);
+        }
+        
     }
 
     void SetHealthAmount(float health)
