@@ -59,7 +59,7 @@ public class PlayerSetup : NetworkBehaviour {
 
 	public void SetUpChatUI(string username)
 	{
-		Player player = GetComponent<Player>();
+		//Player player = GetComponent<Player>();
 		Debug.Log("Setup ChatUI! Name:" + username);
 		chatManager.SetPlayerName(username, true);
 		chatManager.SetAlive(false);

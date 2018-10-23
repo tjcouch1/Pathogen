@@ -127,7 +127,7 @@ public class PlayerShoot : NetworkBehaviour {
 
         if(currentWeapon.bullets == 0)
         {
-            Debug.Log("OUT OF AMMO");
+            //Debug.Log("OUT OF AMMO");
             return;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -52,7 +53,7 @@ public class GameTimer : NetworkBehaviour {
         }
         timerIsRunning = true;
         roundTime = _roundTime;
-        Debug.LogWarning("Timer was started");
+        //Debug.LogWarning("Timer was started");
         StartCoroutine(roundTimer());
     }
 
@@ -63,7 +64,7 @@ public class GameTimer : NetworkBehaviour {
         {
             return;
         }
-        Debug.LogWarning("Timer was stopped");
+        //Debug.LogWarning("Timer was stopped");
         timerIsRunning = false;
         //StopCoroutine(roundTimer());
         StopAllCoroutines();
@@ -85,21 +86,30 @@ public class GameTimer : NetworkBehaviour {
     {
         while (timerIsRunning)
         {
-            timerIsRunning = true;
-            foreach (timerEvent timerEvent in events)
+            try
             {
-                if (timerEvent != null)
+                timerIsRunning = true;
+                foreach (timerEvent timerEvent in events)
                 {
-                    if (roundTime == timerEvent.time)
+                    if (timerEvent != null)
                     {
-                        timerEvent.eventCallbackFunction();
-                        Debug.Log("Event " + timerEvent + " was called.");
+                        if (roundTime == timerEvent.time)
+                        {
+                            timerEvent.eventCallbackFunction();
+                            //Debug.Log("Event " + timerEvent + " was called.");
+                        }
                     }
                 }
+
             }
-            
+            catch (InvalidOperationException)
+            {
+                //No-op
+            }
+
             yield return new WaitForSeconds(1);
             roundTime--;
+           
         }
     }
 }

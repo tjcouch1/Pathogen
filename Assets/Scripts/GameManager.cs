@@ -110,7 +110,7 @@ public class GameManager : NetworkBehaviour {
 
     private void initRoundEvents()
     {
-        Debug.Log("Initializing round events");
+        //Debug.Log("Initializing round events");
         GameTimer.singleton.clearTimerEvents();
 
         GameTimer.singleton.addTimerEvent(new timerEvent(BeginSuddenDeath, suddenDeathTime));
@@ -119,7 +119,7 @@ public class GameManager : NetworkBehaviour {
 
     private void initLobbyEvents()
     {
-        Debug.Log("Initializing lobby events");
+        //Debug.Log("Initializing lobby events");
         GameTimer.singleton.clearTimerEvents();
 
         GameTimer.singleton.addTimerEvent(new timerEvent(LobbyPreEnd, 10));
@@ -299,7 +299,7 @@ public class GameManager : NetworkBehaviour {
         singleton.initLobbyEvents();
         GameTimer.singleton.setRoundTitle("Waiting for new players");
         GameTimer.singleton.StartTimer(lobbyTime);
-        Debug.Log("Lobby Set Up!");
+        //Debug.Log("Lobby Set Up!");
     }
 
     //Anything that needs to be done just before the lobby ends

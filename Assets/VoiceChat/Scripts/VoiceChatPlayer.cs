@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable 0414
+
 namespace VoiceChat
 {
     [RequireComponent(typeof(AudioSource))]

@@ -103,6 +103,8 @@ public class Scanner : MonoBehaviour {
 
 }
 
+
+#pragma warning disable 0649
 [System.Serializable]
 class MonitorGraphics
 {

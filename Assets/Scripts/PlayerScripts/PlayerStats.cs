@@ -15,7 +15,7 @@ public class PlayerStats : MonoBehaviour {
 
     void OnDataRecieved(string data)
     {
-        Debug.Log(data);
+        //Debug.Log(data);
 
         //Eventually this text might scroll, but this works fine for now
         string marquee = "";

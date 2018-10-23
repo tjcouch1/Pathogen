@@ -51,7 +51,6 @@ public class Player : NetworkBehaviour {
     [SerializeField]
     private GameObject[] disableGOnDeath;
     private bool[] wasEnabled;
-    private bool firstSetup = true;
 
 	[HideInInspector]
 	public bl_ChatManager chatManager;
@@ -131,7 +130,7 @@ public class Player : NetworkBehaviour {
                 sourcePlayer.killCount++;
                 GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
             }
-        }catch(KeyNotFoundException e)
+        }catch (KeyNotFoundException)
         {
             GameManager.singleton.CallOnDeathCallbacks(transform.name, killerID);
         }

@@ -7,12 +7,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float jumpForce = 200f;
     [SerializeField] private float mouseSensitivity = 3;
     private PlayerMotor motor;
-    private WeaponManager weaponManger;
 
     private void Start()
     {
         motor = GetComponent<PlayerMotor>();
-        weaponManger = GetComponent<WeaponManager>();
     }
 
     private void Update()

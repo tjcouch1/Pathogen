@@ -45,7 +45,7 @@ public class LO_LoadingScreen : MonoBehaviour
     public string titleDescText;
     public float fadingAnimationSpeed = 2.0f;
 
-    private bool isHintAlphaZero;
+    private bool isHintAlphaZero = false;
  
     void Start()
     {

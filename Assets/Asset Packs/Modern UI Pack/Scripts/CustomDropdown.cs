@@ -29,14 +29,12 @@ public class CustomDropdown : MonoBehaviour {
 	private string outAnim = "Out";
 
 	private string sText;
-	private string sImage;
 
 	void Start ()
 	{
 		if (rememberSelection == true)
 		{
 			sText = PlayerPrefs.GetString (DropdownID + "SelectedText");
-			sImage = PlayerPrefs.GetString (DropdownID + "SelectedImage");
 		}
 
 		if (customPlaceholder == true)
@@ -48,7 +46,6 @@ public class CustomDropdown : MonoBehaviour {
 		else 
 		{
 			selectedText.text = sText;
-			//	selectedImage.sprite = 
 		}
 	}
 

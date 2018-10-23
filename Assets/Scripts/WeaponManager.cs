@@ -120,7 +120,7 @@ public class WeaponManager : NetworkBehaviour {
         {
             var weapon = weapons[selectedWeaponIndex].Key;
             return weapon;
-        }catch(ArgumentOutOfRangeException a)
+        }catch(ArgumentOutOfRangeException)
         {
             return null;
         }
@@ -192,7 +192,7 @@ public class WeaponManager : NetworkBehaviour {
                 Animator anim = currentGraphics.GetComponent<Animator>();
                 anim.SetTrigger("Reload");
             }
-            catch (MissingReferenceException e)
+            catch (MissingReferenceException)
             {
                 Debug.Log("The weapon instance of " + currentGraphics.name + " does not have an animator component attached");
             }
