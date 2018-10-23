@@ -16,6 +16,7 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private Text audioPositionsText;
     [SerializeField] private bool showAudioPositions = false;
     [SerializeField] private GameObject pushToTalkSprite;
+	[SerializeField] private GameObject quarantineWarning;
     [SerializeField] private GameObject[] disableWhileInLobby;
 
     public Color infectedColor;
@@ -24,9 +25,13 @@ public class PlayerUI : MonoBehaviour {
     private Player player;
     private WeaponManager weaponManager;
 
+	private string quarantineFormatString;
+
 	private void Start()
     {
         PauseMenu.isOn = false;
+		quarantineFormatString = quarantineWarning.GetComponent<Text>().text;
+		quarantineWarning.GetComponent<Text>().text = "";
     }
 
     public void SetPlayer(Player _player)
@@ -184,4 +189,10 @@ public class PlayerUI : MonoBehaviour {
     {
         timerTitle.color = c;
     }
+
+	public void UpdateQuarantineWarning(int qTime)
+	{
+		//sets quarantine warning text to #:##
+		quarantineWarning.GetComponent<Text>().text = string.Format(quarantineFormatString, Mathf.RoundToInt(qTime / 60) + ":" + (qTime % 60).ToString("00"));
+	}
 }

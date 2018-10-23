@@ -991,7 +991,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quarantine at 3:00 remaining
+  m_Text: Quarantine at {0} remaining
 --- !u!114 &114099017888494872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1477,6 +1477,7 @@ MonoBehaviour:
   audioPositionsText: {fileID: 114636738242345950}
   showAudioPositions: 0
   pushToTalkSprite: {fileID: 1587663539944666}
+  quarantineWarning: {fileID: 1499073115623926}
   disableWhileInLobby:
   - {fileID: 1768064728638884}
   - {fileID: 1196172924312336}

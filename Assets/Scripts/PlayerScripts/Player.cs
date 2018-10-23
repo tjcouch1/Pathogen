@@ -36,7 +36,14 @@ public class Player : NetworkBehaviour {
     }
 
     [SerializeField]
-    private int maxHealth = 100;
+    private int _maxHealth = 100;
+
+	public int maxHealth
+	{
+		get { return _maxHealth; }
+		private set { _maxHealth = value; }
+	}
+
     [SyncVar]
     private int currentHealth;
     [SyncVar]
@@ -61,6 +68,12 @@ public class Player : NetworkBehaviour {
         //Start all players in the lobby as soon as they join
         CmdSendPlayerToLobby();
     }
+
+	[Command]
+	public void CmdTakeDamage(int amount, string sourceID)
+	{
+		RpcTakeDamage(amount, sourceID);
+	}
 
     [ClientRpc]
     public void RpcTakeDamage(int amount, string sourceID)
@@ -123,19 +136,16 @@ public class Player : NetworkBehaviour {
     {
         isAlive = false;
 
-		if (string.IsNullOrEmpty(killerID) && killerID != "Quarantine")
-			try
-			{
-				Player sourcePlayer = GameManager.getPlayer(killerID);
-				if (sourcePlayer != null)
-				{
-					sourcePlayer.killCount++;
-					GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
-				}
-			}catch(KeyNotFoundException e)
-			{
-				GameManager.singleton.CallOnDeathCallbacks(transform.name, killerID);
-			}
+		Player sourcePlayer = GameManager.getPlayer(killerID);
+		if (sourcePlayer != null)//if killer is a player
+		{
+			sourcePlayer.killCount++;
+			GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
+		}
+		else//if killer is nothing or environmental (Quarantine, fall damage, etc)
+		{
+			GameManager.singleton.CallOnDeathCallbacks(transform.name, killerID);
+		}
 
         deathCount++;
 

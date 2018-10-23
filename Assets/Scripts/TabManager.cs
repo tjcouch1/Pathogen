@@ -79,7 +79,6 @@ public class TabManager : MonoBehaviour {
 		//submit with space - messes up entering chat with enter (SubmitInput.cs)
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Debug.Log("ASAHH");
 			Selectable selectedObject = eSystem.currentSelectedGameObject.GetComponent<Selectable>();
 			if (selectedObject.GetComponent<SubmitInput>() == null)
 				ExecuteEvents.Execute(selectedObject.gameObject, null, ExecuteEvents.submitHandler);

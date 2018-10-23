@@ -50,7 +50,7 @@ public class GameManager : NetworkBehaviour {
             healthyPlayers = new List<Player>();
             infectedPlayers = new List<Player>();
             onPlayerKilledCallbacks.Add(OnPlayerKilled);
-        }
+		}
     }
 
     public void CallOnDeathCallbacks(string player, string source)
@@ -117,9 +117,21 @@ public class GameManager : NetworkBehaviour {
 
         GameTimer.singleton.addTimerEvent(new timerEvent(BeginSuddenDeath, suddenDeathTime));
         GameTimer.singleton.addTimerEvent(new timerEvent(EndRound, 0));
-    }
 
-    private void initLobbyEvents()
+		RpcUpdateQuarantineWarningUI(suddenDeathTime);
+	}
+
+	[ClientRpc]
+	void RpcUpdateQuarantineWarningUI(int qTime)
+	{
+		PlayerUI[] playerUIs = FindObjectsOfType<PlayerUI>();
+		foreach (PlayerUI ui in playerUIs)
+		{
+			ui.UpdateQuarantineWarning(qTime);
+		}
+	}
+
+	private void initLobbyEvents()
     {
         Debug.Log("Initializing lobby events");
         GameTimer.singleton.clearTimerEvents();
@@ -133,7 +145,7 @@ public class GameManager : NetworkBehaviour {
         Debug.LogWarning("Starting Check for win condition");
         while(inCurrentRound)
         {
-            //Debug.Log("Checking for win condition");
+            Debug.Log("Checking for win condition");
             if (checkForWin())
             {
                 EndRound();
@@ -154,7 +166,9 @@ public class GameManager : NetworkBehaviour {
         {
             if (GameTimer.singleton.timerIsRunning)//speed up the timer
             {
-				if (GameTimer.singleton.getRoundTime() > startGameTime)
+				Debug.Log("MAX PLAYERS " + NetworkManager.singleton.matchSize);
+				//if lobby is full, speed up the timer
+				if (getAllPlayers().Length >= NetworkManager.singleton.matchSize && GameTimer.singleton.getRoundTime() > startGameTime)
 				{
 					//Whenever getting ready to start a new GameTimer.singleton, we should make sure to stop old ones that may be running
 					GameTimer.singleton.StopTimer();
@@ -361,7 +375,9 @@ public class GameManager : NetworkBehaviour {
 
     public static Player getPlayer(string playerID)
     {
-        return playerDictionary[playerID];
+		if (playerID != null && playerDictionary.ContainsKey(playerID))
+			return playerDictionary[playerID];
+		else return null;
     }
 
     public static Player[] getAllPlayers()
