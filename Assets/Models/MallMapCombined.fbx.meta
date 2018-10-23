@@ -16,6 +16,11 @@ ModelImporter:
     100020: SmallBridge
     100022: Stairs
     100024: Stores
+    100026: FCTables1
+    100028: Floor1WithPool
+    100030: FoodCourtBooths
+    100032: HandRails
+    100034: Stair_Columns
     400000: Elevator
     400002: Escalators
     400004: Floor1
@@ -29,6 +34,11 @@ ModelImporter:
     400020: SmallBridge
     400022: Stairs
     400024: Stores
+    400026: FCTables1
+    400028: Floor1WithPool
+    400030: FoodCourtBooths
+    400032: HandRails
+    400034: Stair_Columns
     2100000: lambert1
     2300000: Elevator
     2300002: Escalators
@@ -41,6 +51,11 @@ ModelImporter:
     2300016: SmallBridge
     2300018: Stairs
     2300020: Stores
+    2300022: FCTables1
+    2300024: Floor1WithPool
+    2300026: FoodCourtBooths
+    2300028: HandRails
+    2300030: Stair_Columns
     3300000: Elevator
     3300002: Escalators
     3300004: Floor1
@@ -52,6 +67,11 @@ ModelImporter:
     3300016: SmallBridge
     3300018: Stairs
     3300020: Stores
+    3300022: FCTables1
+    3300024: Floor1WithPool
+    3300026: FoodCourtBooths
+    3300028: HandRails
+    3300030: Stair_Columns
     4300000: Elevator
     4300002: Pool
     4300004: Floor2
@@ -63,6 +83,12 @@ ModelImporter:
     4300016: Stores
     4300018: HallBlockers
     4300020: Escalators
+    4300022: Floor1WithPool
+    4300024: FoodCourtBooths
+    4300026: FCTables1
+    4300028: Stair_Columns
+    4300030: HandRails
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
