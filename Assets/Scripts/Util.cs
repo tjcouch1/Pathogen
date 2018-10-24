@@ -25,12 +25,12 @@ public class timerEvent
 {
     public delegate void eventCallback();
     public eventCallback eventCallbackFunction;
-    public int time;
+    public int timeToEvoke;
    
-    public timerEvent(eventCallback callback, int _time)
+    public timerEvent(eventCallback callback, int _timeToEvoke)
     {
         eventCallbackFunction = callback;
-        time = _time;
+        timeToEvoke = _timeToEvoke;
     }
 }
 

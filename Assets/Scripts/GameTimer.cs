@@ -93,7 +93,7 @@ public class GameTimer : NetworkBehaviour {
                 {
                     if (timerEvent != null)
                     {
-                        if (roundTime == timerEvent.time)
+                        if (roundTime == timerEvent.timeToEvoke)
                         {
                             timerEvent.eventCallbackFunction();
                             //Debug.Log("Event " + timerEvent + " was called.");
