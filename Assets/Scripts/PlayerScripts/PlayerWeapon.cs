@@ -8,6 +8,7 @@ public class PlayerWeapon {
 	public int startingClips = 3;
     [HideInInspector] public int clips;
     [HideInInspector] public int bullets;
+	public bool infiniteAmmo = false;
     public int clipSize = 12;
     public float range = 100f;
     public float fireRate = 0f;

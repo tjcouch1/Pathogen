@@ -2866,6 +2866,7 @@ MonoBehaviour:
     startingClips: 3
     clips: 0
     bullets: 0
+    infiniteAmmo: 0
     clipSize: 0
     range: 5
     fireRate: 0
@@ -3045,6 +3046,7 @@ MonoBehaviour:
     startingClips: 2
     clips: 2
     bullets: 10
+    infiniteAmmo: 0
     clipSize: 10
     range: 100
     fireRate: 0
@@ -3060,6 +3062,7 @@ MonoBehaviour:
     startingClips: 0
     clips: 0
     bullets: -1
+    infiniteAmmo: 1
     clipSize: 0
     range: 5
     fireRate: 0
@@ -3075,6 +3078,7 @@ MonoBehaviour:
     startingClips: 0
     clips: 0
     bullets: 0
+    infiniteAmmo: 0
     clipSize: 0
     range: 0
     fireRate: 0

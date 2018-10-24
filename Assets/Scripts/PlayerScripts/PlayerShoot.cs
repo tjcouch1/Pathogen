@@ -118,20 +118,21 @@ public class PlayerShoot : NetworkBehaviour {
             return;
         }
 
-        if(currentWeapon.weaponName == "Infect")
+        if (currentWeapon.weaponName == "Infect")
         {
             //Let the infection script handle this
             Debug.Log("Using infection tool");
             return;
         }
 
-        if(currentWeapon.bullets == 0)
+        if (!currentWeapon.infiniteAmmo && currentWeapon.bullets == 0)
         {
             //Debug.Log("OUT OF AMMO");
             return;
         }
 
-        currentWeapon.bullets--;
+		if (!currentWeapon.infiniteAmmo)
+			currentWeapon.bullets--;
         //Debug.Log("Bullets: " + currentWeapon.bullets);
 
         //Call OnShoot method on the server
