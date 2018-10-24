@@ -5,8 +5,9 @@ public class PlayerWeapon {
 
     public string weaponName = "Default_Weapon";
     public int damage = 10;
-    public int clips = 3;
-    public int bullets;
+	public int startingClips = 3;
+    [HideInInspector] public int clips;
+    [HideInInspector] public int bullets;
     public int clipSize = 12;
     public float range = 100f;
     public float fireRate = 0f;
@@ -20,6 +21,7 @@ public class PlayerWeapon {
 
     public PlayerWeapon()
     {
+		clips = startingClips;
         bullets = clipSize;
     }
     

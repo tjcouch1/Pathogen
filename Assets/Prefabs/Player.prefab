@@ -2735,9 +2735,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7019607e31fc8843b5499572a028378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTyping: 0
   infectionTool: {fileID: 114274364004943402}
-  maxHealth: 100
+  _maxHealth: 100
   username: (null)
   killCount: 0
   deathCount: 0
@@ -2864,6 +2863,7 @@ MonoBehaviour:
   infectionTool:
     weaponName: Infect
     damage: 0
+    startingClips: 3
     clips: 0
     bullets: 0
     clipSize: 0
@@ -3042,6 +3042,7 @@ MonoBehaviour:
   defaultWeapons:
   - weaponName: Rifle
     damage: 20
+    startingClips: 2
     clips: 2
     bullets: 10
     clipSize: 10
@@ -3056,6 +3057,7 @@ MonoBehaviour:
     weaponIcon: {fileID: 21300016, guid: 76bdad1258c27a64fa6bff9c813759cb, type: 3}
   - weaponName: Knife
     damage: 40
+    startingClips: 0
     clips: 0
     bullets: -1
     clipSize: 0
@@ -3070,6 +3072,7 @@ MonoBehaviour:
     weaponIcon: {fileID: 21300000, guid: 2fdda1e966eae7a4bbf0b509c06be42a, type: 3}
   - weaponName: Holster
     damage: 0
+    startingClips: 0
     clips: 0
     bullets: 0
     clipSize: 0

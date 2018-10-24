@@ -174,8 +174,7 @@ public class WeaponManager : NetworkBehaviour {
         }
         isReloading = false;
     }
-
-    [Command]
+	[Command]
     void CmdOnReload()
     {
         RpcOnReload();
@@ -201,5 +200,22 @@ public class WeaponManager : NetworkBehaviour {
         {
             Debug.Log("Weapon " + weapons[selectedWeaponIndex].Key.weaponName + " has no graphics");
         }
-    }
+	}
+
+	/// <summary>
+	/// sets all weapons to max ammo on each local player
+	/// </summary>
+	//TODO: Austin, when you make it so the player finds weapons around, make sure to remove the weapons and load up defaultWeapons again please
+	public void RefreshAllWeapons()
+	{
+		if (isLocalPlayer)
+		{
+			foreach (KeyValuePair<PlayerWeapon, GameObject> w in weapons)
+			{
+				w.Key.clips = w.Key.startingClips;
+				w.Key.bullets = w.Key.clipSize;
+			}
+		}
+	}
+
 }

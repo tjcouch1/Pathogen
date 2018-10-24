@@ -192,6 +192,8 @@ public class GameManager : NetworkBehaviour {
                 p.SetInfected(false);
             }
 
+			RpcRefreshAllWeapons();
+
             //Add all players to the list of healthy
             healthyPlayers.AddRange(players);
 
@@ -221,11 +223,20 @@ public class GameManager : NetworkBehaviour {
             //Go back to lobby to wait for players
             StartLobby();
         }
-       
-    }  
 
-    //Happens when roundGameTimer.singleton == 180
-    public void BeginSuddenDeath()
+	}
+
+	/// <summary>
+	/// sets all weapons to max ammo on each local player
+	/// </summary>
+	[ClientRpc]
+	public void RpcRefreshAllWeapons()
+	{
+		getLocalPlayer().GetComponent<WeaponManager>().RefreshAllWeapons();
+	}
+
+	//Happens when roundGameTimer.singleton == 180
+	public void BeginSuddenDeath()
     {
         Debug.Log("BEGINNING SUDDEN DEATH CODE");
 
