@@ -273,12 +273,4 @@ public class Player : NetworkBehaviour {
     {
         return (float)currentHealth / maxHealth;
 	}
-
-	//check if players enter the quarantine zone
-	[Server]
-	public void OnTriggerEnter(Collider other)
-	{
-		if (other.GetComponent<Collider>().CompareTag("QuarantineZone"))
-			RpcTakeDamage(maxHealth, "Quarantine");
-	}
 }
