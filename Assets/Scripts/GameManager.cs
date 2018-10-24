@@ -166,7 +166,6 @@ public class GameManager : NetworkBehaviour {
         {
             if (GameTimer.singleton.timerIsRunning)//speed up the timer
             {
-				Debug.Log("MAX PLAYERS " + NetworkManager.singleton.matchSize);
 				//if lobby is full, speed up the timer
 				if (getAllPlayers().Length >= NetworkManager.singleton.matchSize && GameTimer.singleton.getRoundTime() > startGameTime)
 				{
