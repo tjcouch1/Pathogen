@@ -23,12 +23,11 @@ public class PlayerUI : MonoBehaviour {
 
     private Player player;
     private WeaponManager weaponManager;
-    private NotificationsManager notificationsManager;
 
 	private void Start()
     {
         PauseMenu.isOn = false;
-        notificationsManager = NotificationsManager.instance;
+        
         GameManager.singleton.onPlayerKilledCallbacks.Add(UIOnDeathCallback);
     }
 
@@ -139,32 +138,33 @@ public class PlayerUI : MonoBehaviour {
     //Anything that the UI needs to do on death happens here
     public void UIOnDeathCallback(string playerName, string sourceName)
     {
+        Debug.LogError("PlayerUIOnDeathCallback was called with: " + playerName + " , " + sourceName);
         //Our player killed someone
-        if(sourceName == player.username)
+        if(sourceName == player.name)
         {
             var killedPlayer = GameManager.getPlayer(playerName);
             if(killedPlayer.GetInfectedState() == player.GetInfectedState())
             {
                 //Player teamkilled! Bad bad!
-                notificationsManager.CreateNotification("Teamkill!", "You killed someone on your own team! -10 karma");
+                NotificationsManager.instance.CreateNotification("Teamkill!", "You killed someone on your own team! -10 karma");
             }
             else
             {
                 //Player was infected and killed a healthy person
                 if(player.GetInfectedState() == true)
                 {
-                    notificationsManager.CreateNotification("Killed Healthy", "You killed a potential host. Infect healthy players, don't kill them. -5 karma");
+                    NotificationsManager.instance.CreateNotification("Killed Healthy", "You killed a potential host. Infect healthy players, don't kill them. -5 karma");
                 }
                 //Player was healthy and killed an infected person
                 else 
                 {
-                    notificationsManager.CreateNotification("Killed Infected", "You killed an infected! +10 karma");
+                    NotificationsManager.instance.CreateNotification("Killed Infected", "You killed an infected! +10 karma");
                 }
             }
         }
         //Our player got killed
-        else if(playerName == player.username){
-            notificationsManager.CreateNotification("You were killed by: ", sourceName);
+        else if(playerName == player.name){
+            NotificationsManager.instance.CreateNotification("You were killed by: ", sourceName);
         }
         
     }

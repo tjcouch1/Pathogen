@@ -128,7 +128,7 @@ public class Player : NetworkBehaviour {
             if (sourcePlayer != null)
             {
                 sourcePlayer.killCount++;
-                GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
+                GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.name);
             }
         }catch (KeyNotFoundException)
         {

@@ -31,7 +31,7 @@ public class NotificationExample : MonoBehaviour {
 		descriptionObject.text = descriptionText;
 
 		notificationAnimator.Play (animationNameIn);
-		notificationAnimator.Play (animationNameOut);
+		//notificationAnimator.Play (animationNameOut);
 	
 	}
 }
