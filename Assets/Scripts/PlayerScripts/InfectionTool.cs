@@ -9,6 +9,7 @@ public class InfectionTool : NetworkBehaviour {
     [SerializeField] private Camera cam;
     [SerializeField] private WeaponManager weaponManager;
     [SerializeField] private PlayerWeapon infectionTool;
+	[SerializeField] private PlayerWeapon spitInfectTool;
     [SerializeField] private LayerMask mask;
     
     private PlayerWeapon currentWeapon;
@@ -17,8 +18,9 @@ public class InfectionTool : NetworkBehaviour {
 
     public void Setup () {
         Debug.Log("Infection tool setup was called for " + gameObject.name);
-        weaponManager.PickupWeapon(infectionTool);
-        isSetup = true;
+		weaponManager.PickupWeapon(infectionTool);
+		weaponManager.PickupWeapon(spitInfectTool);
+		isSetup = true;
     }
 
     void Update () {
@@ -31,11 +33,16 @@ public class InfectionTool : NetworkBehaviour {
         
         currentWeapon = weaponManager.getCurrentWeapon();
 
-        if (currentWeapon.Equals(infectionTool))
+		bool hasInfect = currentWeapon.Equals(infectionTool);
+		bool hasSpit = currentWeapon.Equals(spitInfectTool);
+        if (hasInfect || hasSpit)
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                Infect();
+				if (hasInfect)
+					Infect();
+				else if (hasSpit)
+					SpitInfect();
             }
         }
     }
@@ -67,9 +74,29 @@ public class InfectionTool : NetworkBehaviour {
                 CmdPlayerInfected(hit.collider.name, transform.name);
             }
         }
-    }
+	}
 
-    [Command]
+	[Client]
+	private void SpitInfect()
+	{
+		if (!isLocalPlayer)
+		{
+			return;
+		}
+
+		RaycastHit hit;
+		Vector3 aim = cam.transform.forward;
+		if (Physics.Raycast(cam.transform.position, aim, out hit, spitInfectTool.range, mask))
+		{
+			//We hit something
+			if (hit.collider.tag == "Player")
+			{
+				CmdPlayerInfected(hit.collider.name, transform.name);
+			}
+		}
+	}
+
+	[Command]
     void CmdPlayerInfected(string playerID, string sourceID)
     {
         //Debug.Log(playerID + " has been shot");

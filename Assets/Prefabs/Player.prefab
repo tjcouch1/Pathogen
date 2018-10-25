@@ -2863,13 +2863,13 @@ MonoBehaviour:
   infectionTool:
     weaponName: Infect
     damage: 0
-    startingClips: 3
+    startingClips: 0
     clips: 0
     bullets: 0
-    infiniteAmmo: 0
+    infiniteAmmo: 1
     clipSize: 0
     range: 5
-    fireRate: 0
+    fireRate: 2
     reloadTime: 0
     maxInacuracy: 0
     sprayDecayRate: 0.5
@@ -2877,6 +2877,23 @@ MonoBehaviour:
     weaponGFX: {fileID: 1672061850738770, guid: dba496da54728a9428e0e07393d549df,
       type: 2}
     weaponIcon: {fileID: 21300000, guid: 763ddcc8940867f42ad6180db88df4b6, type: 3}
+  spitInfectTool:
+    weaponName: Spit Infect
+    damage: 0
+    startingClips: 0
+    clips: 3
+    bullets: 12
+    infiniteAmmo: 1
+    clipSize: 0
+    range: 15
+    fireRate: 1
+    reloadTime: 0
+    maxInacuracy: 0.04
+    sprayDecayRate: 0.5
+    sprayHealRate: 0.5
+    weaponGFX: {fileID: 1225760964484284, guid: 8d872dea98ddb044e936e688036437ce,
+      type: 2}
+    weaponIcon: {fileID: 21300000, guid: 90501de5bec0974408980312b5910ee0, type: 3}
   mask:
     serializedVersion: 2
     m_Bits: 3639

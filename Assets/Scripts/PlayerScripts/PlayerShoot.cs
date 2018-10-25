@@ -118,10 +118,10 @@ public class PlayerShoot : NetworkBehaviour {
             return;
         }
 
-        if (currentWeapon.weaponName == "Infect")
+        if (currentWeapon.weaponName == "Infect" || currentWeapon.weaponName == "Spit")
         {
             //Let the infection script handle this
-            Debug.Log("Using infection tool");
+            Debug.Log("Using infection or spit");
             return;
         }
 
