@@ -44,6 +44,9 @@ public class SubmitInput : MonoBehaviour {
 				//select it
 				inputToSubmit.ActivateInputField();
 				eSystem.SetSelectedGameObject(gameObject, new BaseEventData(eSystem));
+
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
 			}
 		}
 	}
@@ -54,5 +57,16 @@ public class SubmitInput : MonoBehaviour {
 		input.text = "";
 		input.DeactivateInputField();
 		localPlayer.CmdPlayerSetTyping(false);
+
+		if (GameManager.singleton.inCurrentRound)
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
+		else
+		{
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
 	}
 }

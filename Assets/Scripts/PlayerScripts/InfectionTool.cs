@@ -97,13 +97,13 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	void CmdSpit(Vector3 direction)
 	{
-		GameObject spit = Instantiate(spitPrefab);
+		GameObject spit = Instantiate(spitPrefab, cam.transform);
 		Spitball spitball = spit.GetComponent<Spitball>();
 		spitball.weaponManager = weaponManager;
 		spitball.shooter = GetComponent<Player>();
 		spitball.infectionTool = this;
 		spit.GetComponent<Rigidbody>().velocity = direction;
-		spit.transform.rotation = Quaternion.LookRotation(Vector3.Normalize(direction), Vector3.up);
+		//spit.transform.rotation = Quaternion.LookRotation(Vector3.Normalize(direction), Vector3.up);
 
 		NetworkServer.Spawn(spit);
 

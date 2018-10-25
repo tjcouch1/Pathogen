@@ -18,6 +18,7 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private GameObject pushToTalkSprite;
 	[SerializeField] private GameObject quarantineWarning;
     [SerializeField] private GameObject[] disableWhileInLobby;
+	[SerializeField] private GameObject[] disableWhileInGame;
 
     public Color infectedColor;
     public Color healthyColor;
@@ -46,6 +47,9 @@ public class PlayerUI : MonoBehaviour {
         {
             g.SetActive(!state);
         }
+
+		foreach (GameObject g in disableWhileInGame)
+			g.SetActive(state);
     }
 
 		// Update is called once per frame

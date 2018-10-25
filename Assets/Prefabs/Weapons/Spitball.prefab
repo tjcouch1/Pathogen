@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4579683773182820}
   - component: {fileID: 33803947469217574}
   - component: {fileID: 23696032263516300}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 54805852927534496}
   - component: {fileID: 114891433978176556}
   - component: {fileID: 114777442721481584}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Spitball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1506215158362252}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.905, y: 1.441, z: 0.143}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.05868654, y: 0.05868654, z: 0.05868654}
   m_Children:
   - {fileID: 4579683773182820}
@@ -242,7 +242,7 @@ MonoBehaviour:
     i14: 86
     i15: 174
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!135 &135303008941088956
 SphereCollider:
   m_ObjectHideFlags: 1
