@@ -10,6 +10,7 @@ public class InfectionTool : NetworkBehaviour {
     [SerializeField] private WeaponManager weaponManager;
     [SerializeField] private PlayerWeapon infectionTool;
 	[SerializeField] private PlayerWeapon spitInfectTool;
+	[SerializeField] private GameObject spitPrefab;
     [SerializeField] private LayerMask mask;
     
     private PlayerWeapon currentWeapon;
@@ -77,23 +78,36 @@ public class InfectionTool : NetworkBehaviour {
 	}
 
 	[Client]
-	private void SpitInfect()
+	public void SpitInfect()
 	{
 		if (!isLocalPlayer)
 		{
 			return;
 		}
 
-		RaycastHit hit;
-		Vector3 aim = cam.transform.forward;
-		if (Physics.Raycast(cam.transform.position, aim, out hit, spitInfectTool.range, mask))
-		{
-			//We hit something
-			if (hit.collider.tag == "Player")
-			{
-				CmdPlayerInfected(hit.collider.name, transform.name);
-			}
-		}
+		//make spitball
+		Vector3 aim = cam.transform.TransformDirection(new Vector3(Random.Range(-currentWeapon.maxInacuracy, currentWeapon.maxInacuracy), Random.Range(-currentWeapon.maxInacuracy, currentWeapon.maxInacuracy), spitInfectTool.range));
+		CmdSpit(aim);
+	}
+
+	/// <summary>
+	/// make the spitball on server and send down to clients
+	/// </summary>
+	/// <param name="direction">Direction to send the spitball including velocity (not a unit vector)</param>
+	[Command]
+	void CmdSpit(Vector3 direction)
+	{
+		GameObject spit = Instantiate(spitPrefab);
+		Spitball spitball = spit.GetComponent<Spitball>();
+		spitball.weaponManager = weaponManager;
+		spitball.shooter = GetComponent<Player>();
+		spitball.infectionTool = this;
+		spit.GetComponent<Rigidbody>().velocity = direction;
+		spit.transform.rotation = Quaternion.LookRotation(Vector3.Normalize(direction), Vector3.up);
+
+		NetworkServer.Spawn(spit);
+
+		Destroy(spit, 5.0f);
 	}
 
 	[Command]
@@ -103,5 +117,13 @@ public class InfectionTool : NetworkBehaviour {
 
         Player player = GameManager.getPlayer(playerID);
         player.SetInfected(true);
-    }
+	}
+
+	[Command]
+	public void CmdPlayerSpitInfected(string playerID, string sourceID, GameObject spit)
+	{
+		Player player = GameManager.getPlayer(playerID);
+		player.SetInfected(true);
+		Destroy(spit);
+	}
 }
