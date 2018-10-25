@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114200735985697076}
   m_Layer: 0
   m_Name: QuarantineZone
-  m_TagString: Untagged
+  m_TagString: QuarantineZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1738979508184458}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.4041023, y: 14.49, z: -9}
-  m_LocalScale: {x: 158.4, y: 16.311312, z: 195.27582}
+  m_LocalPosition: {x: -4.4041023, y: 8.17, z: -9}
+  m_LocalScale: {x: 78.6, y: 9.195339, z: 96}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
