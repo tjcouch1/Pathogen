@@ -156,8 +156,8 @@ public class PlayerUI : MonoBehaviour {
                 Debug.LogError("WAT????");
             }
 
-            Debug.LogWarning("UIOnDeathCallback called with source: " + sourcePlayer.username + localInfected);
-            Debug.LogWarning("and target " + killedPlayer.username + killedPlayer.GetInfectedState());
+            //Debug.LogWarning("UIOnDeathCallback called with source: " + sourcePlayer.username + localInfected);
+            //Debug.LogWarning("and target " + killedPlayer.username + killedPlayer.GetInfectedState());
 
             if(killedPlayer.GetInfectedState() == localInfected)
             {

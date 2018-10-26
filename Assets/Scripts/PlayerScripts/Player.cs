@@ -75,21 +75,32 @@ public class Player : NetworkBehaviour {
             Die(sourceID);
         }
     }
-
-    public void SetInfected(bool value)
+    //<summary>
+    //  Returns a bool indicating if the infection/un-infection was a success or not
+    //</summary>
+    public bool SetInfected(bool value)
     {
         if (value)
         {
-            isInfected = true;
-            infectionTool.Setup();
-            GameManager.singleton.RegisterNewInfected(this);
-            Debug.Log(username + " is infected!");
+            if (isInfected)
+            {
+                Debug.Log("Player is already infected!");
+                return false;
+            }
+            else
+            {
+                isInfected = true;
+                infectionTool.Setup();
+                GameManager.singleton.RegisterNewInfected(this);
+                Debug.Log(username + " is now infected!");
+            }
         }
         else
         {
             isInfected = false;
             infectionTool.Disable();
         }
+        return true;
     }
 
     public bool GetInfectedState()
