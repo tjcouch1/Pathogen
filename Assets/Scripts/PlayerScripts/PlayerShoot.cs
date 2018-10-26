@@ -83,10 +83,12 @@ public class PlayerShoot : NetworkBehaviour {
     {
         if(weaponManager.getCurrentWeaponGraphics() != null)
         {
-            GameObject hitEffect = Instantiate(weaponManager.getCurrentWeaponGraphics().hitEffectPrefab, pos, Quaternion.LookRotation(normal));
-
-            //Destroy the effect after it has played to clean up memory
-            Destroy(hitEffect, 1f);
+            if (weaponManager.getCurrentWeaponGraphics().hitEffectPrefab != null)
+            {
+                GameObject hitEffect = Instantiate(weaponManager.getCurrentWeaponGraphics().hitEffectPrefab, pos, Quaternion.LookRotation(normal));
+                //Destroy the effect after it has played to clean up memory
+                Destroy(hitEffect, 1f);
+            }
         }   
     }
 

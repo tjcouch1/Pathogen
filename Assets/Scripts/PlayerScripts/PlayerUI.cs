@@ -24,17 +24,23 @@ public class PlayerUI : MonoBehaviour {
     private Player player;
     private WeaponManager weaponManager;
 
+    private bool localInfected = false;
+
 	private void Start()
     {
         PauseMenu.isOn = false;
-        
-        GameManager.singleton.onPlayerKilledCallbacks.Add(UIOnDeathCallback);
     }
 
     public void SetPlayer(Player _player)
     {
         player = _player;
         weaponManager = player.GetComponent<WeaponManager>();
+    }
+
+    public void EnableUIOnDeathCallback()
+    {
+        //GameManager.singleton.onPlayerKilledCallbacks.Add(UIOnDeathCallback);
+        GameManager.singleton.onPlayerKilledCallbacks.Insert(0, UIOnDeathCallback);
     }
 
     public void LobbyMode(bool state)
@@ -116,6 +122,8 @@ public class PlayerUI : MonoBehaviour {
             hf.color = healthyColor;
             infectedUI.SetActive(false);
         }
+
+        localInfected = state;
     }
 
     public void TogglePauseMenu()
@@ -138,12 +146,20 @@ public class PlayerUI : MonoBehaviour {
     //Anything that the UI needs to do on death happens here
     public void UIOnDeathCallback(string playerName, string sourceName)
     {
-        Debug.LogError("PlayerUIOnDeathCallback was called with: " + playerName + " , " + sourceName);
         //Our player killed someone
         if(sourceName == player.name)
         {
             var killedPlayer = GameManager.getPlayer(playerName);
-            if(killedPlayer.GetInfectedState() == player.GetInfectedState())
+            var sourcePlayer = GameManager.getPlayer(sourceName);
+            if(sourcePlayer != player)
+            {
+                Debug.LogError("WAT????");
+            }
+
+            Debug.LogWarning("UIOnDeathCallback called with source: " + sourcePlayer.username + localInfected);
+            Debug.LogWarning("and target " + killedPlayer.username + killedPlayer.GetInfectedState());
+
+            if(killedPlayer.GetInfectedState() == localInfected)
             {
                 //Player teamkilled! Bad bad!
                 NotificationsManager.instance.CreateNotification("Teamkill!", "You killed someone on your own team! -10 karma");

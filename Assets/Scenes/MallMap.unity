@@ -149,6 +149,7 @@ MonoBehaviour:
   lobbyTime: 30
   startGameTime: 5
   inCurrentRound: 0
+  isGMSetUp: 0
 --- !u!4 &63289644
 Transform:
   m_ObjectHideFlags: 0

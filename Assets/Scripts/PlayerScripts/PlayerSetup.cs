@@ -64,6 +64,10 @@ public class PlayerSetup : NetworkBehaviour {
 		chatManager.SetPlayerName(username, true);
 		chatManager.SetAlive(false);
 		isChatUISetUp = true;
+
+        //Setup Notifications UI
+        playerUIInstance.GetComponent<PlayerUI>().EnableUIOnDeathCallback();
+        playerUIInstance.GetComponentInChildren<KillFeed>().SetupKillFeed();
 	}
 
 	[Command]

@@ -33,6 +33,10 @@ public class GameManager : NetworkBehaviour {
     //OnSpawn, need to check if inCurrentRound to determine whether or not to spawn player
     [SyncVar] public bool inCurrentRound = false;
 
+    //Setup bool
+    public bool isGMSetUp = false;
+
+
     private void Awake()
     {
         if (singleton != null)
@@ -55,6 +59,7 @@ public class GameManager : NetworkBehaviour {
     {
         foreach(OnPlayerKilledCallback c in onPlayerKilledCallbacks)
         {
+            Debug.Log("Invoking " + c);
             c.Invoke(player, source);
         }
     }

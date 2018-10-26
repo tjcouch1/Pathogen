@@ -5,7 +5,7 @@ using UnityEngine;
 public class NotificationsManager : MonoBehaviour {
 
     public GameObject notificationPrefab;
-    public float notificationTimeout;
+    public float notificationTimeout = 10;
 
     public static NotificationsManager instance;
 
@@ -28,6 +28,14 @@ public class NotificationsManager : MonoBehaviour {
         note.ShowNotification();
 
         Destroy(go, notificationTimeout);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            instance.CreateNotification("Test Notification", "This is a test");
+        }
     }
 
 }

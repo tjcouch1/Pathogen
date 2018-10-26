@@ -7,13 +7,12 @@ public class KillFeed : MonoBehaviour {
     [SerializeField]
     GameObject killFeedItemPrefab;
     [SerializeField]
-    private float killFeedTimeout = 8;
+    private float killFeedTimeout = 10;
 
-	// Use this for initialization
-	void Start () {
-
+	public void SetupKillFeed()
+    {
         GameManager.singleton.onPlayerKilledCallbacks.Add(OnKill);
-	}
+    }
 
     public void OnKill(string player, string source)
     {

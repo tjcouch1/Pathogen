@@ -94,14 +94,7 @@ public class Player : NetworkBehaviour {
 
     public bool GetInfectedState()
     {
-        if (isInfected)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return isInfected;
     }
 
 	public override void OnStartClient()
