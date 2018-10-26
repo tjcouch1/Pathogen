@@ -89,33 +89,37 @@ public class Player : NetworkBehaviour {
             Die(sourceID);
         }
     }
-
-    public void SetInfected(bool value)
+    //<summary>
+    //  Returns a bool indicating if the infection/un-infection was a success or not
+    //</summary>
+    public bool SetInfected(bool value)
     {
         if (value)
         {
-            isInfected = true;
-            infectionTool.Setup();
-            GameManager.singleton.RegisterNewInfected(this);
-            Debug.Log(username + " is infected!");
+            if (isInfected)
+            {
+                Debug.Log("Player is already infected!");
+                return false;
+            }
+            else
+            {
+                isInfected = true;
+                infectionTool.Setup();
+                GameManager.singleton.RegisterNewInfected(this);
+                Debug.Log(username + " is now infected!");
+            }
         }
         else
         {
             isInfected = false;
             infectionTool.Disable();
         }
+        return true;
     }
 
     public bool GetInfectedState()
     {
-        if (isInfected)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return isInfected;
     }
 
 	public override void OnStartClient()
@@ -135,12 +139,12 @@ public class Player : NetworkBehaviour {
 	private void Die(string killerID)
     {
         isAlive = false;
-
+		
 		Player sourcePlayer = GameManager.getPlayer(killerID);
 		if (sourcePlayer != null)//if killer is a player
 		{
 			sourcePlayer.killCount++;
-			GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.username);
+			GameManager.singleton.CallOnDeathCallbacks(transform.name, sourcePlayer.name);
 		}
 		else//if killer is nothing or environmental (Quarantine, fall damage, etc)
 		{

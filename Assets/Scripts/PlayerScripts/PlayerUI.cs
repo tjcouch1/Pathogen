@@ -25,8 +25,9 @@ public class PlayerUI : MonoBehaviour {
 
     private Player player;
     private WeaponManager weaponManager;
-
+	
 	private string quarantineFormatString;
+    private bool localInfected = false;
 
 	private void Start()
     {
@@ -39,6 +40,12 @@ public class PlayerUI : MonoBehaviour {
     {
         player = _player;
         weaponManager = player.GetComponent<WeaponManager>();
+    }
+
+    public void EnableUIOnDeathCallback()
+    {
+        //GameManager.singleton.onPlayerKilledCallbacks.Add(UIOnDeathCallback);
+        GameManager.singleton.onPlayerKilledCallbacks.Insert(0, UIOnDeathCallback);
     }
 
     public void LobbyMode(bool state)
@@ -113,6 +120,8 @@ public class PlayerUI : MonoBehaviour {
             hf.color = healthyColor;
             infectedUI.SetActive(false);
         }
+
+        localInfected = state;
     }
 
     public void TogglePauseMenu()
@@ -129,6 +138,49 @@ public class PlayerUI : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+    }
+
+    //TO-DO: Refactor this into the points system
+    //Anything that the UI needs to do on death happens here
+    public void UIOnDeathCallback(string playerName, string sourceName)
+    {
+        //Our player killed someone
+        if(sourceName == player.name)
+        {
+            var killedPlayer = GameManager.getPlayer(playerName);
+            var sourcePlayer = GameManager.getPlayer(sourceName);
+            if(sourcePlayer != player)
+            {
+                Debug.LogError("WAT????");
+            }
+
+            //Debug.LogWarning("UIOnDeathCallback called with source: " + sourcePlayer.username + localInfected);
+            //Debug.LogWarning("and target " + killedPlayer.username + killedPlayer.GetInfectedState());
+
+            if(killedPlayer.GetInfectedState() == localInfected)
+            {
+                //Player teamkilled! Bad bad!
+                NotificationsManager.instance.CreateNotification("Teamkill!", "You killed someone on your own team! -10 karma");
+            }
+            else
+            {
+                //Player was infected and killed a healthy person
+                if(player.GetInfectedState() == true)
+                {
+                    NotificationsManager.instance.CreateNotification("Killed Healthy", "You killed a potential host. Infect healthy players, don't kill them. -5 karma");
+                }
+                //Player was healthy and killed an infected person
+                else 
+                {
+                    NotificationsManager.instance.CreateNotification("Killed Infected", "You killed an infected! +10 karma");
+                }
+            }
+        }
+        //Our player got killed
+        else if(playerName == player.name){
+            NotificationsManager.instance.CreateNotification("You were killed by: ", sourceName);
+        }
+        
     }
 
     void SetHealthAmount(float health)

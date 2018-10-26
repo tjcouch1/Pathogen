@@ -4,9 +4,8 @@ using UnityEngine.UI;
 
 public class NotificationExample : MonoBehaviour {
 
-	[Header("OBJECT")]
-	public GameObject notificationObject;
-	public Animator notificationAnimator;
+	private GameObject notificationObject;
+	private Animator notificationAnimator;
 
 	[Header("OBJECT")]
 	public Text titleObject;
@@ -15,11 +14,13 @@ public class NotificationExample : MonoBehaviour {
 	[Header("VARIABLES")]
 	public string titleText;
 	public string descriptionText;
-	public string animationNameIn;
-	public string animationNameOut;
+	[SerializeField] private string animationNameIn;
+	[SerializeField] private string animationNameOut;
 
-	void Start()
+	void Awake()
 	{
+        notificationAnimator = GetComponent<Animator>();
+        notificationObject = this.gameObject;
 		notificationObject.SetActive (false);
 	}
 
@@ -30,7 +31,7 @@ public class NotificationExample : MonoBehaviour {
 		descriptionObject.text = descriptionText;
 
 		notificationAnimator.Play (animationNameIn);
-		notificationAnimator.Play (animationNameOut);
+		//notificationAnimator.Play (animationNameOut);
 	
 	}
 }

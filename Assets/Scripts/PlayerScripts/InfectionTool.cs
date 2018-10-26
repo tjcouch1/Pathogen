@@ -67,6 +67,7 @@ public class InfectionTool : NetworkBehaviour {
             if (hit.collider.tag == "Player")
             {
                 CmdPlayerInfected(hit.collider.name, transform.name);
+                NotificationsManager.instance.CreateNotification("Infection", "You infected a player by touch! +5 points");
             }
         }
 	}
