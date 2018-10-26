@@ -9,6 +9,8 @@ public class InfectionTool : NetworkBehaviour {
     [SerializeField] private Camera cam;
     [SerializeField] private WeaponManager weaponManager;
     [SerializeField] private PlayerWeapon infectionTool;
+	[SerializeField] private PlayerWeapon spitInfectTool;
+	[SerializeField] private GameObject spitPrefab;
     [SerializeField] private LayerMask mask;
     
     private PlayerWeapon currentWeapon;
@@ -17,8 +19,9 @@ public class InfectionTool : NetworkBehaviour {
 
     public void Setup () {
         Debug.Log("Infection tool setup was called for " + gameObject.name);
-        weaponManager.PickupWeapon(infectionTool);
-        isSetup = true;
+		weaponManager.PickupWeapon(infectionTool);
+		weaponManager.PickupWeapon(spitInfectTool);
+		isSetup = true;
     }
 
     void Update () {
@@ -31,11 +34,16 @@ public class InfectionTool : NetworkBehaviour {
         
         currentWeapon = weaponManager.getCurrentWeapon();
 
-        if (currentWeapon.Equals(infectionTool))
+		bool hasInfect = currentWeapon.Equals(infectionTool);
+		bool hasSpit = currentWeapon.Equals(spitInfectTool);
+        if (hasInfect || hasSpit)
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                Infect();
+				if (hasInfect)
+					Infect();
+				else if (hasSpit)
+					SpitInfect();
             }
         }
     }
@@ -67,14 +75,55 @@ public class InfectionTool : NetworkBehaviour {
                 CmdPlayerInfected(hit.collider.name, transform.name);
             }
         }
-    }
+	}
 
-    [Command]
+	[Client]
+	public void SpitInfect()
+	{
+		if (!isLocalPlayer)
+		{
+			return;
+		}
+
+		//make spitball
+		Vector3 aim = cam.transform.TransformDirection(new Vector3(Random.Range(-currentWeapon.maxInacuracy, currentWeapon.maxInacuracy), Random.Range(-currentWeapon.maxInacuracy, currentWeapon.maxInacuracy), spitInfectTool.range));
+		CmdSpit(aim);
+	}
+
+	/// <summary>
+	/// make the spitball on server and send down to clients
+	/// </summary>
+	/// <param name="direction">Direction to send the spitball including velocity (not a unit vector)</param>
+	[Command]
+	void CmdSpit(Vector3 direction)
+	{
+		GameObject spit = Instantiate(spitPrefab, cam.transform);
+		Spitball spitball = spit.GetComponent<Spitball>();
+		spitball.weaponManager = weaponManager;
+		spitball.shooter = GetComponent<Player>();
+		spitball.infectionTool = this;
+		spit.GetComponent<Rigidbody>().velocity = direction;
+		//spit.transform.rotation = Quaternion.LookRotation(Vector3.Normalize(direction), Vector3.up);
+
+		NetworkServer.Spawn(spit);
+
+		Destroy(spit, 5.0f);
+	}
+
+	[Command]
     void CmdPlayerInfected(string playerID, string sourceID)
     {
         //Debug.Log(playerID + " has been shot");
 
         Player player = GameManager.getPlayer(playerID);
         player.SetInfected(true);
-    }
+	}
+
+	[Command]
+	public void CmdPlayerSpitInfected(string playerID, string sourceID, GameObject spit)
+	{
+		Player player = GameManager.getPlayer(playerID);
+		player.SetInfected(true);
+		Destroy(spit);
+	}
 }

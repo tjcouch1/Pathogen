@@ -18,6 +18,7 @@ public class PlayerUI : MonoBehaviour {
     [SerializeField] private GameObject pushToTalkSprite;
 	[SerializeField] private GameObject quarantineWarning;
     [SerializeField] private GameObject[] disableWhileInLobby;
+	[SerializeField] private GameObject[] disableWhileInGame;
 
     public Color infectedColor;
     public Color healthyColor;
@@ -46,6 +47,9 @@ public class PlayerUI : MonoBehaviour {
         {
             g.SetActive(!state);
         }
+
+		foreach (GameObject g in disableWhileInGame)
+			g.SetActive(state);
     }
 
 		// Update is called once per frame
@@ -56,27 +60,17 @@ public class PlayerUI : MonoBehaviour {
             return;
         }
 
-        if(weaponManager.getCurrentWeapon() == null)
+		PlayerWeapon currentWeapon = weaponManager.getCurrentWeapon();
+
+		if (currentWeapon == null)
         {
             return;
         }
 
-        //Proabably a better way of doing this, but this is the list of overrides for weapons/tools that don't have bullets
-        switch (weaponManager.getCurrentWeapon().weaponName)
-        {
-            case "Infect":
-                ammoText.text = "Infect";
-                break;
-            case "Knife":
-                ammoText.text = "Knife";
-                break;
-            case "Holster":
-                ammoText.text = "Holster";
-                break;
-            default:
-                SetAmmoAmount(weaponManager.getCurrentWeapon().bullets, weaponManager.getCurrentWeapon().clips);
-                break;
-        }
+		//set the weapon text - name if no/infinite ammo or ammo / clips
+		if (currentWeapon.infiniteAmmo || (currentWeapon.startingClips == 0 && currentWeapon.clipSize == 0))
+			ammoText.text = currentWeapon.weaponName;
+		else SetAmmoAmount(currentWeapon.bullets, currentWeapon.clips);
 
         SetHealthAmount(player.getHealth());
         weaponImage.sprite = weaponManager.getCurrentWeapon().weaponIcon;

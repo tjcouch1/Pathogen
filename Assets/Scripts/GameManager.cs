@@ -6,117 +6,117 @@ using UnityEngine.Networking;
 
 public class GameManager : NetworkBehaviour {
 
-    public static GameManager singleton;
-    [SerializeField] private GameObject sceneCamera;
+	public static GameManager singleton;
+	[SerializeField] private GameObject sceneCamera;
 
-    public delegate void OnPlayerKilledCallback(string player, string source);
-    public List<OnPlayerKilledCallback> onPlayerKilledCallbacks;
+	public delegate void OnPlayerKilledCallback(string player, string source);
+	public List<OnPlayerKilledCallback> onPlayerKilledCallbacks;
 
-    //Required number of players for a game to start
-    [SerializeField] private int requiredPlayers = 1;
-    [SerializeField] private int roundTime = 600;
-    [SerializeField] private int suddenDeathTime = 180;
-    [SerializeField] private int lobbyTime = 180;
+	//Required number of players for a game to start
+	[SerializeField] private int requiredPlayers = 1;
+	[SerializeField] private int roundTime = 600;
+	[SerializeField] private int suddenDeathTime = 180;
+	[SerializeField] private int lobbyTime = 180;
 	[SerializeField] private int startGameTime = 5;
-    private int roundNumber = 0;
+	private int roundNumber = 0;
 
-    //List of infected and healthy players still in game
-    private List<Player> healthyPlayers;
-    private List<Player> infectedPlayers;
+	//List of infected and healthy players still in game
+	private List<Player> healthyPlayers;
+	private List<Player> infectedPlayers;
 
-    //Timer events
-    private timerEvent suddenDeathEvent;
-    private timerEvent roundEnd;
-    private timerEvent roundStartAlert;
-    private timerEvent lobbyEnd;
+	//Timer events
+	private timerEvent suddenDeathEvent;
+	private timerEvent roundEnd;
+	private timerEvent roundStartAlert;
+	private timerEvent lobbyEnd;
 
 	public GameObject QuarantineZone;
 
-    //OnSpawn, need to check if inCurrentRound to determine whether or not to spawn player
-    [SyncVar] public bool inCurrentRound = false;
+	//OnSpawn, need to check if inCurrentRound to determine whether or not to spawn player
+	[SyncVar] public bool inCurrentRound = false;
 
-    private void Awake()
-    {
-        if (singleton != null)
-        {
-            Debug.LogError("More than one GameManager present in the scene!");
-        }
-        else
-        {
-            singleton = this;
-
-            //Initialize Lists
-            onPlayerKilledCallbacks = new List<OnPlayerKilledCallback>();
-            healthyPlayers = new List<Player>();
-            infectedPlayers = new List<Player>();
-            onPlayerKilledCallbacks.Add(OnPlayerKilled);
+	private void Awake()
+	{
+		if (singleton != null)
+		{
+			Debug.LogError("More than one GameManager present in the scene!");
 		}
-    }
+		else
+		{
+			singleton = this;
 
-    public void CallOnDeathCallbacks(string player, string source)
-    {
-        foreach(OnPlayerKilledCallback c in onPlayerKilledCallbacks)
-        {
-            c.Invoke(player, source);
-        }
-    }
+			//Initialize Lists
+			onPlayerKilledCallbacks = new List<OnPlayerKilledCallback>();
+			healthyPlayers = new List<Player>();
+			infectedPlayers = new List<Player>();
+			onPlayerKilledCallbacks.Add(OnPlayerKilled);
+		}
+	}
 
-    private void OnPlayerKilled(string player, string source)
-    {
-        Player p = getPlayer(player);
-        if(p != null)
-        {
-            if (p.GetInfectedState())
-            {
-                infectedPlayers.Remove(p);
-                p.SetInfected(false);
-            }
-            else if (!p.GetInfectedState())
-            {
-                healthyPlayers.Remove(p);
-            }
-        }
-        else
-        {
-            Debug.LogError("Could not find " + player + " in player dictionary");
-        }
-    }
+	public void CallOnDeathCallbacks(string player, string source)
+	{
+		foreach (OnPlayerKilledCallback c in onPlayerKilledCallbacks)
+		{
+			c.Invoke(player, source);
+		}
+	}
 
-    public void RegisterNewInfected(Player infPlayer)
-    {
-        if (healthyPlayers.Contains(infPlayer))
-        {
-            healthyPlayers.Remove(infPlayer);
-        }
+	private void OnPlayerKilled(string player, string source)
+	{
+		Player p = getPlayer(player);
+		if (p != null)
+		{
+			if (p.GetInfectedState())
+			{
+				infectedPlayers.Remove(p);
+				p.SetInfected(false);
+			}
+			else if (!p.GetInfectedState())
+			{
+				healthyPlayers.Remove(p);
+			}
+		}
+		else
+		{
+			Debug.LogError("Could not find " + player + " in player dictionary");
+		}
+	}
 
-        if (!infectedPlayers.Contains(infPlayer))
-        {
-            infectedPlayers.Add(infPlayer);
-        }
-        else
-        {
-            Debug.Log("Player " + infPlayer.name + " is already infected!");
-        }
-    }
+	public void RegisterNewInfected(Player infPlayer)
+	{
+		if (healthyPlayers.Contains(infPlayer))
+		{
+			healthyPlayers.Remove(infPlayer);
+		}
 
-    public void SetSceneCameraActive(bool isActive)
-    {
-        if (sceneCamera == null)
-        {
-            return;
-        }
-        sceneCamera.SetActive(isActive);
-    }
+		if (!infectedPlayers.Contains(infPlayer))
+		{
+			infectedPlayers.Add(infPlayer);
+		}
+		else
+		{
+			Debug.Log("Player " + infPlayer.name + " is already infected!");
+		}
+	}
 
-    #region timerEvents
+	public void SetSceneCameraActive(bool isActive)
+	{
+		if (sceneCamera == null)
+		{
+			return;
+		}
+		sceneCamera.SetActive(isActive);
+	}
 
-    private void initRoundEvents()
-    {
-        //Debug.Log("Initializing round events");
-        GameTimer.singleton.clearTimerEvents();
+	#region timerEvents
 
-        GameTimer.singleton.addTimerEvent(new timerEvent(BeginSuddenDeath, suddenDeathTime));
-        GameTimer.singleton.addTimerEvent(new timerEvent(EndRound, 0));
+	private void initRoundEvents()
+	{
+		//Debug.Log("Initializing round events");
+		GameTimer.singleton.clearTimerEvents();
+
+		GameTimer.singleton.addTimerEvent(new timerEvent(BeginSuddenDeath, suddenDeathTime));
+		GameTimer.singleton.addTimerEvent(new timerEvent(EndRound, 0));
 
 		RpcUpdateQuarantineWarningUI(suddenDeathTime);
 	}
@@ -132,29 +132,38 @@ public class GameManager : NetworkBehaviour {
 	}
 
 	private void initLobbyEvents()
-    {
-        //Debug.Log("Initializing lobby events");
-        GameTimer.singleton.clearTimerEvents();
+	{
+		//Debug.Log("Initializing lobby events");
+		GameTimer.singleton.clearTimerEvents();
 
-        GameTimer.singleton.addTimerEvent(new timerEvent(LobbyPreEnd, 10));
-        GameTimer.singleton.addTimerEvent(new timerEvent(EndLobby, 0));
-    }
+		GameTimer.singleton.addTimerEvent(new timerEvent(LobbyPreEnd, 10));
+		GameTimer.singleton.addTimerEvent(new timerEvent(EndLobby, 0));
+	}
 
-    IEnumerator checkWinCondition()
-    {
-        Debug.LogWarning("Starting Check for win condition");
-        while(inCurrentRound)
-        {
-            Debug.Log("Checking for win condition");
-            if (checkForWin())
-            {
-                EndRound();
-                yield break;
-            }
-            yield return new WaitForSeconds(1);
-        }
-        
-    }
+	IEnumerator checkWinCondition()
+	{
+		Debug.LogWarning("Starting Check for win condition");
+		while (inCurrentRound)
+		{
+			Debug.Log("Checking for win condition");
+			if (checkForWin())
+			{
+				EndRound();
+				yield break;
+			}
+			yield return new WaitForSeconds(1);
+		}
+
+	}
+
+	/// <summary>
+	/// Calls CmdStartRound! This is for the start round button
+	/// </summary>
+	public void CallCmdStartRound()
+	{
+		Debug.Log("Speeding up");
+		CmdStartRound();
+	}
 
     //Called when a new player joins, or whenever we are finished in the lobby
     [Command]
@@ -296,7 +305,10 @@ public class GameManager : NetworkBehaviour {
 
             //Go to lobby
             StartLobby();
-        }
+
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		}
         else
         {
             GameTimer.singleton.setRoundTitle("OVERTIME");
