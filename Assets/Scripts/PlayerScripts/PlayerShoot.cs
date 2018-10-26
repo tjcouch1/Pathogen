@@ -61,9 +61,9 @@ public class PlayerShoot : NetworkBehaviour {
 
 		if (shootTime <= 0 && ((!currentWeapon.automatic && Input.GetButtonDown("Fire1")) || (currentWeapon.automatic && Input.GetButton("Fire1"))))
 		{
-			Shoot();
 			if (currentWeapon.fireRate > 0)
 				shootTime = 1f / currentWeapon.fireRate;
+			Shoot();
 		}
     }
 
