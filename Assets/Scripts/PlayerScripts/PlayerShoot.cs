@@ -30,7 +30,7 @@ public class PlayerShoot : NetworkBehaviour {
     {
         currentWeapon = weaponManager.getCurrentWeapon();
 
-        if (PauseMenu.isOn || !GameManager.singleton.inCurrentRound)
+        if (PauseMenu.isOn)
             return;
 
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");

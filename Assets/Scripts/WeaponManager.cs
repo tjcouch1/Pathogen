@@ -64,6 +64,8 @@ public class WeaponManager : NetworkBehaviour {
             {
                 Destroy(pair.Value);
                 NetworkServer.Destroy(pair.Value);
+				if (weapons[selectedWeaponIndex].Equals(pair))
+					selectedWeaponIndex = 0;
                 weapons.Remove(pair);
                 break;
             }
