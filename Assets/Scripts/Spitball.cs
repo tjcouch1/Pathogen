@@ -24,4 +24,17 @@ public class Spitball : MonoBehaviour
 				Destroy(this);
 			}
 	}
+
+	void OnDestroy()
+	{
+		//copied from PlayerShoot.cs RpcDoHitEffect
+		if (weaponManager.getCurrentWeaponGraphics() != null)
+		{
+			Player player = GameManager.getLocalPlayer();
+			GameObject hitEffect = Instantiate(weaponManager.getCurrentWeaponGraphics().hitEffectPrefab, transform.position, Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up));
+
+			//Destroy the effect after it has played to clean up memory
+			Destroy(hitEffect, 3f);
+		}
+	}
 }

@@ -13,7 +13,8 @@ public class HostGame : MonoBehaviour {
 
     private void Start()
     {
-        networkManager = NetworkManager.singleton;
+		Random.InitState((int)System.DateTime.Now.Ticks);
+		networkManager = NetworkManager.singleton;
         if(networkManager.matchMaker == null)
         {
             networkManager.StartMatchMaker();

@@ -47,7 +47,7 @@ public class PlayerFallDamage : MonoBehaviour {
         //Debug.Log("Player Fell " + deltaY);
         if (deltaY >= fallThreshold)
         {
-            float damage = deltaY * damagePerUnitFall;
+            float damage = (deltaY - fallThreshold / 2) * damagePerUnitFall;
             player.RpcTakeDamage((int)damage, "Fall Damage");
         }
     }

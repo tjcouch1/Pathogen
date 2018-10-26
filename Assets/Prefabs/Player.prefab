@@ -2869,6 +2869,7 @@ MonoBehaviour:
     infiniteAmmo: 1
     clipSize: 0
     range: 5
+    automatic: 0
     fireRate: 2
     reloadTime: 0
     maxInacuracy: 0
@@ -2886,9 +2887,10 @@ MonoBehaviour:
     infiniteAmmo: 1
     clipSize: 0
     range: 15
+    automatic: 0
     fireRate: 1
     reloadTime: 0
-    maxInacuracy: 0.04
+    maxInacuracy: 1
     sprayDecayRate: 0.5
     sprayHealRate: 0.5
     weaponGFX: {fileID: 1225760964484284, guid: 8d872dea98ddb044e936e688036437ce,
@@ -3067,7 +3069,8 @@ MonoBehaviour:
     infiniteAmmo: 0
     clipSize: 10
     range: 100
-    fireRate: 0
+    automatic: 1
+    fireRate: 5
     reloadTime: 2
     maxInacuracy: 0.02
     sprayDecayRate: 0.5
@@ -3083,7 +3086,8 @@ MonoBehaviour:
     infiniteAmmo: 1
     clipSize: 0
     range: 5
-    fireRate: 0
+    automatic: 1
+    fireRate: 2
     reloadTime: 0
     maxInacuracy: 0
     sprayDecayRate: 0
@@ -3099,6 +3103,7 @@ MonoBehaviour:
     infiniteAmmo: 0
     clipSize: 0
     range: 0
+    automatic: 0
     fireRate: 0
     reloadTime: 0
     maxInacuracy: 0
