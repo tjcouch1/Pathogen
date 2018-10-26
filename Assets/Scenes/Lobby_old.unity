@@ -270,8 +270,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 443.625, y: -16.15}
-  m_SizeDelta: {x: 341.75, y: 30}
+  m_AnchoredPosition: {x: 471.75, y: -16.15}
+  m_SizeDelta: {x: 330.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &311059697
 MonoBehaviour:
@@ -2119,8 +2119,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 738.875, y: -16.15}
-  m_SizeDelta: {x: 228.75, y: 30}
+  m_AnchoredPosition: {x: 755.75, y: -16.15}
+  m_SizeDelta: {x: 217.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1310984304
 MonoBehaviour:
@@ -2625,8 +2625,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 938.625, y: -16.15}
-  m_SizeDelta: {x: 150.75, y: 30}
+  m_AnchoredPosition: {x: 944.25, y: -16.15}
+  m_SizeDelta: {x: 139.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1826485679
 MonoBehaviour:
@@ -3127,6 +3127,7 @@ GameObject:
   - component: {fileID: 2075853576}
   - component: {fileID: 2075853578}
   - component: {fileID: 2075853577}
+  - component: {fileID: 2075853579}
   m_Layer: 5
   m_Name: VersionNo
   m_TagString: Untagged
@@ -3149,8 +3150,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 136.375, y: -16.15}
-  m_SizeDelta: {x: 252.75, y: 30}
+  m_AnchoredPosition: {x: 153.25, y: -16.15}
+  m_SizeDelta: {x: 286.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2075853577
 MonoBehaviour:
@@ -3184,9 +3185,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Version 0.2d
-
-'
+  m_Text: Version Alpha 0.6
 --- !u!222 &2075853578
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3194,3 +3193,14 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2075853575}
   m_CullTransparentMesh: 0
+--- !u!114 &2075853579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2075853575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e53bb8aff4eaceb488d9d34976f0736f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
