@@ -14,6 +14,7 @@ public class PlayerShoot : NetworkBehaviour {
     private float lastCallToApplySpray = 0;     //I hope this variable name is descriptive enough
     [SerializeField]                            //Because world units are so big, we need a multiplier to bring down the size
     private float sprayMultiplier = 0.1f;
+	private float shootTime = 0.0f; //the amount of time in seconds until the next shot may be fired
 
     private void Start()
     {
@@ -29,7 +30,7 @@ public class PlayerShoot : NetworkBehaviour {
     {
         currentWeapon = weaponManager.getCurrentWeapon();
 
-        if (PauseMenu.isOn)
+        if (PauseMenu.isOn || !GameManager.singleton.inCurrentRound)
             return;
 
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");
@@ -50,24 +51,20 @@ public class PlayerShoot : NetworkBehaviour {
             return;
         }
 
-        if(currentWeapon.fireRate <= 0)
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                Shoot();
-            }
-        }
-        else
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                InvokeRepeating("Shoot", 0f, 1f/currentWeapon.fireRate);
-            }
-            else if (Input.GetButtonUp("Fire1"))
-            {
-                CancelInvoke("Shoot");
-            }
-        }
+		//deal with when the weapon can shoot
+		if (shootTime > 0)
+		{
+			shootTime -= Time.deltaTime;
+			if (shootTime < 0f)
+				shootTime = 0f;
+		}
+
+		if (shootTime <= 0 && ((!currentWeapon.automatic && Input.GetButtonDown("Fire1")) || (currentWeapon.automatic && Input.GetButton("Fire1"))))
+		{
+			Shoot();
+			if (currentWeapon.fireRate > 0)
+				shootTime = 1f / currentWeapon.fireRate;
+		}
     }
 
     //Called on server when player hits someting
@@ -81,6 +78,7 @@ public class PlayerShoot : NetworkBehaviour {
     [ClientRpc]
     void RpcDoHitEffect(Vector3 pos, Vector3 normal)
     {
+		//copied in Spitball.cs OnDestroy
         if(weaponManager.getCurrentWeaponGraphics() != null)
         {
             GameObject hitEffect = Instantiate(weaponManager.getCurrentWeaponGraphics().hitEffectPrefab, pos, Quaternion.LookRotation(normal));
@@ -98,6 +96,9 @@ public class PlayerShoot : NetworkBehaviour {
     }
 
     //IS called on ALL clients when we need to display a shoot effect
+	/// <summary>
+	/// Duplicated in InfectionTool.cs
+	/// </summary>
     [ClientRpc]
     void RpcDoMuzzleFlash()
     {
@@ -118,11 +119,18 @@ public class PlayerShoot : NetworkBehaviour {
             return;
         }
 
-        if (currentWeapon.weaponName == "Infect" || currentWeapon.weaponName == "Spit")
-        {
-            //Let the infection script handle this
-            return;
-        }
+		//let infection script handle shooting if it's one of those weapons
+		InfectionTool infectionTool = GetComponent<InfectionTool>();
+		if (infectionTool.isInfectEquipped())
+		{
+			infectionTool.Infect();
+			return;
+		}
+		else if (infectionTool.isSpitEquipped())
+		{
+			infectionTool.SpitInfect();
+			return;
+		}
 
         if (!currentWeapon.infiniteAmmo && currentWeapon.bullets == 0)
         {

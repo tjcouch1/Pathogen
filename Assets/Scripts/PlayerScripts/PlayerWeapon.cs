@@ -11,6 +11,7 @@ public class PlayerWeapon {
 	public bool infiniteAmmo = false;
     public int clipSize = 12;
     public float range = 100f;
+	public bool automatic = false;
     public float fireRate = 0f;
     public float reloadTime = 2;
     public float maxInacuracy = 0.02f;

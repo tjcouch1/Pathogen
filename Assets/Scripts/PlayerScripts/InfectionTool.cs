@@ -6,47 +6,40 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(WeaponManager))]
 public class InfectionTool : NetworkBehaviour {
 
-    [SerializeField] private Camera cam;
-    [SerializeField] private WeaponManager weaponManager;
-    [SerializeField] private PlayerWeapon infectionTool;
+	[SerializeField] private Camera cam;
+	[SerializeField] private WeaponManager weaponManager;
+	[SerializeField] private PlayerWeapon infectionTool;
 	[SerializeField] private PlayerWeapon spitInfectTool;
 	[SerializeField] private GameObject spitPrefab;
-    [SerializeField] private LayerMask mask;
-    
-    private PlayerWeapon currentWeapon;
+	[SerializeField] private LayerMask mask;
 
-    private bool isSetup = false;
+	private bool isSetup = false;
 
-    public void Setup () {
-        Debug.Log("Infection tool setup was called for " + gameObject.name);
+	public void Setup() {
+		Debug.Log("Infection tool setup was called for " + gameObject.name);
 		weaponManager.PickupWeapon(infectionTool);
 		weaponManager.PickupWeapon(spitInfectTool);
 		isSetup = true;
-    }
+	}
 
-    void Update () {
+	void Update() {
 
-        if (PauseMenu.isOn)
-            return;
+		if (PauseMenu.isOn)
+			return;
 
-        if (!isSetup)
-            return;
-        
-        currentWeapon = weaponManager.getCurrentWeapon();
+		if (!isSetup)
+			return;
+	}
 
-		bool hasInfect = currentWeapon.Equals(infectionTool);
-		bool hasSpit = currentWeapon.Equals(spitInfectTool);
-        if (hasInfect || hasSpit)
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-				if (hasInfect)
-					Infect();
-				else if (hasSpit)
-					SpitInfect();
-            }
-        }
-    }
+	public bool isInfectEquipped()
+	{
+		return weaponManager.getCurrentWeapon().Equals(infectionTool);
+	}
+
+	public bool isSpitEquipped()
+	{
+		return weaponManager.getCurrentWeapon().Equals(spitInfectTool);
+	}
 
     public void Disable()
     {
@@ -54,11 +47,12 @@ public class InfectionTool : NetworkBehaviour {
         if(weaponManager != null)
         {
             weaponManager.RemoveWeapon(infectionTool);
-        }
+			weaponManager.RemoveWeapon(spitInfectTool);
+		}
     }
 
     [Client]
-    private void Infect()
+    public void Infect()
     {
         if (!isLocalPlayer)
         {
@@ -86,7 +80,8 @@ public class InfectionTool : NetworkBehaviour {
 		}
 
 		//make spitball
-		Vector3 aim = cam.transform.TransformDirection(new Vector3(Random.Range(-currentWeapon.maxInacuracy, currentWeapon.maxInacuracy), Random.Range(-currentWeapon.maxInacuracy, currentWeapon.maxInacuracy), spitInfectTool.range));
+		PlayerWeapon currentWeapon = weaponManager.getCurrentWeapon();
+		Vector3 aim = cam.transform.TransformDirection(new Vector3(Random.Range(-currentWeapon.maxInacuracy, currentWeapon.maxInacuracy), Random.Range(-currentWeapon.maxInacuracy, currentWeapon.maxInacuracy), currentWeapon.range));
 		CmdSpit(aim);
 	}
 
@@ -97,17 +92,34 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	void CmdSpit(Vector3 direction)
 	{
+		//create spit object
 		GameObject spit = Instantiate(spitPrefab, cam.transform);
 		Spitball spitball = spit.GetComponent<Spitball>();
 		spitball.weaponManager = weaponManager;
 		spitball.shooter = GetComponent<Player>();
 		spitball.infectionTool = this;
 		spit.GetComponent<Rigidbody>().velocity = direction;
-		//spit.transform.rotation = Quaternion.LookRotation(Vector3.Normalize(direction), Vector3.up);
-
 		NetworkServer.Spawn(spit);
-
 		Destroy(spit, 5.0f);
+
+		//particle effects
+		RpcDoMuzzleFlash();
+	}
+
+	//IS called on ALL clients when we need to display a shoot effect
+	/// <summary>
+	/// Duplicated from PlayerShoot.cs
+	/// </summary>
+	[ClientRpc]
+	void RpcDoMuzzleFlash()
+	{
+		if (weaponManager.getCurrentWeaponGraphics() != null)
+		{
+			if (weaponManager.getCurrentWeaponGraphics().muzzleFlash != null)
+			{
+				weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
+			}
+		}
 	}
 
 	[Command]
