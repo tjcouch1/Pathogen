@@ -11,9 +11,9 @@ public class WeaponManager : NetworkBehaviour {
     [SerializeField] private Transform weaponHolder;
 
     //Maps each weapon to its instance
-    private List<WeaponInstancePair> weapons;
+    [SerializeField] private List<WeaponInstancePair> weapons;
 
-    [SyncVar] private int selectedWeaponIndex = 0;//serialized for debug reasons
+    [SyncVar] [SerializeField] private int selectedWeaponIndex = 0;//serialized for debug reasons
     public bool isReloading = false;
 
     // Use this for initialization
@@ -56,8 +56,8 @@ public class WeaponManager : NetworkBehaviour {
     public PlayerWeapon PickupWeapon(string WeaponName)
     {
         Debug.LogWarning("Pickup weapon was called for " + WeaponName);
-        if (isLocalPlayer)
-        {
+       // if (isLocalPlayer)
+       // {
             for(int i = 0; i < weaponPrefabs.Count; i++)
             {
                 if(weaponPrefabs[i].weaponName == WeaponName)
@@ -66,12 +66,13 @@ public class WeaponManager : NetworkBehaviour {
                     CmdPickupWeapon(i);
                     return weapons[i].weapon;
                 }
+                
             }
             Debug.LogWarning("Weapon " + WeaponName + " is not a valid weapon prefab!");
             return null;
-        }
-        Debug.LogWarning("Pickup Weapon called on non-local player!");
-        return null;
+        //}
+        //Debug.LogWarning("Pickup Weapon called on non-local player!");
+        //return null;
     }
 
     [Command]
@@ -83,7 +84,10 @@ public class WeaponManager : NetworkBehaviour {
     [ClientRpc]
     void RpcPickupWeapon(int index)
     {
-        weapons.Add(new WeaponInstancePair(weaponPrefabs[index], SpawnWeapon(weaponPrefabs[index])));
+        if (!isServer)
+        {
+            weapons.Add(new WeaponInstancePair(weaponPrefabs[index], SpawnWeapon(weaponPrefabs[index])));
+        }
     }
 
     public void RemoveWeapon(PlayerWeapon weapon)
