@@ -59,6 +59,7 @@ public class PlayerShoot : NetworkBehaviour {
 				shootTime = 0f;
 		}
 
+		//allow the player to shoot automatically or by clicking depending on the weapon's abilities
 		if (shootTime <= 0 && ((!currentWeapon.automatic && Input.GetButtonDown("Fire1")) || (currentWeapon.automatic && Input.GetButton("Fire1"))))
 		{
 			if (currentWeapon.fireRate > 0)
