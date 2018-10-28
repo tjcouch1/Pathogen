@@ -2860,42 +2860,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 20017678660094722}
   weaponManager: {fileID: 114677199130525918}
-  infectionTool:
-    weaponName: Infect
-    damage: 0
-    startingClips: 0
-    clips: 0
-    bullets: 0
-    infiniteAmmo: 1
-    clipSize: 0
-    range: 5
-    automatic: 0
-    fireRate: 2
-    reloadTime: 0
-    maxInacuracy: 0
-    sprayDecayRate: 0.5
-    sprayHealRate: 0.5
-    weaponGFX: {fileID: 1672061850738770, guid: dba496da54728a9428e0e07393d549df,
-      type: 2}
-    weaponIcon: {fileID: 21300000, guid: 763ddcc8940867f42ad6180db88df4b6, type: 3}
-  spitInfectTool:
-    weaponName: Spit
-    damage: 0
-    startingClips: 0
-    clips: 3
-    bullets: 12
-    infiniteAmmo: 1
-    clipSize: 0
-    range: 15
-    automatic: 0
-    fireRate: 1
-    reloadTime: 0
-    maxInacuracy: 1
-    sprayDecayRate: 0.5
-    sprayHealRate: 0.5
-    weaponGFX: {fileID: 1225760964484284, guid: 8d872dea98ddb044e936e688036437ce,
-      type: 2}
-    weaponIcon: {fileID: 21300000, guid: 90501de5bec0974408980312b5910ee0, type: 3}
   spitPrefab: {fileID: 1506215158362252, guid: 81589866e9fd2de40b0bf323b3a256ae, type: 2}
   mask:
     serializedVersion: 2
@@ -3060,12 +3024,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c030f0638e8c645bf9b384a625c96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultWeapons:
+  weaponPrefabs:
   - weaponName: Rifle
+    isDefault: 1
     damage: 20
     startingClips: 2
-    clips: 2
-    bullets: 10
+    clips: 0
+    bullets: 0
     infiniteAmmo: 0
     clipSize: 10
     range: 100
@@ -3077,12 +3042,13 @@ MonoBehaviour:
     sprayHealRate: 0.5
     weaponGFX: {fileID: 1250855496221732, guid: 655637af834c04b4eb4a1d0615a0b014,
       type: 2}
-    weaponIcon: {fileID: 21300016, guid: 76bdad1258c27a64fa6bff9c813759cb, type: 3}
+    weaponIcon: {fileID: 21300008, guid: 76bdad1258c27a64fa6bff9c813759cb, type: 3}
   - weaponName: Knife
+    isDefault: 1
     damage: 40
     startingClips: 0
     clips: 0
-    bullets: -1
+    bullets: 0
     infiniteAmmo: 1
     clipSize: 0
     range: 5
@@ -3095,7 +3061,8 @@ MonoBehaviour:
     weaponGFX: {fileID: 1060565668771620, guid: 367537fbdbcff81499c8564e0ba11c3d,
       type: 2}
     weaponIcon: {fileID: 21300000, guid: 2fdda1e966eae7a4bbf0b509c06be42a, type: 3}
-  - weaponName: Holster
+  - weaponName: Holstered
+    isDefault: 1
     damage: 0
     startingClips: 0
     clips: 0
@@ -3111,6 +3078,42 @@ MonoBehaviour:
     sprayHealRate: 0
     weaponGFX: {fileID: 0}
     weaponIcon: {fileID: 21300134, guid: b295b6401049aca4faf1374aad10abde, type: 3}
+  - weaponName: Infect
+    isDefault: 0
+    damage: 0
+    startingClips: 0
+    clips: 0
+    bullets: 0
+    infiniteAmmo: 1
+    clipSize: 0
+    range: 5
+    automatic: 0
+    fireRate: 2
+    reloadTime: 0
+    maxInacuracy: 0
+    sprayDecayRate: 0.5
+    sprayHealRate: 0.5
+    weaponGFX: {fileID: 1672061850738770, guid: dba496da54728a9428e0e07393d549df,
+      type: 2}
+    weaponIcon: {fileID: 21300000, guid: 763ddcc8940867f42ad6180db88df4b6, type: 3}
+  - weaponName: SpitInfect
+    isDefault: 0
+    damage: 0
+    startingClips: 0
+    clips: 0
+    bullets: 0
+    infiniteAmmo: 1
+    clipSize: 0
+    range: 10
+    automatic: 0
+    fireRate: 1
+    reloadTime: 0
+    maxInacuracy: 1
+    sprayDecayRate: 0.5
+    sprayHealRate: 0.5
+    weaponGFX: {fileID: 1225760964484284, guid: 8d872dea98ddb044e936e688036437ce,
+      type: 2}
+    weaponIcon: {fileID: 21300000, guid: 90501de5bec0974408980312b5910ee0, type: 3}
   weaponHolder: {fileID: 4076115203499606}
   isReloading: 0
 --- !u!114 &114741910040539562

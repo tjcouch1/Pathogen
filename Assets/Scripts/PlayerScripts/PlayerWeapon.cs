@@ -4,6 +4,7 @@
 public class PlayerWeapon {
 
     public string weaponName = "Default_Weapon";
+    public bool isDefault;
     public int damage = 10;
 	public int startingClips = 3;
     [HideInInspector] public int clips;

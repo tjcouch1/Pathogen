@@ -8,17 +8,18 @@ public class InfectionTool : NetworkBehaviour {
 
 	[SerializeField] private Camera cam;
 	[SerializeField] private WeaponManager weaponManager;
-	[SerializeField] private PlayerWeapon infectionTool;
-	[SerializeField] private PlayerWeapon spitInfectTool;
 	[SerializeField] private GameObject spitPrefab;
 	[SerializeField] private LayerMask mask;
 
-	private bool isSetup = false;
+    private PlayerWeapon infectionTool;
+    private PlayerWeapon spitInfectTool;
+
+    private bool isSetup = false;
 
 	public void Setup() {
 		Debug.Log("Infection tool setup was called for " + gameObject.name);
-		weaponManager.PickupWeapon(infectionTool);
-		weaponManager.PickupWeapon(spitInfectTool);
+		infectionTool = weaponManager.PickupWeapon("Infect");
+		spitInfectTool = weaponManager.PickupWeapon("SpitInfect");
 		isSetup = true;
 	}
 

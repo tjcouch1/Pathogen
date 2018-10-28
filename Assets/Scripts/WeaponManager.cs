@@ -7,27 +7,30 @@ using System;
 public class WeaponManager : NetworkBehaviour {
 
     [SerializeField] private const string remoteLayerName = "RemotePlayer";
-    [SerializeField] private List<PlayerWeapon> defaultWeapons;
+    [SerializeField] private List<PlayerWeapon> weaponPrefabs;
     [SerializeField] private Transform weaponHolder;
 
     //Maps each weapon to its instance
-    private List<KeyValuePair<PlayerWeapon, GameObject>> weapons;
+    private List<WeaponInstancePair> weapons;
 
-    [SerializeField] private int selectedWeaponIndex = 0;//serialized for debug reasons
+    [SyncVar] private int selectedWeaponIndex = 0;//serialized for debug reasons
     public bool isReloading = false;
 
     // Use this for initialization
     void Start()
     {
-        weapons = new List<KeyValuePair<PlayerWeapon, GameObject>>();
-        foreach (PlayerWeapon w in defaultWeapons)
+        weapons = new List<WeaponInstancePair>();
+        foreach (PlayerWeapon w in weaponPrefabs)
         {
-            var instance = SpawnWeapon(w);
-            weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(w, instance));
-            if (instance != null)
-                instance.SetActive(false);
+            if (w.isDefault)
+            {
+                var instance = SpawnWeapon(w);
+                weapons.Add(new WeaponInstancePair(w, instance));
+                if (instance != null)
+                    instance.SetActive(false);
+            }
         }
-        weapons[selectedWeaponIndex].Value.SetActive(true);
+        weapons[selectedWeaponIndex].weaponInstance.SetActive(true);
     }
 
     private GameObject SpawnWeapon(PlayerWeapon w)
@@ -50,26 +53,53 @@ public class WeaponManager : NetworkBehaviour {
         }
     }
 
-    public void PickupWeapon(PlayerWeapon weapon)
+    public PlayerWeapon PickupWeapon(string WeaponName)
     {
-        weapons.Add(new KeyValuePair<PlayerWeapon, GameObject>(weapon, SpawnWeapon(weapon)));
-        Debug.LogWarning("Pickup weapon was called for " + gameObject.name);
+        Debug.LogWarning("Pickup weapon was called for " + WeaponName);
+        if (isLocalPlayer)
+        {
+            for(int i = 0; i < weaponPrefabs.Count; i++)
+            {
+                if(weaponPrefabs[i].weaponName == WeaponName)
+                {
+                    weapons.Add(new WeaponInstancePair(weaponPrefabs[i], SpawnWeapon(weaponPrefabs[i])));
+                    CmdPickupWeapon(i);
+                    return weapons[i].weapon;
+                }
+            }
+            Debug.LogWarning("Weapon " + WeaponName + " is not a valid weapon prefab!");
+            return null;
+        }
+        Debug.LogWarning("Pickup Weapon called on non-local player!");
+        return null;
+    }
+
+    [Command]
+    void CmdPickupWeapon(int index)
+    {
+        RpcPickupWeapon(index);
+    }
+
+    [ClientRpc]
+    void RpcPickupWeapon(int index)
+    {
+        weapons.Add(new WeaponInstancePair(weaponPrefabs[index], SpawnWeapon(weaponPrefabs[index])));
     }
 
     public void RemoveWeapon(PlayerWeapon weapon)
     {
-        foreach(KeyValuePair<PlayerWeapon, GameObject> pair in weapons)
+        foreach(WeaponInstancePair pair in weapons)
         {
-            if(pair.Key == weapon)
+            if(pair.weapon == weapon)
 			{
 				//TODO: fix this so it doesn't reset alive players' weapons to 0 every time
 				//if (getCurrentWeapon() == weapon)
-				{
+				//{
 					selectedWeaponIndex = 0;
 					CmdRequestWeaponSwitch(0);
-				}
-				Destroy(pair.Value);
-                NetworkServer.Destroy(pair.Value);
+				//}
+				Destroy(pair.weaponInstance);
+                NetworkServer.Destroy(pair.weaponInstance);
 				weapons.Remove(pair);
                 break;
             }
@@ -109,22 +139,29 @@ public class WeaponManager : NetworkBehaviour {
     [ClientRpc]
     public void RpcSwitchWeapon(int requestedIndex)
     {
-        if (weapons[selectedWeaponIndex].Value != null)
-            weapons[selectedWeaponIndex].Value.SetActive(false);
-        if (weapons[requestedIndex].Value != null)
-            weapons[requestedIndex].Value.SetActive(true);
+        if (weapons[selectedWeaponIndex].weaponInstance != null)
+            weapons[selectedWeaponIndex].weaponInstance.SetActive(false);
+
+        if (weapons[requestedIndex].weaponInstance != null)
+            weapons[requestedIndex].weaponInstance.SetActive(true);
 
         if (isLocalPlayer)
         {
-            selectedWeaponIndex = requestedIndex;
+            CmdupdateSelectedWeaponIndex(requestedIndex);
         }
+    }
+
+    [Command]
+    private void CmdupdateSelectedWeaponIndex(int requestedIndex)
+    {
+        selectedWeaponIndex = requestedIndex;
     }
 
     public PlayerWeapon getCurrentWeapon()
     {
         try
         {
-            var weapon = weapons[selectedWeaponIndex].Key;
+            var weapon = weapons[selectedWeaponIndex].weapon;
             return weapon;
         }catch(ArgumentOutOfRangeException)
         {
@@ -134,14 +171,14 @@ public class WeaponManager : NetworkBehaviour {
 
     public WeaponGraphics getCurrentWeaponGraphics()
     {
-        var weaponGFX = weapons[selectedWeaponIndex].Value.GetComponent<WeaponGraphics>();
+        var weaponGFX = weapons[selectedWeaponIndex].weaponInstance.GetComponent<WeaponGraphics>();
         if(weaponGFX != null)
         {
             return weaponGFX;
         }
         else
         {
-            Debug.Log("Weapon " + weapons[selectedWeaponIndex].Key.weaponName + " has no graphics");
+            Debug.Log("Weapon " + weapons[selectedWeaponIndex].weapon.weaponName + " has no graphics");
             return null;
         }
     }
@@ -151,7 +188,7 @@ public class WeaponManager : NetworkBehaviour {
         if (isReloading)
             return;
 
-        var currentWeapon = weapons[selectedWeaponIndex].Key;
+        var currentWeapon = weapons[selectedWeaponIndex].weapon;
 
         if(currentWeapon.bullets == currentWeapon.clipSize)
         {
@@ -189,7 +226,7 @@ public class WeaponManager : NetworkBehaviour {
     [ClientRpc]
     void RpcOnReload()
     {
-        var currentGraphics = weapons[selectedWeaponIndex].Value;
+        var currentGraphics = weapons[selectedWeaponIndex].weaponInstance;
         if(currentGraphics != null)
         {
             try
@@ -204,24 +241,42 @@ public class WeaponManager : NetworkBehaviour {
         }
         else
         {
-            Debug.Log("Weapon " + weapons[selectedWeaponIndex].Key.weaponName + " has no graphics");
+            Debug.Log("Weapon " + weapons[selectedWeaponIndex].weapon.weaponName + " has no graphics");
         }
 	}
 
 	/// <summary>
 	/// sets all weapons to max ammo on each local player
 	/// </summary>
-	//TODO: Austin, when you make it so the player finds weapons around, make sure to remove the weapons and load up defaultWeapons again please
 	public void RefreshAllWeapons()
 	{
 		if (isLocalPlayer)
 		{
-			foreach (KeyValuePair<PlayerWeapon, GameObject> w in weapons)
-			{
-				w.Key.clips = w.Key.startingClips;
-				w.Key.bullets = w.Key.clipSize;
-			}
-		}
+            weapons = new List<WeaponInstancePair>();
+            foreach (PlayerWeapon w in weaponPrefabs)
+            {
+                if (w.isDefault)
+                {
+                    var instance = SpawnWeapon(w);
+                    weapons.Add(new WeaponInstancePair(w, instance));
+                    if (instance != null)
+                        instance.SetActive(false);
+                }
+            }
+        }
 	}
 
+}
+
+[System.Serializable]
+public class WeaponInstancePair
+{
+    public PlayerWeapon weapon;
+    public GameObject weaponInstance;
+
+    public WeaponInstancePair(PlayerWeapon w, GameObject instance)
+    {
+        weapon = w;
+        weaponInstance = instance;
+    }
 }
