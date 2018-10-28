@@ -25,7 +25,8 @@ public class Spitball : MonoBehaviour
 			}
 	}
 
-	void OnDestroy()
+	//not working. I think it's some concurrency issue with WeaponManager lines 65-67ish (RemoveWeapon destroying this then resetting currentweapon)
+	/*void OnDestroy()
 	{
 		//copied from PlayerShoot.cs RpcDoHitEffect
 		if (weaponManager.getCurrentWeaponGraphics() != null)
@@ -36,5 +37,5 @@ public class Spitball : MonoBehaviour
 			//Destroy the effect after it has played to clean up memory
 			Destroy(hitEffect, 3f);
 		}
-	}
+	}*/
 }
