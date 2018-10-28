@@ -18,8 +18,10 @@ public class InfectionTool : NetworkBehaviour {
 
 	public void Setup() {
 		Debug.Log("Infection tool setup was called for " + gameObject.name);
-		infectionTool = weaponManager.PickupWeapon("Infect");
-		spitInfectTool = weaponManager.PickupWeapon("SpitInfect");
+		weaponManager.PickupWeapon("Infect");
+        infectionTool = weaponManager.getWeaponByName("Infect");
+		weaponManager.PickupWeapon("SpitInfect");
+        spitInfectTool = weaponManager.getWeaponByName("SpitInfect");
 		isSetup = true;
 	}
 

@@ -53,26 +53,19 @@ public class WeaponManager : NetworkBehaviour {
         }
     }
 
-    public PlayerWeapon PickupWeapon(string WeaponName)
+    public void PickupWeapon(string WeaponName)
     {
         Debug.LogWarning("Pickup weapon was called for " + WeaponName);
-       // if (isLocalPlayer)
-       // {
-            for(int i = 0; i < weaponPrefabs.Count; i++)
+        for(int i = 0; i < weaponPrefabs.Count; i++)
+        {
+            if(weaponPrefabs[i].weaponName == WeaponName)
             {
-                if(weaponPrefabs[i].weaponName == WeaponName)
-                {
-                    weapons.Add(new WeaponInstancePair(weaponPrefabs[i], SpawnWeapon(weaponPrefabs[i])));
-                    CmdPickupWeapon(i);
-                    return weapons[i].weapon;
-                }
-                
+                CmdPickupWeapon(i);
             }
-            Debug.LogWarning("Weapon " + WeaponName + " is not a valid weapon prefab!");
-            return null;
-        //}
-        //Debug.LogWarning("Pickup Weapon called on non-local player!");
-        //return null;
+            
+        }
+        Debug.LogWarning("Weapon " + WeaponName + " is not a valid weapon prefab!");
+
     }
 
     [Command]
@@ -84,10 +77,7 @@ public class WeaponManager : NetworkBehaviour {
     [ClientRpc]
     void RpcPickupWeapon(int index)
     {
-        if (!isServer)
-        {
-            weapons.Add(new WeaponInstancePair(weaponPrefabs[index], SpawnWeapon(weaponPrefabs[index])));
-        }
+        weapons.Add(new WeaponInstancePair(weaponPrefabs[index], SpawnWeapon(weaponPrefabs[index])));
     }
 
     public void RemoveWeapon(PlayerWeapon weapon)
@@ -171,6 +161,19 @@ public class WeaponManager : NetworkBehaviour {
         {
             return null;
         }
+    }
+
+    public PlayerWeapon getWeaponByName(string Name)
+    {
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            if (weapons[i].weapon.weaponName == Name)
+            {
+                return weapons[i].weapon;
+            }
+        }
+        Debug.Log("This player does not have the weapon: " + Name);
+        return null;
     }
 
     public WeaponGraphics getCurrentWeaponGraphics()
