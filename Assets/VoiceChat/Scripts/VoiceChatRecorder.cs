@@ -98,7 +98,13 @@ namespace VoiceChat
 
         public bool IsPushingToTalk
         {
-            get { return !clientPlayer.shouldPreventInput && (transmitToggled || Input.GetButton("PushToTalk")); }
+            get
+			{
+				bool inputBlocked = false;
+				if (clientPlayer != null)
+					inputBlocked = clientPlayer.shouldPreventInput;
+				return !inputBlocked && (transmitToggled || Input.GetButton("PushToTalk"));
+			}
         }
 
         public bool IsTransmitting
