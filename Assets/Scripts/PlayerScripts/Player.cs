@@ -58,7 +58,6 @@ public class Player : NetworkBehaviour {
     [SerializeField]
     private GameObject[] disableGOnDeath;
     private bool[] wasEnabled;
-    private bool firstSetup = true;
 
 	[HideInInspector]
 	public bl_ChatManager chatManager;

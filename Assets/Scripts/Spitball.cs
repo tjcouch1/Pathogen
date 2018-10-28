@@ -20,7 +20,6 @@ public class Spitball : MonoBehaviour
 			}
 			else
 			{
-				Debug.Log("Spit destroyed on something other than player");
 				Destroy(this);
 			}
 	}
