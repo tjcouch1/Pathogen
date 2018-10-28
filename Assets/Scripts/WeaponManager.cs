@@ -61,6 +61,7 @@ public class WeaponManager : NetworkBehaviour {
             if(weaponPrefabs[i].weaponName == WeaponName)
             {
                 CmdPickupWeapon(i);
+                return;
             }
             
         }
@@ -159,6 +160,7 @@ public class WeaponManager : NetworkBehaviour {
             return weapon;
         }catch(ArgumentOutOfRangeException)
         {
+            Debug.LogError("Get current weapon returned null");
             return null;
         }
     }

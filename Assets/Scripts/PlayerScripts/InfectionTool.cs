@@ -19,9 +19,7 @@ public class InfectionTool : NetworkBehaviour {
 	public void Setup() {
 		Debug.Log("Infection tool setup was called for " + gameObject.name);
 		weaponManager.PickupWeapon("Infect");
-        infectionTool = weaponManager.getWeaponByName("Infect");
 		weaponManager.PickupWeapon("SpitInfect");
-        spitInfectTool = weaponManager.getWeaponByName("SpitInfect");
 		isSetup = true;
 	}
 
@@ -34,23 +32,36 @@ public class InfectionTool : NetworkBehaviour {
 			return;
 	}
 
-	public bool isInfectEquipped()
+    private void linkInfectionTools()
+    {
+        if(infectionTool == null)
+            infectionTool = weaponManager.getWeaponByName("Infect");
+        if(spitInfectTool == null)
+            spitInfectTool = weaponManager.getWeaponByName("SpitInfect");
+    }
+
+    public bool isInfectEquipped()
 	{
-		return weaponManager.getCurrentWeapon().Equals(infectionTool);
+        linkInfectionTools();
+        return weaponManager.getCurrentWeapon().Equals(infectionTool);
 	}
 
 	public bool isSpitEquipped()
 	{
-		return weaponManager.getCurrentWeapon().Equals(spitInfectTool);
+        linkInfectionTools();
+        return weaponManager.getCurrentWeapon().Equals(spitInfectTool);
 	}
 
     public void Disable()
     {
+        linkInfectionTools();
         isSetup = false;
         if(weaponManager != null)
         {
             weaponManager.RemoveWeapon(infectionTool);
 			weaponManager.RemoveWeapon(spitInfectTool);
+            infectionTool = null;
+            spitInfectTool = null;
 		}
     }
 
@@ -96,6 +107,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	void CmdSpit(Vector3 direction)
 	{
+        Debug.Log("Comand Spit");
 		//create spit object
 		GameObject spit = Instantiate(spitPrefab, cam.transform);
 		Spitball spitball = spit.GetComponent<Spitball>();
@@ -138,6 +150,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	public void CmdPlayerSpitInfected(string playerID, string sourceID, GameObject spit)
 	{
+        Debug.Log("Cmd Player Spit infected");
 		Player player = GameManager.getPlayer(playerID);
 		player.SetInfected(true);
 		Destroy(spit);
