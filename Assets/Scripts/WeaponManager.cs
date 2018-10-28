@@ -38,6 +38,7 @@ public class WeaponManager : NetworkBehaviour {
         if (w.weaponGFX != null)
         {
             var w_instance = Instantiate(w.weaponGFX, weaponHolder.position, weaponHolder.rotation);
+            w.weaponSetup();
             w_instance.transform.SetParent(weaponHolder);
             if (!isLocalPlayer)
             {

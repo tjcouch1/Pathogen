@@ -7,8 +7,8 @@ public class PlayerWeapon {
     public bool isDefault;
     public int damage = 10;
 	public int startingClips = 3;
-    [HideInInspector] public int clips;
-    [HideInInspector] public int bullets;
+    public int clips;
+    public int bullets;
 	public bool infiniteAmmo = false;
     public int clipSize = 12;
     public float range = 100f;
@@ -24,8 +24,12 @@ public class PlayerWeapon {
 
     public PlayerWeapon()
     {
-		clips = startingClips;
-        bullets = clipSize;
+        weaponSetup();
     }
     
+    public void weaponSetup()
+    {
+        clips = startingClips;
+        bullets = clipSize;
+    }
 }

@@ -74,11 +74,13 @@ public class PlayerUI : MonoBehaviour {
             return;
         }
 
-		//set the weapon text - name if no/infinite ammo or ammo / clips
-		if (currentWeapon.infiniteAmmo || (currentWeapon.startingClips == 0 && currentWeapon.clipSize == 0))
-			ammoText.text = currentWeapon.weaponName;
-		else SetAmmoAmount(currentWeapon.bullets, currentWeapon.clips);
-
+        //set the weapon text - name if no/infinite ammo or ammo / clips
+        if (currentWeapon.infiniteAmmo || (currentWeapon.startingClips == 0 && currentWeapon.clipSize == 0))
+            ammoText.text = currentWeapon.weaponName;
+        else
+        {
+            SetAmmoAmount(currentWeapon.bullets, currentWeapon.clips);
+        }
         SetHealthAmount(player.getHealth());
         weaponImage.sprite = weaponManager.getCurrentWeapon().weaponIcon;
         SetInfected(player.GetInfectedState());

@@ -3032,9 +3032,9 @@ MonoBehaviour:
     clips: 0
     bullets: 0
     infiniteAmmo: 0
-    clipSize: 10
+    clipSize: 12
     range: 100
-    automatic: 1
+    automatic: 0
     fireRate: 5
     reloadTime: 2
     maxInacuracy: 0.02
@@ -3115,6 +3115,8 @@ MonoBehaviour:
       type: 2}
     weaponIcon: {fileID: 21300000, guid: 90501de5bec0974408980312b5910ee0, type: 3}
   weaponHolder: {fileID: 4076115203499606}
+  weapons: []
+  selectedWeaponIndex: 0
   isReloading: 0
 --- !u!114 &114741910040539562
 MonoBehaviour:
