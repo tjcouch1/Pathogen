@@ -131,6 +131,7 @@ public class PlayerShoot : NetworkBehaviour {
 		}
 		else if (infectionTool.isSpitEquipped())
 		{
+            Debug.Log(infectionTool.isSpitEquipped());
 			infectionTool.SpitInfect();
 			return;
 		}

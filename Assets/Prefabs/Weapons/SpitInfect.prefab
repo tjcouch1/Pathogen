@@ -209,8 +209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0140bd4ea01d6e94f88abfdc1e5b82a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  muzzleFlash: {fileID: 198261309867703662}
-  hitEffectPrefab: {fileID: 1584363136020474, guid: b17e3a9a1671f534dac6935f6e0cf97e,
+  muzzleFlash: {fileID: 198170362181752888, guid: cfa46ebf7b80ffc4aa62b9a6a6fb9a65,
+    type: 2}
+  hitEffectPrefab: {fileID: 1818761919311234, guid: cfa46ebf7b80ffc4aa62b9a6a6fb9a65,
     type: 2}
 --- !u!198 &198261309867703662
 ParticleSystem:

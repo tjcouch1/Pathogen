@@ -11,11 +11,13 @@ public class Spitball : MonoBehaviour
 	//destroy if it touches something
 	public void OnTriggerEnter(Collider other)
 	{
+        Debug.Log("Spitball_OnTriggerEnter");
 		if (GameManager.singleton.isServer)
 			if (other.CompareTag("Player"))
 			{
+                Debug.Log("Spit touched player");
 				Player touchedPlayer = other.GetComponent<Player>();
-				if (!touchedPlayer.isLocalPlayer)
+				if (touchedPlayer != shooter)
 					infectionTool.CmdPlayerSpitInfected(touchedPlayer.transform.name, shooter.transform.name, gameObject);
 			}
 			else
@@ -24,8 +26,13 @@ public class Spitball : MonoBehaviour
 			}
 	}
 
-	//not working. I think it's some concurrency issue with WeaponManager lines 65-67ish (RemoveWeapon destroying this then resetting currentweapon)
-	/*void OnDestroy()
+    private void OnDestroy()
+    {
+        Debug.Log("On Destroy - Spitball");
+    }
+
+    //not working. I think it's some concurrency issue with WeaponManager lines 65-67ish (RemoveWeapon destroying this then resetting currentweapon)
+    /*void OnDestroy()
 	{
 		//copied from PlayerShoot.cs RpcDoHitEffect
 		if (weaponManager.getCurrentWeaponGraphics() != null)
