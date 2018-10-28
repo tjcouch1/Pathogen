@@ -13,7 +13,7 @@ public class WeaponManager : NetworkBehaviour {
     //Maps each weapon to its instance
     private List<KeyValuePair<PlayerWeapon, GameObject>> weapons;
 
-    private int selectedWeaponIndex = 0;
+    [SerializeField] private int selectedWeaponIndex = 0;//serialized for debug reasons
     public bool isReloading = false;
 
     // Use this for initialization
@@ -61,12 +61,16 @@ public class WeaponManager : NetworkBehaviour {
         foreach(KeyValuePair<PlayerWeapon, GameObject> pair in weapons)
         {
             if(pair.Key == weapon)
-            {
-                Destroy(pair.Value);
-                NetworkServer.Destroy(pair.Value);
-				if (getCurrentWeapon() == weapon)
+			{
+				//TODO: fix this so it doesn't reset alive players' weapons to 0 every time
+				//if (getCurrentWeapon() == weapon)
+				{
 					selectedWeaponIndex = 0;
-                weapons.Remove(pair);
+					CmdRequestWeaponSwitch(0);
+				}
+				Destroy(pair.Value);
+                NetworkServer.Destroy(pair.Value);
+				weapons.Remove(pair);
                 break;
             }
         }
