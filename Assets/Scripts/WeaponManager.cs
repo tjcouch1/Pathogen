@@ -88,7 +88,7 @@ public class WeaponManager : NetworkBehaviour {
         {
             if(pair.weapon == weapon)
 			{
-				//TODO: fix this so it doesn't reset alive players' weapons to 0 every time
+				//TODO: fix this so it doesn't reset alive players' weapons to index 0 every time
 				//if (getCurrentWeapon() == weapon)
 				//{
 					selectedWeaponIndex = 0;
@@ -96,6 +96,7 @@ public class WeaponManager : NetworkBehaviour {
 				//}
 				Destroy(pair.weaponInstance);
                 NetworkServer.Destroy(pair.weaponInstance);
+				//TODO: when this method stops being called by clients, the following line will never be called on clients. Fix this pls
 				weapons.Remove(pair);
                 break;
             }
@@ -257,7 +258,9 @@ public class WeaponManager : NetworkBehaviour {
 
 	/// <summary>
 	/// sets all weapons to max ammo on each local player
+	/// Currently called in an Rpc, so all clients run this code
 	/// </summary>
+	//TODO: delete all the gameobjects.
 	public void RefreshAllWeapons()
 	{
 		if (isLocalPlayer)

@@ -52,6 +52,7 @@ public class InfectionTool : NetworkBehaviour {
         return weaponManager.getCurrentWeapon().Equals(spitInfectTool);
 	}
 
+	//TODO: this won't be called anymore when we fix the server disable stuff. Gotta set infectionTool and spitInfectionTool to null some other way
     public void Disable()
     {
         linkInfectionTools();
@@ -65,6 +66,7 @@ public class InfectionTool : NetworkBehaviour {
 		}
     }
 
+	//precondition: infectionTool must be set up before this code runs
     [Client]
     public void Infect()
     {
@@ -86,6 +88,7 @@ public class InfectionTool : NetworkBehaviour {
         }
 	}
 
+	//precondition: spitInfectionTool must be set up before this code runs
 	[Client]
 	public void SpitInfect()
 	{

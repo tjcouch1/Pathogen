@@ -69,6 +69,7 @@ public class GameManager : NetworkBehaviour {
 			if (p.GetInfectedState())
 			{
 				infectedPlayers.Remove(p);
+				//TODO: Remove this line. This will stop WeaponManager.RemoveWeapon from firing on client. This will expose a problem that will need to be fixed
 				p.SetInfected(false);
 			}
 			else if (!p.GetInfectedState())
