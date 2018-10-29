@@ -86,8 +86,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneCamera: {fileID: 0}
   requiredPlayers: 2
-  roundTime: 300
-  suddenDeathTime: 120
+  roundTime: 600
+  suddenDeathTime: 180
   lobbyTime: 30
   startGameTime: 5
   QuarantineZone: {fileID: 0}
