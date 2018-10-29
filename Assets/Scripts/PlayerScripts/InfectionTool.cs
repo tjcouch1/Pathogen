@@ -11,15 +11,16 @@ public class InfectionTool : NetworkBehaviour {
 	[SerializeField] private GameObject spitPrefab;
 	[SerializeField] private LayerMask mask;
 
-    private PlayerWeapon infectionTool;
-    private PlayerWeapon spitInfectTool;
+	[SerializeField] private const string infectToolName = "Infect";
+	[SerializeField] private const string spitInfectToolName = "SpitInfect";
 
-    private bool isSetup = false;
+	private bool isSetup = false;
 
+	[Server]
 	public void Setup() {
 		Debug.Log("Infection tool setup was called for " + gameObject.name);
-		weaponManager.PickupWeapon("Infect");
-		weaponManager.PickupWeapon("SpitInfect");
+		weaponManager.RpcSpawnWeapon(infectToolName, false);
+		weaponManager.RpcSpawnWeapon(spitInfectToolName, false);
 		isSetup = true;
 	}
 
@@ -32,37 +33,24 @@ public class InfectionTool : NetworkBehaviour {
 			return;
 	}
 
-    private void linkInfectionTools()
-    {
-        if(infectionTool == null)
-            infectionTool = weaponManager.getWeaponByName("Infect");
-        if(spitInfectTool == null)
-            spitInfectTool = weaponManager.getWeaponByName("SpitInfect");
-    }
-
     public bool isInfectEquipped()
 	{
-        linkInfectionTools();
-        return weaponManager.getCurrentWeapon().Equals(infectionTool);
+        return weaponManager.getCurrentWeapon().weaponName.Equals(infectToolName);
 	}
 
 	public bool isSpitEquipped()
 	{
-        linkInfectionTools();
-        return weaponManager.getCurrentWeapon().Equals(spitInfectTool);
+        return weaponManager.getCurrentWeapon().weaponName.Equals(spitInfectToolName);
 	}
-
-	//TODO: this won't be called anymore when we fix the server disable stuff. Gotta set infectionTool and spitInfectionTool to null some other way
+	
+	[Server]
     public void Disable()
     {
-        linkInfectionTools();
         isSetup = false;
         if(weaponManager != null)
         {
-            weaponManager.RemoveWeapon(infectionTool);
-			weaponManager.RemoveWeapon(spitInfectTool);
-            infectionTool = null;
-            spitInfectTool = null;
+            weaponManager.RpcRemoveWeapon(infectToolName);
+			weaponManager.RpcRemoveWeapon(spitInfectToolName);
 		}
     }
 
@@ -76,8 +64,9 @@ public class InfectionTool : NetworkBehaviour {
         }
 
         RaycastHit hit;
+		PlayerWeapon infectTool = weaponManager.getWeaponByName(infectToolName);
         Vector3 aim = cam.transform.forward;
-        if (Physics.Raycast(cam.transform.position, aim, out hit, infectionTool.range, mask))
+        if (Physics.Raycast(cam.transform.position, aim, out hit, infectTool.range, mask))
         {
             //We hit something
             if (hit.collider.tag == "Player")

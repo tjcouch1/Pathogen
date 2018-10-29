@@ -91,6 +91,7 @@ public class Player : NetworkBehaviour {
     //<summary>
     //  Returns a bool indicating if the infection/un-infection was a success or not
     //</summary>
+	[Server]
     public bool SetInfected(bool value)
     {
         if (value)

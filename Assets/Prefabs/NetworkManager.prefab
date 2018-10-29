@@ -68,11 +68,7 @@ MonoBehaviour:
   m_OfflineScene: MainMenu
   m_OnlineScene: MallMap
   m_SpawnPrefabs:
-  - {fileID: 1250855496221732, guid: 655637af834c04b4eb4a1d0615a0b014, type: 2}
-  - {fileID: 1060565668771620, guid: 367537fbdbcff81499c8564e0ba11c3d, type: 2}
-  - {fileID: 1672061850738770, guid: dba496da54728a9428e0e07393d549df, type: 2}
   - {fileID: 1506215158362252, guid: 81589866e9fd2de40b0bf323b3a256ae, type: 2}
-  - {fileID: 1225760964484284, guid: 8d872dea98ddb044e936e688036437ce, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:

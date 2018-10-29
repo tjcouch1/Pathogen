@@ -19,84 +19,105 @@ public class WeaponManager : NetworkBehaviour {
     // Use this for initialization
     void Start()
     {
-        weapons = new List<WeaponInstancePair>();
-        foreach (PlayerWeapon w in weaponPrefabs)
-        {
-            if (w.isDefault)
-            {
-                var instance = SpawnWeapon(w);
-                weapons.Add(new WeaponInstancePair(w, instance));
-                if (instance != null)
-                    instance.SetActive(false);
-            }
-        }
-        weapons[selectedWeaponIndex].weaponInstance.SetActive(true);
-    }
+		setupDefaultWeapons();
+	}
 
-    private GameObject SpawnWeapon(PlayerWeapon w)
-    {
-        if (w.weaponGFX != null)
+	/// <summary>
+	/// destroys all weapons and creates default weapons
+	/// Currently called in an Rpc, so all clients run this code
+	/// </summary>
+	public void setupDefaultWeapons()
+	{
+		List<WeaponInstancePair> weaponsToRemove = new List<WeaponInstancePair>(weapons);
+		foreach (WeaponInstancePair pair in weaponsToRemove)
+			RemoveWeapon(pair.weapon);
+		weapons = new List<WeaponInstancePair>();
+		foreach (PlayerWeapon w in weaponPrefabs)
+		{
+			if (w.isDefault)
+				SpawnWeapon(w, false);
+		}
+		weapons[selectedWeaponIndex].weaponInstance.SetActive(true);
+	}
+
+	/// <summary>
+	/// Spawns the weapon with supplied name on the current player. If select is true, selects the weapon immediately
+	/// </summary>
+	/// <param name="weaponName"></param>
+	/// <param name="select"></param>
+	[ClientRpc]
+	public void RpcSpawnWeapon(string weaponName, bool select)
+	{
+		PlayerWeapon weaponPrefab = getWeaponPrefabByName(weaponName);
+		if (weaponPrefab != null)
+			SpawnWeapon(weaponPrefab, select);
+		else Debug.LogError("Weapon with name " + weaponName + " does not exist! RpcSpawnWeapon");
+	}
+
+	/// <summary>
+	/// Spawns the playerweapon on the current player. Is select is true, selects the weapon immediately. Otherwise deactivates it.
+	/// </summary>
+	/// <param name="w"></param>
+	/// <param name="select"></param>
+	/// <returns></returns>
+	//needs to run on all clients
+    private void SpawnWeapon(PlayerWeapon w, bool select)
+	{
+		GameObject wGraphicsInstance = null;
+
+		//create graphics instance
+		if (w.weaponGFX != null)
         {
-            var w_instance = Instantiate(w.weaponGFX, weaponHolder.position, weaponHolder.rotation);
-            w.weaponSetup();
-            w_instance.transform.SetParent(weaponHolder);
+			wGraphicsInstance = Instantiate(w.weaponGFX, weaponHolder.position, weaponHolder.rotation);
+			wGraphicsInstance.transform.SetParent(weaponHolder);
             if (!isLocalPlayer)
             {
-                Util.SetLayerRecursively(w_instance, LayerMask.NameToLayer(remoteLayerName));
+                Util.SetLayerRecursively(wGraphicsInstance, LayerMask.NameToLayer(remoteLayerName));
             }
-            NetworkServer.SpawnWithClientAuthority(w_instance, gameObject);
-            return w_instance;
         }
         else
         {
             Debug.Log("Weapon " + w.weaponName + " has no graphics");
-            return null;
         }
-    }
 
-    public void PickupWeapon(string WeaponName)
-    {
-        Debug.LogWarning("Pickup weapon was called for " + WeaponName);
-        for(int i = 0; i < weaponPrefabs.Count; i++)
-        {
-            if(weaponPrefabs[i].weaponName == WeaponName)
-            {
-                CmdPickupWeapon(i);
-                return;
-            }
-            
-        }
-        Debug.LogWarning("Weapon " + WeaponName + " is not a valid weapon prefab!");
+		//create playerweapon
+		WeaponInstancePair newWeapon = new WeaponInstancePair(w, wGraphicsInstance);
+		weapons.Add(newWeapon);
+		w.weaponSetup();
 
-    }
+		//select the weapon right off the bat
+		if (select)
+			CmdRequestWeaponSwitch(weapons.IndexOf(newWeapon));
+		else//don't select the weapon - make it inactive
+			if (wGraphicsInstance != null)
+				wGraphicsInstance.SetActive(false);
+	}
 
-    [Command]
-    void CmdPickupWeapon(int index)
-    {
-        RpcPickupWeapon(index);
-    }
+	[ClientRpc]
+	public void RpcRemoveWeapon(string weaponName)
+	{
+		PlayerWeapon weaponPrefab = getWeaponByName(weaponName);
+		if (weaponPrefab != null)
+			RemoveWeapon(weaponPrefab);
+		//else Debug.LogError("Weapon with name " + weaponName + " does not exist! RpcRemoveWeapon");
+	}
 
-    [ClientRpc]
-    void RpcPickupWeapon(int index)
-    {
-        weapons.Add(new WeaponInstancePair(weaponPrefabs[index], SpawnWeapon(weaponPrefabs[index])));
-    }
-
-    public void RemoveWeapon(PlayerWeapon weapon)
+	//needs to run on all clients
+    private void RemoveWeapon(PlayerWeapon weapon)
     {
         foreach(WeaponInstancePair pair in weapons)
         {
             if(pair.weapon == weapon)
 			{
-				//TODO: fix this so it doesn't reset alive players' weapons to index 0 every time
-				//if (getCurrentWeapon() == weapon)
-				//{
-					selectedWeaponIndex = 0;
+				//TODO: if player is holding weapon to remove, set his weapon to default
+				//currently returns null when client infects server for win (maybe more cases) probably because it calls RemoveWeapon multiple times before selectedWeaponIndex has a chance to network update. Therefore it destroys something then tries to rely on it for next time
+				//Debug.Log(getCurrentWeapon().weaponName + " " + weapon.weaponName);
+				//if (getCurrentWeapon().weaponName.Equals(weapon.weaponName))
+				{
+					//Debug.Log("Switching");
 					CmdRequestWeaponSwitch(0);
-				//}
+				}
 				Destroy(pair.weaponInstance);
-                NetworkServer.Destroy(pair.weaponInstance);
-				//TODO: when this method stops being called by clients, the following line will never be called on clients. Fix this pls
 				weapons.Remove(pair);
                 break;
             }
@@ -130,28 +151,23 @@ public class WeaponManager : NetworkBehaviour {
     [Command]
     public void CmdRequestWeaponSwitch(int newWeaponIndex)
     {
-        RpcSwitchWeapon(newWeaponIndex);
-    } 
+        RpcSwitchWeapon(selectedWeaponIndex, newWeaponIndex);
+		selectedWeaponIndex = newWeaponIndex;
+	} 
 
     [ClientRpc]
-    public void RpcSwitchWeapon(int requestedIndex)
+    public void RpcSwitchWeapon(int deactivateIndex, int requestedIndex)
     {
-        if (weapons[selectedWeaponIndex].weaponInstance != null)
-            weapons[selectedWeaponIndex].weaponInstance.SetActive(false);
-
-        if (weapons[requestedIndex].weaponInstance != null)
-            weapons[requestedIndex].weaponInstance.SetActive(true);
-
-        if (isLocalPlayer)
-        {
-            CmdupdateSelectedWeaponIndex(requestedIndex);
-        }
-    }
-
-    [Command]
-    private void CmdupdateSelectedWeaponIndex(int requestedIndex)
-    {
-        selectedWeaponIndex = requestedIndex;
+		if (weapons.Count > deactivateIndex)
+			if (weapons[deactivateIndex].weaponInstance != null)
+			{
+				weapons[deactivateIndex].weaponInstance.SetActive(false);
+			}
+		
+		if (weapons[requestedIndex].weaponInstance != null)
+		{
+			weapons[requestedIndex].weaponInstance.SetActive(true);
+		}
     }
 
     public PlayerWeapon getCurrentWeapon()
@@ -178,9 +194,22 @@ public class WeaponManager : NetworkBehaviour {
         }
         Debug.Log("This player does not have the weapon: " + Name);
         return null;
-    }
+	}
 
-    public WeaponGraphics getCurrentWeaponGraphics()
+	public PlayerWeapon getWeaponPrefabByName(string Name)
+	{
+		for (int i = 0; i < weaponPrefabs.Count; i++)
+		{
+			if (weaponPrefabs[i].weaponName == Name)
+			{
+				return weaponPrefabs[i];
+			}
+		}
+		Debug.Log("This player does not have the weapon: " + Name);
+		return null;
+	}
+
+	public WeaponGraphics getCurrentWeaponGraphics()
     {
         var weaponGFX = weapons[selectedWeaponIndex].weaponInstance.GetComponent<WeaponGraphics>();
         if(weaponGFX != null)
@@ -253,29 +282,6 @@ public class WeaponManager : NetworkBehaviour {
         else
         {
             Debug.Log("Weapon " + weapons[selectedWeaponIndex].weapon.weaponName + " has no graphics");
-        }
-	}
-
-	/// <summary>
-	/// sets all weapons to max ammo on each local player
-	/// Currently called in an Rpc, so all clients run this code
-	/// </summary>
-	//TODO: delete all the gameobjects.
-	public void RefreshAllWeapons()
-	{
-		if (isLocalPlayer)
-		{
-            weapons = new List<WeaponInstancePair>();
-            foreach (PlayerWeapon w in weaponPrefabs)
-            {
-                if (w.isDefault)
-                {
-                    var instance = SpawnWeapon(w);
-                    weapons.Add(new WeaponInstancePair(w, instance));
-                    if (instance != null)
-                        instance.SetActive(false);
-                }
-            }
         }
 	}
 

@@ -69,8 +69,8 @@ public class GameManager : NetworkBehaviour {
 			if (p.GetInfectedState())
 			{
 				infectedPlayers.Remove(p);
-				//TODO: Remove this line. This will stop WeaponManager.RemoveWeapon from firing on client. This will expose a problem that will need to be fixed
-				p.SetInfected(false);
+				if (isServer)
+					p.SetInfected(false);
 			}
 			else if (!p.GetInfectedState())
 			{
@@ -202,7 +202,7 @@ public class GameManager : NetworkBehaviour {
                 p.SetInfected(false);
             }
 
-			RpcRefreshAllWeapons();
+			RpcSetupAllDefaultWeapons();
 
             //Add all players to the list of healthy
             healthyPlayers.AddRange(players);
@@ -240,9 +240,10 @@ public class GameManager : NetworkBehaviour {
 	/// sets all weapons to max ammo on each local player
 	/// </summary>
 	[ClientRpc]
-	public void RpcRefreshAllWeapons()
+	public void RpcSetupAllDefaultWeapons()
 	{
-		getLocalPlayer().GetComponent<WeaponManager>().RefreshAllWeapons();
+		foreach (Player p in getAllPlayers())
+			p.GetComponent<WeaponManager>().setupDefaultWeapons();
 	}
 
 	//Happens when roundGameTimer.singleton == 180
