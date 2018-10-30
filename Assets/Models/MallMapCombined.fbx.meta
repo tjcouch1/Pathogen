@@ -81,6 +81,7 @@ ModelImporter:
     100150: polySurface75
     100152: polySurface76
     100154: transform3
+    100156: StoreFronts1
     400000: Elevator
     400002: Escalators
     400004: Floor1
@@ -159,6 +160,7 @@ ModelImporter:
     400150: polySurface75
     400152: polySurface76
     400154: transform3
+    400156: StoreFronts1
     2100000: lambert1
     2300000: Elevator
     2300002: Escalators
@@ -231,6 +233,7 @@ ModelImporter:
     2300136: WalkInStores
     2300138: polySurface75
     2300140: polySurface76
+    2300142: StoreFronts1
     3300000: Elevator
     3300002: Escalators
     3300004: Floor1
@@ -302,6 +305,7 @@ ModelImporter:
     3300136: WalkInStores
     3300138: polySurface75
     3300140: polySurface76
+    3300142: StoreFronts1
     4300000: Elevator
     4300002: Pool
     4300004: Floor2
@@ -373,6 +377,7 @@ ModelImporter:
     4300136: StoreFronts
     4300138: polySurface75
     4300140: polySurface76
+    4300142: StoreFronts1
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
