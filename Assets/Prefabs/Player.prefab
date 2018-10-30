@@ -3032,9 +3032,9 @@ MonoBehaviour:
     clips: 0
     bullets: 0
     infiniteAmmo: 0
-    clipSize: 12
+    clipSize: 10
     range: 100
-    automatic: 0
+    automatic: 1
     fireRate: 5
     reloadTime: 2
     maxInacuracy: 0.02
