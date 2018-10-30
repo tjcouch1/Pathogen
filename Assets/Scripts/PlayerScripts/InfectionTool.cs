@@ -24,7 +24,7 @@ public class InfectionTool : NetworkBehaviour {
 		isSetup = true;
 	}
 
-	void Update() {
+    void Update() {
 
 		if (PauseMenu.isOn)
 			return;
@@ -71,8 +71,16 @@ public class InfectionTool : NetworkBehaviour {
             //We hit something
             if (hit.collider.tag == "Player")
             {
-                CmdPlayerInfected(hit.collider.name, transform.name);
-                NotificationsManager.instance.CreateNotification("Infection", "You infected a player by touch! +5 points");
+                //If that player is already infected
+                if (hit.transform.gameObject.GetComponent<Player>().GetInfectedState())
+                {
+                    NotificationsManager.instance.CreateNotification("Infection", "This player is already infected!");
+                }
+                else
+                {
+                    CmdPlayerInfected(hit.collider.name, transform.name);
+                }
+
             }
         }
 	}
@@ -130,6 +138,7 @@ public class InfectionTool : NetworkBehaviour {
 		}
 	}
 
+    //Callled when a player gets infected by touch
 	[Command]
     void CmdPlayerInfected(string playerID, string sourceID)
     {
@@ -137,14 +146,45 @@ public class InfectionTool : NetworkBehaviour {
 
         Player player = GameManager.getPlayer(playerID);
         player.SetInfected(true);
+        RpcInfectionNotification(playerID, sourceID);
 	}
 
 	[Command]
 	public void CmdPlayerSpitInfected(string playerID, string sourceID, GameObject spit)
 	{
-        Debug.Log("Cmd Player Spit infected");
+        //Debug.Log("Cmd Player Spit infected");
 		Player player = GameManager.getPlayer(playerID);
 		player.SetInfected(true);
 		Destroy(spit);
-	}
+        RpcInfectionNotification(playerID, sourceID);
+    }
+
+    [ClientRpc]
+    public void RpcInfectionNotification(string playerID, string sourceID)
+    {
+        Player source = GameManager.getPlayer(sourceID);
+        Player target = GameManager.getPlayer(playerID);
+
+        //If target == our player
+        if (target.isLocalPlayer)
+        {
+            NotificationsManager.instance.CreateNotification("Infection", "You were Infected!");
+        }
+
+        //If our player is the one who did the infecting...
+        if (source.isLocalPlayer)
+        {
+            NotificationsManager.instance.CreateNotification("Infection", "You infected a player! +5 points");
+        }
+    }
+
+    [ClientRpc]
+    public void RpcFailedNotificationForShooter(string shooter)
+    {
+        Player s = GameManager.getPlayer(shooter);
+        if (s.isLocalPlayer)
+        {
+            NotificationsManager.instance.CreateNotification("Infection", "This player is already infected!");
+        }
+    }
 }

@@ -146,8 +146,8 @@ public class GameManager : NetworkBehaviour {
 		Debug.LogWarning("Starting Check for win condition");
 		while (inCurrentRound)
 		{
-			Debug.Log("Checking for win condition");
-			if (checkForWin())
+            bool neverUsed; //Unfortunately, out variable declaration isn't allowed in C# 4. Unity pls fix :(
+            if (checkForWin(out neverUsed))
 			{
 				EndRound();
 				yield break;
@@ -275,12 +275,14 @@ public class GameManager : NetworkBehaviour {
     }
 
     //Happens when roundGameTimer.singleton == 0, or should be called when a win case is met
+    //Confusingly, this is not a Command like StartRound is, which means this runs on every client locally. 
+    //TO-DO: Fix this confusing behavior, but it works fine for now.
     public void EndRound()
     {
         GameTimer.singleton.StopTimer();
 
-        //TO-DO: Implement checking for win Case
-        bool winCase = checkForWin();
+        bool healthyWin;
+        bool winCase = checkForWin(out healthyWin);
         if (winCase)
         {
             StopCoroutine(checkWinCondition());
@@ -301,6 +303,9 @@ public class GameManager : NetworkBehaviour {
 				else p.chatManager.SetAlive(false);
 			}
 
+            //Display notification
+            RpcCallEndGameNotifications(healthyWin);
+
             //Clear out our lists
             healthyPlayers.Clear();
             infectedPlayers.Clear();
@@ -317,21 +322,30 @@ public class GameManager : NetworkBehaviour {
         }
     }
 
-    private bool checkForWin()
+    [ClientRpc]
+    private void RpcCallEndGameNotifications(bool healthyWin)
+    {
+        NotificationsManager.instance.DisplayWinState(healthyWin);
+    }
+
+    private bool checkForWin(out bool healthyWin)
     {
         if(healthyPlayers.Count == 0)
         {
             Debug.Log("Infected Win!");
+            healthyWin = false;
             return true;
         }
         else if(infectedPlayers.Count == 0)
         {
             Debug.Log("Healthy Win!");
+            healthyWin = true;
             return true;
         }
         else
         {
             //No win condition is reached
+            healthyWin = false;
             return false;
         }
     }

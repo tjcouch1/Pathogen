@@ -18,8 +18,17 @@ public class Spitball : MonoBehaviour
                 Debug.Log("Spit touched player");
 				Player touchedPlayer = other.GetComponent<Player>();
 				if (touchedPlayer != shooter)
-					infectionTool.CmdPlayerSpitInfected(touchedPlayer.transform.name, shooter.transform.name, gameObject);
-			}
+                {
+                    if (touchedPlayer.GetInfectedState())
+                    {
+                        infectionTool.RpcFailedNotificationForShooter(shooter.transform.name);
+                    }
+                    else
+                    {
+                        infectionTool.CmdPlayerSpitInfected(touchedPlayer.transform.name, shooter.transform.name, gameObject);
+                    }
+                }
+            }
 			else
 			{
 				Destroy(this);
