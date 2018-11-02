@@ -303,6 +303,9 @@ public class GameManager : NetworkBehaviour {
 				else p.chatManager.SetAlive(false);
 			}
 
+            //Add points for all the winners
+            CmdAddPoints(healthyWin);
+
             //Display notification
             RpcCallEndGameNotifications(healthyWin);
 
@@ -319,6 +322,28 @@ public class GameManager : NetworkBehaviour {
         else
         {
             GameTimer.singleton.setRoundTitle("OVERTIME");
+        }
+    }
+
+    [Command]
+    private void CmdAddPoints(bool healthyWin)
+    {
+        if (healthyWin)
+        {
+            //Add points to all healthy players
+            foreach(Player p in healthyPlayers)
+            {
+                p.points += 5;
+            }
+        }
+        else
+        {
+            //Add points to all infected players
+            foreach(Player p in infectedPlayers)
+            {
+                p.points += 5;
+            }
+
         }
     }
 

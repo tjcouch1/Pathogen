@@ -143,9 +143,11 @@ public class InfectionTool : NetworkBehaviour {
     void CmdPlayerInfected(string playerID, string sourceID)
     {
         //Debug.Log(playerID + " has been shot");
-
+        Player source = GameManager.getPlayer(sourceID);
         Player player = GameManager.getPlayer(playerID);
+
         player.SetInfected(true);
+        source.points += 10;
         RpcInfectionNotification(playerID, sourceID);
 	}
 
@@ -154,7 +156,10 @@ public class InfectionTool : NetworkBehaviour {
 	{
         //Debug.Log("Cmd Player Spit infected");
 		Player player = GameManager.getPlayer(playerID);
+        Player source = GameManager.getPlayer(sourceID);
+
 		player.SetInfected(true);
+        source.points += 10;
 		Destroy(spit);
         RpcInfectionNotification(playerID, sourceID);
     }
@@ -174,7 +179,7 @@ public class InfectionTool : NetworkBehaviour {
         //If our player is the one who did the infecting...
         if (source.isLocalPlayer)
         {
-            NotificationsManager.instance.CreateNotification("Infection", "You infected a player! +5 points");
+            NotificationsManager.instance.CreateNotification("Infection", "You infected a player! +10 points");
         }
     }
 
