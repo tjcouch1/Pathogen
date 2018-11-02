@@ -512,7 +512,6 @@ GameObject:
   - component: {fileID: 114648638091090256}
   - component: {fileID: 114936025303600774}
   - component: {fileID: 114622668242531870}
-  - component: {fileID: 114741910040539562}
   - component: {fileID: 95720482938099428}
   - component: {fileID: 114902582104419856}
   - component: {fileID: 82987890017087448}
@@ -3131,25 +3130,6 @@ MonoBehaviour:
   weapons: []
   selectedWeaponIndex: 0
   isReloading: 0
---- !u!114 &114741910040539562
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1340817644079000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1267208747, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 4268578006324048}
-  m_ChildIndex: 0
-  m_SendInterval: 0.04761905
-  m_SyncRotationAxis: 1
-  m_RotationSyncCompression: 0
-  m_MovementThreshold: 0.001
-  m_InterpolateRotation: 0.3
-  m_InterpolateMovement: 0
 --- !u!114 &114742241459187428
 MonoBehaviour:
   m_ObjectHideFlags: 1

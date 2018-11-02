@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Lobby_old.unity
+    guid: 0cc0974cd495f114796038feb77ea2bf
+  - enabled: 1
     path: Assets/Scenes/Login.unity
     guid: 9433e4d38bfacf34e9e9374d34ec4b5f
   - enabled: 1
@@ -20,7 +23,4 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/EricBuildingMap.unity
     guid: f2c1e1e1d0644b849a280d992b355566
-  - enabled: 1
-    path: Assets/Scenes/Lobby_old.unity
-    guid: 0cc0974cd495f114796038feb77ea2bf
   m_configObjects: {}
