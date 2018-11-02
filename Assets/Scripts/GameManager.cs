@@ -170,7 +170,6 @@ public class GameManager : NetworkBehaviour {
     [Command]
     public void CmdStartRound()
     {
-
 		//We only want to start a round if enough players are connected, and we are not currently in a round already
         if(getAllPlayers().Length >= requiredPlayers && inCurrentRound == false)
         {

@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class PointsSystem : MonoBehaviour {
 
+
+
     private void Start()
     {
         Debug.Log("Points set up");
         GameManager.singleton.onPlayerKilledCallbacks.Insert(0, PointsOnDeathCallback);
+    }
+
+    public void OnStartRoundCallback()
+    {
+        //Save the points values that players have at the beginning of a round
+
     }
 
     public void PointsOnDeathCallback(string playerName, string sourceName)
@@ -34,5 +42,11 @@ public class PointsSystem : MonoBehaviour {
                 sourcePlayer.points += 10;
             }
         }
+        CheckRDM(sourcePlayer);
+    }
+
+    private void CheckRDM(Player player)
+    {
+
     }
 }
