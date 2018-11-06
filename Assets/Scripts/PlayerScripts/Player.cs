@@ -94,6 +94,7 @@ public class Player : NetworkBehaviour {
 	[Server]
     public bool SetInfected(bool value)
     {
+		Debug.Log("Player " + username + " SetInfected");
         if (value)
         {
             if (isInfected)

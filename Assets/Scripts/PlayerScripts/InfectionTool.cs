@@ -107,7 +107,6 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	void CmdSpit(Vector3 direction)
 	{
-        Debug.Log("Comand Spit");
 		//create spit object
 		GameObject spit = Instantiate(spitPrefab, cam.transform);
 		Spitball spitball = spit.GetComponent<Spitball>();
@@ -142,8 +141,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
     void CmdPlayerInfected(string playerID, string sourceID)
     {
-        //Debug.Log(playerID + " has been shot");
-
+        Debug.Log("Cmd Player Touch Infected. playerID: " + playerID);
         Player player = GameManager.getPlayer(playerID);
         player.SetInfected(true);
         RpcInfectionNotification(playerID, sourceID);
@@ -152,7 +150,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	public void CmdPlayerSpitInfected(string playerID, string sourceID, GameObject spit)
 	{
-        //Debug.Log("Cmd Player Spit infected");
+		Debug.Log("Cmd Player Spit Infected. playerID: " + playerID);
 		Player player = GameManager.getPlayer(playerID);
 		player.SetInfected(true);
 		Destroy(spit);
