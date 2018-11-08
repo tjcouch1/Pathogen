@@ -65,6 +65,9 @@ public class PlayerSetup : NetworkBehaviour {
 		chatManager.SetAlive(false);
 		isChatUISetUp = true;
 
+		//Set the Chat UI 
+		chatManager.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 80);
+
         //Setup Notifications UI
         playerUIInstance.GetComponent<PlayerUI>().EnableUIOnDeathCallback();
         playerUIInstance.GetComponentInChildren<KillFeed>().SetupKillFeed();
