@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 4, sendInterval = 0.1f)]
 [RequireComponent(typeof(WeaponManager))]
 public class InfectionTool : NetworkBehaviour {
 

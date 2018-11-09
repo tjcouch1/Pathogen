@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 6, sendInterval = 0.1f)]
 [RequireComponent(typeof(Player))]
 public class PlayerSetup : NetworkBehaviour {
 

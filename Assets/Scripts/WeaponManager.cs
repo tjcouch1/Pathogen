@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+[NetworkSettings(channel = 8, sendInterval = 0.1f)]
 public class WeaponManager : NetworkBehaviour {
 
     [SerializeField] private const string remoteLayerName = "RemotePlayer";
