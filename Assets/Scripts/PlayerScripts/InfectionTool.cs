@@ -47,6 +47,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Server]
     public void Disable()
     {
+		Debug.Log("Infection Tool Disable was called for " + gameObject.name);
         isSetup = false;
         if(weaponManager != null)
         {

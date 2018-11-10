@@ -29,6 +29,9 @@ public class WeaponManager : NetworkBehaviour {
 	/// </summary>
 	public void setupDefaultWeapons()
 	{
+        if (isLocalPlayer)
+            Debug.Log("Setup local default weapons");
+        else Debug.Log("Setup remote default weapons");
 		List<WeaponInstancePair> weaponsToRemove = new List<WeaponInstancePair>(weapons);
 		foreach (WeaponInstancePair pair in weaponsToRemove)
 			RemoveWeapon(pair.weapon);
@@ -49,6 +52,7 @@ public class WeaponManager : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSpawnWeapon(string weaponName, bool select)
 	{
+        Debug.Log("Weapon: " + weaponName + " spawned!");
 		PlayerWeapon weaponPrefab = getWeaponPrefabByName(weaponName);
 		if (weaponPrefab != null)
 			SpawnWeapon(weaponPrefab, select);
@@ -193,7 +197,7 @@ public class WeaponManager : NetworkBehaviour {
                 return weapons[i].weapon;
             }
         }
-        Debug.Log("This player does not have the weapon: " + Name);
+        Debug.Log("Player " + GetComponent<Player>().username + " does not have the weapon: " + Name);
         return null;
 	}
 

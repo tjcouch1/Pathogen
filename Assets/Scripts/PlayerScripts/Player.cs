@@ -113,6 +113,7 @@ public class Player : NetworkBehaviour {
         }
         else
         {
+            Debug.Log("Player losing infection");
             isInfected = false;
             infectionTool.Disable();
         }
