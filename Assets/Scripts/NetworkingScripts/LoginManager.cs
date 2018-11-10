@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DatabaseControl; // << Remember to add this reference to your scripts which use DatabaseControl
+using System.Text;
 
 public class LoginManager : MonoBehaviour {
 
@@ -50,6 +51,19 @@ public class LoginManager : MonoBehaviour {
         Register_ConfirmPasswordField.text = "";
         Login_ErrorText.text = "";
         Register_ErrorText.text = "";
+    }
+
+    //what a guy https://forum.unity.com/threads/hash-function-for-game.452779/
+    public static string sha256(string str)
+    {
+        System.Security.Cryptography.SHA256Managed crypt = new System.Security.Cryptography.SHA256Managed();
+        System.Text.StringBuilder hash = new System.Text.StringBuilder();
+        byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(str), 0, Encoding.UTF8.GetByteCount(str));
+        foreach (byte bit in crypto)
+        {
+            hash.Append(bit.ToString("x2"));
+        }
+        return hash.ToString().ToLower();
     }
 
     //Called by Button Pressed Methods. These use DatabaseControl namespace to communicate with server.
@@ -132,12 +146,13 @@ public class LoginManager : MonoBehaviour {
 
         //Get the username and password the player entered
         playerUsername = Login_UsernameField.text;
-        playerPassword = Login_PasswordField.text;//TODO: hash this after getting length
+        int passLength = Login_PasswordField.text.Length;
+        playerPassword = sha256(Login_PasswordField.text);
 
         //Check the lengths of the username and password. (If they are wrong, we might as well show an error now instead of waiting for the request to the server)
         if (playerUsername.Length > 3)
         {
-            if (playerPassword.Length > 5)
+            if (passLength > 5)
             {
                 //Username and password seem reasonable. Change UI to 'Loading...'. Start the Coroutine which tries to log the player in.
                 loginParent.gameObject.SetActive(false);
@@ -170,13 +185,14 @@ public class LoginManager : MonoBehaviour {
 
         //Get the username and password and repeated password the player entered
         playerUsername = Register_UsernameField.text;
-        playerPassword = Register_PasswordField.text;//TODO: hash this after getting length
-        string confirmedPassword = Register_ConfirmPasswordField.text;//TODO: hash this
+        int passLength = Register_PasswordField.text.Length;
+        playerPassword = sha256(Register_PasswordField.text);
+        string confirmedPassword = sha256(Register_ConfirmPasswordField.text);
 
         //Make sure username and password are long enough
         if (playerUsername.Length > 3)
         {
-            if (playerPassword.Length > 5)
+            if (passLength > 5)
             {
                 //Check the two passwords entered match
                 if (playerPassword == confirmedPassword)
