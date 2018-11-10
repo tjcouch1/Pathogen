@@ -29,6 +29,8 @@
              myLog += mylog;
          }
 
-				 logText.text = myLog;
+        int subsStart = Mathf.Max(0, myLog.Length - 10000);
+        myLog = myLog == null ? string.Empty : myLog.Substring(subsStart, myLog.Length - subsStart);
+		logText.text = myLog;
      }
  }
