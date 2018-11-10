@@ -7,6 +7,7 @@ public class HostGame : MonoBehaviour {
 
     [SerializeField]
     private uint roomSize = 10;
+    [SerializeField] private uint maxRoomSize = 10;
     private NetworkManager networkManager;
     private string roomName;
     [SerializeField] private Text errorText;
@@ -39,7 +40,7 @@ public class HostGame : MonoBehaviour {
     {
         if(roomName != "" && roomName != null)
         {
-            if(roomSize <= 20 && roomSize > 1)
+            if(roomSize <= maxRoomSize && roomSize > 1)
             {
                 Debug.Log("Creating Room: " + roomName + " for " + roomSize + " players.");
 
@@ -49,8 +50,8 @@ public class HostGame : MonoBehaviour {
             }
             else
             {
-                Debug.LogError("Invalid room size! Please use room size 2-20");
-                errorText.text = "Invalid room size! Please use room size 2 - 20";
+                Debug.LogError("Invalid room size! Please use room size 2 - " + maxRoomSize);
+                errorText.text = "Invalid room size! Please use room size 2 - " + maxRoomSize;
             }      
         }
         else
