@@ -3188,7 +3188,7 @@ MonoBehaviour:
     bullets: 0
     infiniteAmmo: 1
     clipSize: 0
-    range: 0.85
+    range: 0.95
     automatic: 1
     fireRate: 2
     reloadTime: 0
@@ -3223,7 +3223,7 @@ MonoBehaviour:
     bullets: 0
     infiniteAmmo: 1
     clipSize: 0
-    range: 0.85
+    range: 0.95
     automatic: 0
     fireRate: 2
     reloadTime: 0
@@ -3245,7 +3245,7 @@ MonoBehaviour:
     automatic: 0
     fireRate: 1
     reloadTime: 0
-    maxInacuracy: 1
+    maxInacuracy: 0.85
     sprayDecayRate: 0.5
     sprayHealRate: 0.5
     weaponGFX: {fileID: 1225760964484284, guid: 8d872dea98ddb044e936e688036437ce,
