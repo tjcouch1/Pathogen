@@ -132,7 +132,7 @@ public class LoginManager : MonoBehaviour {
 
         //Get the username and password the player entered
         playerUsername = Login_UsernameField.text;
-        playerPassword = Login_PasswordField.text;
+        playerPassword = Login_PasswordField.text;//TODO: hash this after getting length
 
         //Check the lengths of the username and password. (If they are wrong, we might as well show an error now instead of waiting for the request to the server)
         if (playerUsername.Length > 3)
@@ -170,8 +170,8 @@ public class LoginManager : MonoBehaviour {
 
         //Get the username and password and repeated password the player entered
         playerUsername = Register_UsernameField.text;
-        playerPassword = Register_PasswordField.text;
-        string confirmedPassword = Register_ConfirmPasswordField.text;
+        playerPassword = Register_PasswordField.text;//TODO: hash this after getting length
+        string confirmedPassword = Register_ConfirmPasswordField.text;//TODO: hash this
 
         //Make sure username and password are long enough
         if (playerUsername.Length > 3)
