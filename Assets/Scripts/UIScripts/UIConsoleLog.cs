@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
  using System.Collections;
- 
- public class UIConsoleLog : MonoBehaviour
+
+//credit to https://answers.unity.com/questions/1020051/print-debuglog-to-screen-c.html
+public class UIConsoleLog : MonoBehaviour
  {
      string myLog;
 		 public UnityEngine.UI.Text logText;
