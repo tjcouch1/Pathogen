@@ -11,15 +11,20 @@ public class HostGame : MonoBehaviour {
     private NetworkManager networkManager;
     private string roomName;
     [SerializeField] private Text errorText;
+    [SerializeField] private GameObject hostName;
+    [SerializeField] private GameObject hostNum;
 
     private void Start()
     {
-		Random.InitState((int)System.DateTime.Now.Ticks);
+		Random.InitState((int)System.DateTime.Now.Ticks); 
 		networkManager = NetworkManager.singleton;
         if(networkManager.matchMaker == null)
         {
             networkManager.StartMatchMaker();
         }
+
+        hostName.GetComponent<InputField>().text = UserAccountManager.playerUsername + "'s Room";
+        hostNum.GetComponent<InputField>().text = roomSize.ToString();
     }
 
     public void SetRoomName(string name)
