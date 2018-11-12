@@ -141,7 +141,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomSize: 10
+  maxRoomSize: 10
   errorText: {fileID: 0}
+  hostName: {fileID: 1246548582}
+  hostNum: {fileID: 602969790}
 --- !u!4 &25325714
 Transform:
   m_ObjectHideFlags: 0
