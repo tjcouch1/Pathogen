@@ -33,6 +33,10 @@ public class LoginManager : MonoBehaviour {
 
     private UserAccountManager UAM;
 
+    private bool gotDeployed = false;//whether the game has figured out if it's deployed or not aka can log in
+    private bool isDeployed = false;//whether the game is deployed
+    private string deployVersion = "";//what version the deployed game is running
+
     //Called at the very start of the game
     void Start()
     {
@@ -66,46 +70,85 @@ public class LoginManager : MonoBehaviour {
         return hash.ToString().ToLower();
     }
 
-    //Called by Button Pressed Methods. These use DatabaseControl namespace to communicate with server.
-    IEnumerator LoginUser ()
+    //check version number and whether game is deployed
+    private void setGotDeployed(string data)
     {
-        IEnumerator e = DCF.Login(playerUsername, playerPassword); // << Send request to login, providing username and password
-        while (e.MoveNext())
-        {
-            yield return e.Current;
-        }
-        string response = e.Current as string; // << The returned string from the request
+        deployVersion = UADataTranslator.DataToVersion(data);
+        isDeployed = UADataTranslator.DataToDeploy(data);
 
-        if (response == "Success")
+        gotDeployed = true;
+
+        StartCoroutine(LoginUser());
+    }
+
+    IEnumerator LoginUser()
+    {
+        if (isDeployed && Application.version.Equals(deployVersion))
         {
-            //Username and Password were correct. Stop showing 'Loading...' and transition scenes
-            ResetAllUIElements();
-            //loadingParent.gameObject.SetActive(false);
-            UAM.Login(playerUsername, playerPassword);
-        } else
-        {
-            //Something went wrong logging in. Stop showing 'Loading...' and go back to LoginUI
-            loadingParent.GetComponent<LO_LoadScene>().HideScreen();
-            loginUIParent.SetActive(true);
-            loginParent.gameObject.SetActive(true);
-            if (response == "UserError")
+            IEnumerator e = DCF.Login(playerUsername, playerPassword); // << Send request to login, providing username and password
+            while (e.MoveNext())
             {
-                //The Username was wrong so display relevent error message
-                Login_ErrorText.text = "Error: Username not Found";
-            } else
+                yield return e.Current;
+            }
+            string response = e.Current as string; // << The returned string from the request
+
+            if (response == "Success")
             {
-                if (response == "PassError")
+                //Username and Password were correct. Stop showing 'Loading...' and transition scenes
+                ResetAllUIElements();
+                //loadingParent.gameObject.SetActive(false);
+                UAM.Login(playerUsername, playerPassword);
+            }
+            else
+            {
+                //Something went wrong logging in. Stop showing 'Loading...' and go back to LoginUI
+                loadingParent.GetComponent<LO_LoadScene>().HideScreen();
+                loginUIParent.SetActive(true);
+                loginParent.gameObject.SetActive(true);
+                if (response == "UserError")
                 {
-                    //The Password was wrong so display relevent error message
-                    Login_ErrorText.text = "Error: Password Incorrect";
-                } else
+                    //The Username was wrong so display relevent error message
+                    Login_ErrorText.text = "Error: Username not Found";
+                }
+                else
                 {
-                    //There was another error. This error message should never appear, but is here just in case.
-                    Login_ErrorText.text = "Error: Unknown Error. Please try again later.";
+                    if (response == "PassError")
+                    {
+                        //The Password was wrong so display relevent error message
+                        Login_ErrorText.text = "Error: Password Incorrect";
+                    }
+                    else
+                    {
+                        //There was another error. This error message should never appear, but is here just in case.
+                        Login_ErrorText.text = "Error: Unknown Error. Please try again later.";
+                    }
                 }
             }
         }
+        else//game isn't deployed
+        {
+            loadingParent.GetComponent<LO_LoadScene>().HideScreen();
+            loginUIParent.SetActive(true);
+            loginParent.gameObject.SetActive(true);
+
+            if (!isDeployed)
+                Login_ErrorText.text = "Error: Servers are closed. Try again later.";
+            else if (!Application.version.Equals(deployVersion))
+                Login_ErrorText.text = "Error: Your version is out of date. Please update to " + deployVersion + "!";
+        }
     }
+
+    //Called by Button Pressed Methods. These use DatabaseControl namespace to communicate with server.
+    void TryLoginUser ()
+    {
+        isDeployed = false;
+        gotDeployed = false;
+        deployVersion = "";
+
+        //check if game is deployed
+        StartCoroutine(DeployManager.GetData(setGotDeployed));
+    }
+
     IEnumerator RegisterUser()
     {
         IEnumerator e = DCF.RegisterUser(playerUsername, playerPassword, "[KILLS]0/[DEATHS]0/[POINTS]0/"); // << Send request to register a new user, providing submitted username and password. It also provides an initial value for the data string on the account, which is "Hello World".
@@ -149,26 +192,35 @@ public class LoginManager : MonoBehaviour {
         int passLength = Login_PasswordField.text.Length;
         playerPassword = sha256(Login_PasswordField.text);
 
-        //Check the lengths of the username and password. (If they are wrong, we might as well show an error now instead of waiting for the request to the server)
-        if (playerUsername.Length > 3)
+        //make sure username isn't reserved
+        if (!playerUsername.Equals("deploy"))
         {
-            if (passLength > 5)
+            //Check the lengths of the username and password. (If they are wrong, we might as well show an error now instead of waiting for the request to the server)
+            if (playerUsername.Length > 3)
             {
-                //Username and password seem reasonable. Change UI to 'Loading...'. Start the Coroutine which tries to log the player in.
-                loginParent.gameObject.SetActive(false);
-                loginUIParent.gameObject.SetActive(false);
-                loadingParent.GetComponent<LO_LoadScene>().LoadLooader();
-                StartCoroutine(LoginUser());
-            }
-            else
+                if (passLength > 5)
+                {
+                    //Username and password seem reasonable. Change UI to 'Loading...'. Start the Coroutine which tries to log the player in.
+                    loginParent.gameObject.SetActive(false);
+                    loginUIParent.gameObject.SetActive(false);
+                    loadingParent.GetComponent<LO_LoadScene>().LoadLooader();
+                    TryLoginUser();
+                }
+                else
+                {
+                    //Password too short so it must be wrong
+                    Login_ErrorText.text = "Error: Password Incorrect";
+                }
+            } else
             {
-                //Password too short so it must be wrong
-                Login_ErrorText.text = "Error: Password Incorrect";
+                //Username too short so it must be wrong
+                Login_ErrorText.text = "Error: Username too short";
             }
-        } else
+        }
+        else
         {
-            //Username too short so it must be wrong
-            Login_ErrorText.text = "Error: Username too short";
+            //using a reserved name. Make it quiet, though, so people don't know it's reserved
+            Login_ErrorText.text = "Error: Password Incorrect";
         }
     }
     public void Login_RegisterButtonPressed ()

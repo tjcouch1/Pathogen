@@ -7,6 +7,8 @@ public class UADataTranslator : MonoBehaviour {
     private static string KILLS_SYMBOL = "[KILLS]";
     private static string DEATHS_SYMBOL = "[DEATHS]";
     private static string POINTS_SYMBOL = "[POINTS]";
+    private static string VERSION_SYMBOL = "[VERSION]";
+    private static string DEPLOY_SYMBOL = "[DEPLOY]";
 
     public static int DataToKills(string data)
     {
@@ -19,6 +21,14 @@ public class UADataTranslator : MonoBehaviour {
     public static int DataToPoints(string data)
     {
         return int.Parse(FindSymbol(data, POINTS_SYMBOL));
+    }
+    public static string DataToVersion(string data)
+    {
+        return FindSymbol(data, VERSION_SYMBOL);
+    }
+    public static bool DataToDeploy(string data)
+    {
+        return bool.Parse(FindSymbol(data, DEPLOY_SYMBOL));
     }
 
     public static string FormatDataToString(int kills, int deaths, int points)
