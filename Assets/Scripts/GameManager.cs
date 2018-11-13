@@ -12,6 +12,9 @@ public class GameManager : NetworkBehaviour {
 	public delegate void OnPlayerKilledCallback(string player, string source);
 	public List<OnPlayerKilledCallback> onPlayerKilledCallbacks;
 
+    public delegate void OnStartRoundCallback();
+    public List<OnStartRoundCallback> onStartRoundCallbacks;
+
 	//Required number of players for a game to start
 	[SerializeField] private int requiredPlayers = 1;
 	[SerializeField] private int roundTime = 600;
@@ -47,6 +50,7 @@ public class GameManager : NetworkBehaviour {
 
 			//Initialize Lists
 			onPlayerKilledCallbacks = new List<OnPlayerKilledCallback>();
+            onStartRoundCallbacks = new List<OnStartRoundCallback>();
 			healthyPlayers = new List<Player>();
 			infectedPlayers = new List<Player>();
 			onPlayerKilledCallbacks.Add(OnPlayerKilled);
@@ -60,6 +64,15 @@ public class GameManager : NetworkBehaviour {
 			c.Invoke(player, source);
 		}
 	}
+
+    [ClientRpc]
+    private void RpcCallOnStartRoundCallbacks()
+    {
+        foreach(OnStartRoundCallback c in onStartRoundCallbacks)
+        {
+            c.Invoke();
+        }
+    }
 
 	private void OnPlayerKilled(string player, string source)
 	{
@@ -170,7 +183,6 @@ public class GameManager : NetworkBehaviour {
     [Command]
     public void CmdStartRound()
     {
-
 		//We only want to start a round if enough players are connected, and we are not currently in a round already
         if(getAllPlayers().Length >= requiredPlayers && inCurrentRound == false)
         {
@@ -219,6 +231,9 @@ public class GameManager : NetworkBehaviour {
             GameTimer.singleton.setRoundTitle( "Round " + roundNumber);
             GameTimer.singleton.StartTimer(roundTime);
             Debug.Log("Round started!");
+
+            //Call StartRound callbacks
+            RpcCallOnStartRoundCallbacks();
 
             //Start Coroutine that checks for a win condition
             StartCoroutine(checkWinCondition());
@@ -303,6 +318,9 @@ public class GameManager : NetworkBehaviour {
 				else p.chatManager.SetAlive(false);
 			}
 
+            //Add points for all the winners
+            CmdAddPoints(healthyWin);
+
             //Display notification
             RpcCallEndGameNotifications(healthyWin);
 
@@ -319,6 +337,28 @@ public class GameManager : NetworkBehaviour {
         else
         {
             GameTimer.singleton.setRoundTitle("OVERTIME");
+        }
+    }
+
+    [Command]
+    private void CmdAddPoints(bool healthyWin)
+    {
+        if (healthyWin)
+        {
+            //Add points to all healthy players
+            foreach(Player p in healthyPlayers)
+            {
+                p.points += 5;
+            }
+        }
+        else
+        {
+            //Add points to all infected players
+            foreach(Player p in infectedPlayers)
+            {
+                p.points += 5;
+            }
+
         }
     }
 

@@ -142,7 +142,6 @@ public class PlayerUI : MonoBehaviour {
         }
     }
 
-    //TO-DO: Refactor this into the points system
     //Anything that the UI needs to do on death happens here
     public void UIOnDeathCallback(string playerName, string sourceName)
     {

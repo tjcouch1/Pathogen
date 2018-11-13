@@ -49,9 +49,9 @@ public class Player : NetworkBehaviour {
     [SyncVar]
     public string username = "(null)";
 
-    public int killCount;               //Killcount local to this match
-    public int deathCount;              //Death count local to this match
-    public int points;                  //Points local to this match
+    [SyncVar] public int killCount;               //Killcount local to this match
+    [SyncVar] public int deathCount;              //Death count local to this match
+    [SyncVar] public int points;                  //Points local to this match
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
