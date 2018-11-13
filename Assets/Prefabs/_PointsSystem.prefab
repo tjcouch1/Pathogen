@@ -54,6 +54,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warningLogo: {fileID: 21300000, guid: 2a19aaadcf7844142a73ce60950ec353, type: 3}
   warningsColor: {r: 1, g: 0.6691481, b: 0, a: 1}
+  trustyNo: 50
+  neutralNo: 0
 --- !u!114 &114152532603533666
 MonoBehaviour:
   m_ObjectHideFlags: 1

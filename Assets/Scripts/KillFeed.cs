@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,21 +19,21 @@ public class KillFeed : MonoBehaviour {
     {
         Player p = GameManager.getPlayer(player);
 
-        try
+        Player s = GameManager.getPlayer(source);
+        if (s != null)
         {
-           Player s = GameManager.getPlayer(source);
-
             GameObject go = Instantiate(killFeedItemPrefab, this.transform);
             go.GetComponent<KillFeedElement>().Setup(p.username, s.username);
             go.transform.SetAsFirstSibling();
-
             Destroy(go, killFeedTimeout);
         }
-        catch (KeyNotFoundException)
+        else
         {
             GameObject go = Instantiate(killFeedItemPrefab, this.transform);
             go.GetComponent<KillFeedElement>().Setup(p.username, source);
             go.transform.SetAsFirstSibling();
+            Destroy(go, killFeedTimeout);
         }
+
     }
 }

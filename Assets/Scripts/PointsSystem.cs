@@ -10,13 +10,24 @@ public class PointsSystem : NetworkBehaviour {
     [SerializeField]
     private Color warningsColor;
 
-    //The amount of points each player has at the start of the round
-    private Dictionary<Player, int> playerPoints;
+    [Tooltip("Players who have more points than this value are considered trustworthy")]
+    [SerializeField] private int trustyNo;
+    [Tooltip("Players who have less points than this value are considered untrustworthy")]
+    [SerializeField] private int neutralNo;
+
+    //Calculate a player's trust factor at the beginning of each round
+    private List<Player> trustyBois;
+    private List<Player> badBois;
+
+    //The amount of teamkills each player has - reset at the start of the round
+    private Dictionary<Player, int> playerTKs;
 
     private void Start()
     {
         Debug.Log("Points set up");
-        playerPoints = new Dictionary<Player, int>();
+        playerTKs = new Dictionary<Player, int>();
+        trustyBois = new List<Player>();
+        badBois = new List<Player>();
         GameManager.singleton.onStartRoundCallbacks.Add(OnStartRoundCallback);
         GameManager.singleton.onPlayerKilledCallbacks.Insert(0, PointsOnDeathCallback);
         
@@ -24,13 +35,24 @@ public class PointsSystem : NetworkBehaviour {
 
     public void OnStartRoundCallback()
     {
-        playerPoints.Clear();
+        //Reset player trust-factor/TKs lists
+        playerTKs.Clear();
+        trustyBois.Clear();
+        badBois.Clear();
 
-        //Save the points values that players have at the beginning of a round
+        //Reset player TKS
         Player[] players = GameManager.getAllPlayers();
         foreach(Player p in players)
         {
-            playerPoints.Add(p, p.points);
+            playerTKs.Add(p, 0);
+            if(p.points > trustyNo)
+            {
+                trustyBois.Add(p);
+            }
+            else if(p.points < neutralNo)
+            {
+                badBois.Add(p);
+            }
         }
     }
 
@@ -50,6 +72,8 @@ public class PointsSystem : NetworkBehaviour {
         {
             //Player teamkilled! Bad bad!
             sourcePlayer.points -= 10;
+            playerTKs[sourcePlayer] += 1;
+            CheckRDM(sourceName);
         }
         else
         {
@@ -63,38 +87,45 @@ public class PointsSystem : NetworkBehaviour {
             {
                 sourcePlayer.points += 10;
             }
-        }
-        CheckRDM(sourceName);
+        }       
     }
 
     private void CheckRDM(string sourcePlayer)
     {
         var player = GameManager.getPlayer(sourcePlayer);
 
-        if (playerPoints.ContainsKey(player))
+        if (playerTKs.ContainsKey(player))
         {
-            var deltaPoints = player.points - playerPoints[player];
-            if(deltaPoints < 0 && deltaPoints >= -10)
+            //Player gets one chance if they are untrustworthy
+            if(playerTKs[player] == 1 && badBois.Contains(player))
             {
-                //Warn the player they are losing points
-                RpcDisplayNotifications(sourcePlayer, "Warning!", "You are losing points quickly. Be careful who you shoot!");
+                CmdRemovePlayer(sourcePlayer);
             }
-            else if(deltaPoints < -10 && deltaPoints >= -20)
+            //Player gets 2 chances if they are neutral
+            else if(playerTKs[player] == 2 && !trustyBois.Contains(player))
             {
-                //Warn the player if they kill another player they will be kicked
-                RpcDisplayNotifications(sourcePlayer, "Warning!", "If you teamkill another player, you will be removed from the round!");
+                CmdRemovePlayer(sourcePlayer);
             }
-            else if(deltaPoints < -20)
+            //Player gets 3 chances if they are trustworthy
+            else if(playerTKs[player] == 3 && trustyBois.Contains(player))
             {
-                //Remove the player from the game
-                RpcDisplayNotifications(sourcePlayer, "Teamkill!", "You were removed from the round for killing too many friendlies");
-                player.RpcTakeDamage(100, "Anti-RDM");
+                CmdRemovePlayer(sourcePlayer);
             }
         }
         else
         {
             Debug.LogWarning("Points System - Player not found in dictionary!");
         }
+    }
+
+    [Command]
+    private void CmdRemovePlayer(string sourcePlayer)
+    {
+        var player = GameManager.getPlayer(sourcePlayer);
+
+        //Remove the player from the game
+        RpcDisplayNotifications(sourcePlayer, "Teamkill!", "You were removed from the round for killing too many friendlies");
+        player.RpcTakeDamage(100, "Anti-RDM");
     }
 
     [ClientRpc]
