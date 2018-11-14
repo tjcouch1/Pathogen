@@ -20,13 +20,10 @@ public class DeployManager : MonoBehaviour {
 		if (register)
 		{
             StartCoroutine(RegisterUser());
-
-            Debug.Log("Sup");
 		}
 		else
 		{
 			StartCoroutine(SetData());
-			Debug.Log("Sah");
 		}
 	}
 
@@ -76,7 +73,6 @@ public class DeployManager : MonoBehaviour {
 
     IEnumerator SetData()
     {
-        Debug.Log("SetData");
 		string data = deployString(version, deploy);
         IEnumerator e = DCF.SetUserData(user, pass, data); // << Send request to set the player's data string. Provides the username, password and new data string
         while (e.MoveNext())
