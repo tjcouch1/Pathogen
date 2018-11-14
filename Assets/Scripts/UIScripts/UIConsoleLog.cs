@@ -4,12 +4,41 @@
 //credit to https://answers.unity.com/questions/1020051/print-debuglog-to-screen-c.html
 public class UIConsoleLog : MonoBehaviour
  {
-     string myLog;
-     public UnityEngine.UI.Text logText;
-     private UIConsoleTextHolder uiConsoleTextHolder;
-     Queue myLogQueue = new Queue();
- 
-     void OnEnable () {
+    [SerializeField] private float consoleTypingAlpha = 1f;
+    [SerializeField] private float consoleDefaultAlpha = .5f;
+
+    string myLog;
+    public UnityEngine.UI.Text logText;
+    private UIConsoleTextHolder uiConsoleTextHolder;
+    Queue myLogQueue = new Queue();
+
+    bool isEnabled = false;
+
+    private void Start()
+    {
+        //Set the console to its default value
+        gameObject.GetComponent<CanvasGroup>().alpha = consoleDefaultAlpha;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            if (isEnabled)
+            {
+                isEnabled = false;
+                gameObject.GetComponent<CanvasGroup>().alpha = consoleDefaultAlpha;
+            }
+            else
+            {
+                isEnabled = true;
+                gameObject.GetComponent<CanvasGroup>().alpha = consoleTypingAlpha;
+            }
+        }
+    }
+
+    void OnEnable ()
+    {
          Application.logMessageReceived += HandleLog;
 
          GameObject consoleTextHolder = GameObject.Find("ConsoleTextHolder");
@@ -18,7 +47,7 @@ public class UIConsoleLog : MonoBehaviour
             uiConsoleTextHolder = consoleTextHolder.GetComponent<UIConsoleTextHolder>();
             myLogQueue.Enqueue(uiConsoleTextHolder.Log);
          }
-     }
+    }
      
      void OnDisable () {
          Application.logMessageReceived -= HandleLog;

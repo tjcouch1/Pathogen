@@ -9,11 +9,6 @@ using UnityEngine.UI;
 /// </summary>
 public class SubmitInput : MonoBehaviour {
 
-	[SerializeField] private GameObject consoleLog;
-	[SerializeField] private float consoleTypingAlpha = 1f;
-	[SerializeField] private float consoleDefaultAlpha = .5f;
-	
-
 	private InputField inputToSubmit;
 	private static EventSystem eSystem;
 	private Player localPlayer;
@@ -26,13 +21,11 @@ public class SubmitInput : MonoBehaviour {
 		localPlayer = GameManager.getLocalPlayer();
 		inputToSubmit.onEndEdit.AddListener(delegate { EndEdit(inputToSubmit); });
 
-		consoleLog.GetComponent<CanvasGroup>().alpha = consoleDefaultAlpha;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-
 		if (Input.GetButtonDown("Submit"))
 		{
 			if (eSystem.currentSelectedGameObject == gameObject)//if the player is typing, send it
@@ -52,8 +45,6 @@ public class SubmitInput : MonoBehaviour {
 				inputToSubmit.ActivateInputField();
 				eSystem.SetSelectedGameObject(gameObject, new BaseEventData(eSystem));
 
-				consoleLog.GetComponent<CanvasGroup>().alpha = consoleTypingAlpha;
-
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
 			}
@@ -66,8 +57,6 @@ public class SubmitInput : MonoBehaviour {
 		input.text = "";
 		input.DeactivateInputField();
 		localPlayer.CmdPlayerSetTyping(false);
-
-		consoleLog.GetComponent<CanvasGroup>().alpha = consoleDefaultAlpha;
 
 		if (GameManager.singleton.inCurrentRound)
 		{

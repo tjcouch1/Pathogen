@@ -74,6 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc49df6eff8d3f4b936aa167aee2d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  consoleTypingAlpha: 1
+  consoleDefaultAlpha: 0
   logText: {fileID: 114354011985121154}
 --- !u!222 &222146353157459288
 CanvasRenderer:
