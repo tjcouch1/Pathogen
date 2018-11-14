@@ -435,7 +435,8 @@ public class GameManager : NetworkBehaviour {
         playerDictionary.Add(playerID, _player);
         _player.transform.name = playerID;
 
-		GameManager.singleton.CmdStartRound();
+        NotificationsManager.instance.CreateNotification(_player.username, "Has joined the game!");
+        GameManager.singleton.CmdStartRound();
     }
 
     public static void UnRegisterPlayer(string playerID)
@@ -450,6 +451,7 @@ public class GameManager : NetworkBehaviour {
             GameManager.singleton.healthyPlayers.Remove(p);
         }
         playerDictionary.Remove(playerID);
+        NotificationsManager.instance.CreateNotification(p.username, "Has left the game");
     }
 
     public static Player getPlayer(string playerID)
