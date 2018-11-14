@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 4, sendInterval = 0.1f)]
 [RequireComponent(typeof(WeaponManager))]
 public class InfectionTool : NetworkBehaviour {
 
@@ -46,6 +47,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Server]
     public void Disable()
     {
+		Debug.Log("Infection Tool Disable was called for " + gameObject.name);
         isSetup = false;
         if(weaponManager != null)
         {
@@ -107,7 +109,6 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	void CmdSpit(Vector3 direction)
 	{
-        Debug.Log("Comand Spit");
 		//create spit object
 		GameObject spit = Instantiate(spitPrefab, cam.transform);
 		Spitball spitball = spit.GetComponent<Spitball>();
@@ -142,7 +143,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
     void CmdPlayerInfected(string playerID, string sourceID)
     {
-        //Debug.Log(playerID + " has been shot");
+        Debug.Log("Cmd Player Touch Infected. playerID: " + playerID);
         Player source = GameManager.getPlayer(sourceID);
         Player player = GameManager.getPlayer(playerID);
 
@@ -154,7 +155,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	public void CmdPlayerSpitInfected(string playerID, string sourceID, GameObject spit)
 	{
-        //Debug.Log("Cmd Player Spit infected");
+		Debug.Log("Cmd Player Spit Infected. playerID: " + playerID);
 		Player player = GameManager.getPlayer(playerID);
         Player source = GameManager.getPlayer(sourceID);
 

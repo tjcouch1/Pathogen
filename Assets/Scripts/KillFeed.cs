@@ -18,22 +18,15 @@ public class KillFeed : MonoBehaviour {
     public void OnKill(string player, string source)
     {
         Player p = GameManager.getPlayer(player);
+		Player s = GameManager.getPlayer(source);
 
-        Player s = GameManager.getPlayer(source);
-        if (s != null)
-        {
-            GameObject go = Instantiate(killFeedItemPrefab, this.transform);
-            go.GetComponent<KillFeedElement>().Setup(p.username, s.username);
-            go.transform.SetAsFirstSibling();
-            Destroy(go, killFeedTimeout);
-        }
-        else
-        {
-            GameObject go = Instantiate(killFeedItemPrefab, this.transform);
-            go.GetComponent<KillFeedElement>().Setup(p.username, source);
-            go.transform.SetAsFirstSibling();
-            Destroy(go, killFeedTimeout);
-        }
+		GameObject go = Instantiate(killFeedItemPrefab, this.transform);
+		if (s != null)
+			go.GetComponent<KillFeedElement>().Setup(p.username, s.username);
+		else
+			go.GetComponent<KillFeedElement>().Setup(p.username, source);
 
+		go.transform.SetAsFirstSibling();
+		Destroy(go, killFeedTimeout);
     }
 }

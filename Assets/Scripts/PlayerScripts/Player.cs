@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 5, sendInterval = 0.1f)]
 [RequireComponent(typeof(PlayerSetup))]
 public class Player : NetworkBehaviour {
 
@@ -94,6 +95,7 @@ public class Player : NetworkBehaviour {
 	[Server]
     public bool SetInfected(bool value)
     {
+		Debug.Log("Player " + username + " SetInfected");
         if (value)
         {
             if (isInfected)
@@ -111,6 +113,7 @@ public class Player : NetworkBehaviour {
         }
         else
         {
+            Debug.Log("Player losing infection");
             isInfected = false;
             infectionTool.Disable();
         }

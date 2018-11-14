@@ -512,7 +512,6 @@ GameObject:
   - component: {fileID: 114648638091090256}
   - component: {fileID: 114936025303600774}
   - component: {fileID: 114622668242531870}
-  - component: {fileID: 114741910040539562}
   - component: {fileID: 95720482938099428}
   - component: {fileID: 114902582104419856}
   - component: {fileID: 82987890017087448}
@@ -644,6 +643,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1464003772429642
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4740708384682058}
+  - component: {fileID: 82421233733704446}
+  m_Layer: 8
+  m_Name: FootstepAudioSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1465449315886022
 GameObject:
   m_ObjectHideFlags: 1
@@ -2267,6 +2282,19 @@ Transform:
   m_Father: {fileID: 4110669774057164}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4740708384682058
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1464003772429642}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4825180199065764}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4759536974636286
 Transform:
   m_ObjectHideFlags: 1
@@ -2319,6 +2347,7 @@ Transform:
   m_Children:
   - {fileID: 4158693348233746}
   - {fileID: 4268578006324048}
+  - {fileID: 4740708384682058}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2600,6 +2629,101 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1306508001676522}
   m_Enabled: 1
+--- !u!82 &82421233733704446
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1464003772429642}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!82 &82987890017087448
 AudioSource:
   m_ObjectHideFlags: 1
@@ -3006,7 +3130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.04761905
+  m_SendInterval: 0.16666667
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -3064,7 +3188,7 @@ MonoBehaviour:
     bullets: 0
     infiniteAmmo: 1
     clipSize: 0
-    range: 0.85
+    range: 0.95
     automatic: 1
     fireRate: 2
     reloadTime: 0
@@ -3090,7 +3214,7 @@ MonoBehaviour:
     sprayDecayRate: 0
     sprayHealRate: 0
     weaponGFX: {fileID: 0}
-    weaponIcon: {fileID: 21300134, guid: b295b6401049aca4faf1374aad10abde, type: 3}
+    weaponIcon: {fileID: 21300000, guid: 1a3a76b13dbcdb749a7c11b6d2feedc9, type: 3}
   - weaponName: Infect
     isDefault: 0
     damage: 0
@@ -3099,7 +3223,7 @@ MonoBehaviour:
     bullets: 0
     infiniteAmmo: 1
     clipSize: 0
-    range: 0.85
+    range: 0.95
     automatic: 0
     fireRate: 2
     reloadTime: 0
@@ -3108,7 +3232,7 @@ MonoBehaviour:
     sprayHealRate: 0.5
     weaponGFX: {fileID: 1672061850738770, guid: dba496da54728a9428e0e07393d549df,
       type: 2}
-    weaponIcon: {fileID: 21300000, guid: 763ddcc8940867f42ad6180db88df4b6, type: 3}
+    weaponIcon: {fileID: 21300000, guid: e35fabbe2c3e92e48b6ed101b9060ed9, type: 3}
   - weaponName: SpitInfect
     isDefault: 0
     damage: 0
@@ -3121,35 +3245,16 @@ MonoBehaviour:
     automatic: 0
     fireRate: 1
     reloadTime: 0
-    maxInacuracy: 1
+    maxInacuracy: 0.85
     sprayDecayRate: 0.5
     sprayHealRate: 0.5
     weaponGFX: {fileID: 1225760964484284, guid: 8d872dea98ddb044e936e688036437ce,
       type: 2}
-    weaponIcon: {fileID: 21300000, guid: 90501de5bec0974408980312b5910ee0, type: 3}
+    weaponIcon: {fileID: 21300000, guid: b81cb2ac2dca23f4d8ba30a0a9dde2c2, type: 3}
   weaponHolder: {fileID: 4076115203499606}
   weapons: []
   selectedWeaponIndex: 0
   isReloading: 0
---- !u!114 &114741910040539562
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1340817644079000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1267208747, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 4268578006324048}
-  m_ChildIndex: 0
-  m_SendInterval: 0.04761905
-  m_SyncRotationAxis: 1
-  m_RotationSyncCompression: 0
-  m_MovementThreshold: 0.001
-  m_InterpolateRotation: 0.3
-  m_InterpolateMovement: 0
 --- !u!114 &114742241459187428
 MonoBehaviour:
   m_ObjectHideFlags: 1

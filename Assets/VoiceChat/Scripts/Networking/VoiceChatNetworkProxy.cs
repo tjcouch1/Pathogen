@@ -5,10 +5,11 @@ using UnityEngine.Networking.NetworkSystem;
 
 namespace VoiceChat.Networking
 {
-    /// <summary>
-    /// Effectively the voice chat audio source. This creates a voice chat player and makes the sounds emit from it. One of these attaches to every player
-    /// </summary>
-    public class VoiceChatNetworkProxy : NetworkBehaviour
+	/// <summary>
+	/// Effectively the voice chat audio source. This creates a voice chat player and makes the sounds emit from it. One of these attaches to every player
+	/// </summary>
+	[NetworkSettings(channel = 10, sendInterval = 0.1f)]
+	public class VoiceChatNetworkProxy : NetworkBehaviour
     {
         public delegate void MessageHandler<T>(T data);
         public static event MessageHandler<VoiceChatPacketMessage> VoiceChatPacketReceived;

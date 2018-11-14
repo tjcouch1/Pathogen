@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 2, sendInterval = 0.1f)]
 public class GameManager : NetworkBehaviour {
 
 	public static GameManager singleton;

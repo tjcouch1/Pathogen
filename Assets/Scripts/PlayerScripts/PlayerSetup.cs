@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 6, sendInterval = 0.1f)]
 [RequireComponent(typeof(Player))]
 public class PlayerSetup : NetworkBehaviour {
 
@@ -64,6 +65,9 @@ public class PlayerSetup : NetworkBehaviour {
 		chatManager.SetPlayerName(username, true);
 		chatManager.SetAlive(false);
 		isChatUISetUp = true;
+
+		//Set the Chat UI 
+		chatManager.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 80);
 
         //Setup Notifications UI
         playerUIInstance.GetComponent<PlayerUI>().EnableUIOnDeathCallback();

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 7, sendInterval = 0.1f)]
 [RequireComponent(typeof(WeaponManager))]
 public class PlayerShoot : NetworkBehaviour {
 
@@ -131,7 +132,6 @@ public class PlayerShoot : NetworkBehaviour {
 		}
 		else if (infectionTool.isSpitEquipped())
 		{
-            Debug.Log(infectionTool.isSpitEquipped());
 			infectionTool.SpitInfect();
 			return;
 		}
