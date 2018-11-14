@@ -33,7 +33,6 @@ public class LoginManager : MonoBehaviour {
 
     private UserAccountManager UAM;
 
-    private bool gotDeployed = false;//whether the game has figured out if it's deployed or not aka can log in
     private bool isDeployed = false;//whether the game is deployed
     private string deployVersion = "";//what version the deployed game is running
 
@@ -75,8 +74,6 @@ public class LoginManager : MonoBehaviour {
     {
         deployVersion = UADataTranslator.DataToVersion(data);
         isDeployed = UADataTranslator.DataToDeploy(data);
-
-        gotDeployed = true;
 
         StartCoroutine(LoginUser());
     }
@@ -142,7 +139,6 @@ public class LoginManager : MonoBehaviour {
     void TryLoginUser ()
     {
         isDeployed = false;
-        gotDeployed = false;
         deployVersion = "";
 
         //check if game is deployed

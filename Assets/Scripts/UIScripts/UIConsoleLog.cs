@@ -5,11 +5,19 @@
 public class UIConsoleLog : MonoBehaviour
  {
      string myLog;
-		 public UnityEngine.UI.Text logText;
+     public UnityEngine.UI.Text logText;
+     private UIConsoleTextHolder uiConsoleTextHolder;
      Queue myLogQueue = new Queue();
  
      void OnEnable () {
          Application.logMessageReceived += HandleLog;
+
+         GameObject consoleTextHolder = GameObject.Find("ConsoleTextHolder");
+         if (consoleTextHolder != null)
+         {
+            uiConsoleTextHolder = consoleTextHolder.GetComponent<UIConsoleTextHolder>();
+            myLogQueue.Enqueue(uiConsoleTextHolder.Log);
+         }
      }
      
      void OnDisable () {
@@ -33,5 +41,6 @@ public class UIConsoleLog : MonoBehaviour
         int subsStart = Mathf.Max(0, myLog.Length - 10000);
         myLog = myLog == null ? string.Empty : myLog.Substring(subsStart, myLog.Length - subsStart);
 		logText.text = myLog;
+        uiConsoleTextHolder.Log = myLog;
      }
  }
