@@ -70,6 +70,7 @@ public class UIConsoleLog : MonoBehaviour
         int subsStart = Mathf.Max(0, myLog.Length - 10000);
         myLog = myLog == null ? string.Empty : myLog.Substring(subsStart, myLog.Length - subsStart);
 		logText.text = myLog;
-        uiConsoleTextHolder.Log = myLog;
+        if (uiConsoleTextHolder != null)
+            uiConsoleTextHolder.Log = myLog;
      }
  }
