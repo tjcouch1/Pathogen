@@ -658,6 +658,7 @@ ModelImporter:
     2300158: TriggerGuard
     2300160: UpperReceiver1
     2300162: polySurface38
+    2300164: //RootNode
     3300000: Barrel
     3300002: BottomHGRailspCube18
     3300004: BottomHGRailspCube18 1
@@ -740,6 +741,7 @@ ModelImporter:
     3300158: TriggerGuard
     3300160: UpperReceiver1
     3300162: polySurface38
+    3300164: //RootNode
     4300000: Barrel
     4300002: LockingRing
     4300004: FrontSightPost
@@ -822,6 +824,7 @@ ModelImporter:
     4300158: pCylinder5
     4300160: pCylinder6
     4300162: polySurface38
+    4300164: Rifle
   externalObjects:
   - first:
       type: UnityEngine:Material
