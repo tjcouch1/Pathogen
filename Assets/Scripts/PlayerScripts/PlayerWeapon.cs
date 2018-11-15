@@ -21,7 +21,7 @@ public class PlayerWeapon {
 
     public GameObject weaponGFX;
     public Sprite weaponIcon;
-    public AudioClip fireClip;
+    public PlayerAudioClip fireClip;
 
     public PlayerWeapon()
     {
