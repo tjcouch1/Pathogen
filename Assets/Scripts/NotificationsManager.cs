@@ -8,6 +8,8 @@ public class NotificationsManager : MonoBehaviour {
     public GameObject notificationPrefab;
     public GameObject healthyWin;
     public GameObject infectedWin;
+    public Sprite WarningIcon;
+    public Color WarningColor;
     public RectTransform centerScreen;
     public float notificationTimeout = 10;
     public float winNotificationTimeout = 5;
@@ -55,6 +57,15 @@ public class NotificationsManager : MonoBehaviour {
         Destroy(go, notificationTimeout);
     }
 
+    /*<summary>
+     * Creates a notification with the default warning icon and color  
+     *</summary>
+     */
+    public void CreateWarning(string text, string desc)
+    {
+        CreateNotification(text, desc, WarningIcon, WarningColor);
+    }
+
     public void DisplayWinState(bool healthyWin)
     {
         StartCoroutine(WinDisplayCoroutine(healthyWin));
@@ -74,14 +85,6 @@ public class NotificationsManager : MonoBehaviour {
             infectedWin.SetActive(true);
             yield return new WaitForSeconds(winNotificationTimeout);
             infectedWin.SetActive(false);
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            instance.CreateNotification("Test Notification", "This is a test");
         }
     }
 

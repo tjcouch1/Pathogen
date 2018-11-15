@@ -131,19 +131,10 @@ public class GameManager : NetworkBehaviour {
 		GameTimer.singleton.clearTimerEvents();
 
 		GameTimer.singleton.addTimerEvent(new timerEvent(BeginSuddenDeath, suddenDeathTime));
+        GameTimer.singleton.addTimerEvent(new timerEvent(CmdShowQuarantineWarnings, suddenDeathTime + 15));
 		GameTimer.singleton.addTimerEvent(new timerEvent(EndRound, 0));
 
 		RpcUpdateQuarantineWarningUI(suddenDeathTime);
-	}
-
-	[ClientRpc]
-	void RpcUpdateQuarantineWarningUI(int qTime)
-	{
-		PlayerUI[] playerUIs = FindObjectsOfType<PlayerUI>();
-		foreach (PlayerUI ui in playerUIs)
-		{
-			ui.UpdateQuarantineWarning(qTime);
-		}
 	}
 
 	private void initLobbyEvents()
@@ -155,7 +146,36 @@ public class GameManager : NetworkBehaviour {
 		GameTimer.singleton.addTimerEvent(new timerEvent(EndLobby, 0));
 	}
 
-	IEnumerator checkWinCondition()
+    [Command]
+    public void CmdShowQuarantineWarnings()
+    {
+        RpcQuarantineWarningNotification();
+    }
+
+    [ClientRpc]
+    private void RpcQuarantineWarningNotification()
+    {
+        NotificationsManager.instance.CreateWarning("QUARANTINE", "Top floor being quarantined in 15 seconds!");
+    }
+
+    [ClientRpc]
+    private void RpcShowQuarantineNotification()
+    {
+        NotificationsManager.instance.CreateWarning("QUARANTINE", "Top floor is being Quarantined!");
+    }
+
+    [ClientRpc]
+    void RpcUpdateQuarantineWarningUI(int qTime)
+    {
+        PlayerUI[] playerUIs = FindObjectsOfType<PlayerUI>();
+        foreach (PlayerUI ui in playerUIs)
+        {
+            ui.UpdateQuarantineWarning(qTime);
+        }
+    }
+
+
+    IEnumerator checkWinCondition()
 	{
 		Debug.LogWarning("Starting Check for win condition");
 		while (inCurrentRound)
@@ -269,6 +289,7 @@ public class GameManager : NetworkBehaviour {
 
 		//Activate quarantine box
 		RpcQuarantineZoneSetActive(true);
+        RpcShowQuarantineNotification();
 
         RpcUpdatePlayersTimerUI(Color.red);
     }
@@ -435,7 +456,10 @@ public class GameManager : NetworkBehaviour {
         playerDictionary.Add(playerID, _player);
         _player.transform.name = playerID;
 
-        NotificationsManager.instance.CreateNotification(_player.username, "Has joined the game!");
+        if (!_player.isLocalPlayer)
+        {
+            NotificationsManager.instance.CreateNotification(_player.username, "Has joined the game!");
+        }
         GameManager.singleton.CmdStartRound();
     }
 

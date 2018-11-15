@@ -2697,16 +2697,6 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 781547345}
-    - target: {fileID: 224454230020226140, guid: c7d1e958afb59914c9060c5453594139,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: -141.81
-      objectReference: {fileID: 0}
-    - target: {fileID: 114843408592830414, guid: c7d1e958afb59914c9060c5453594139,
-        type: 2}
-      propertyPath: consoleDefaultAlpha
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7d1e958afb59914c9060c5453594139, type: 2}
   m_IsPrefabAsset: 0
