@@ -17,7 +17,9 @@ public class PlayerShoot : NetworkBehaviour {
     private float sprayMultiplier = 0.1f;
 	private float shootTime = 0.0f; //the amount of time in seconds until the next shot may be fired
 
-    private void Start()
+    private PlayerAudio playerAudio;
+
+    void Start()
     {
         //weaponManager = GetComponent<WeaponManager>();
         if(cam == null)
@@ -113,6 +115,9 @@ public class PlayerShoot : NetworkBehaviour {
                 weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
             }
         }
+        if (playerAudio == null)
+            playerAudio = GetComponent<PlayerAudio>();
+        playerAudio.PlayShoot(weaponManager.getCurrentWeapon().fireClip);
     }
 
     [Client]

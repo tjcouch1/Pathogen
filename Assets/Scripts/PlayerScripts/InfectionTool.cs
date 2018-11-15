@@ -17,6 +17,13 @@ public class InfectionTool : NetworkBehaviour {
 
 	private bool isSetup = false;
 
+    private PlayerAudio playerAudio;
+
+	void Start()
+	{
+        playerAudio = GetComponent<PlayerAudio>();
+	}
+
 	[Server]
 	public void Setup() {
 		Debug.Log("Infection tool setup was called for " + gameObject.name);
@@ -136,7 +143,10 @@ public class InfectionTool : NetworkBehaviour {
 			{
 				weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
 			}
-		}
+        }
+        if (playerAudio == null)
+            playerAudio = GetComponent<PlayerAudio>();
+        playerAudio.PlayShoot(weaponManager.getCurrentWeapon().fireClip);
 	}
 
     //Callled when a player gets infected by touch

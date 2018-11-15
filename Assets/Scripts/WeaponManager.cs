@@ -17,9 +17,13 @@ public class WeaponManager : NetworkBehaviour {
     [SyncVar] [SerializeField] private int selectedWeaponIndex = 0;//serialized for debug reasons
     public bool isReloading = false;
 
+    private PlayerAudio playerAudio;
+
     // Use this for initialization
     void Start()
     {
+        Debug.Log("Sah");
+        playerAudio = GetComponent<PlayerAudio>();
 		setupDefaultWeapons();
 	}
 
@@ -174,6 +178,8 @@ public class WeaponManager : NetworkBehaviour {
 		{
 			weapons[requestedIndex].weaponInstance.SetActive(true);
 		}
+        
+        playerAudio.PlaySwap();
     }
 
     public PlayerWeapon getCurrentWeapon()

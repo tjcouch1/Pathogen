@@ -14,7 +14,6 @@ public class JoinGame : MonoBehaviour {
     [SerializeField] private GameObject roomListItemPrefab;
     [SerializeField] private Transform roomListItemParent;
     private bool quickPlaying = false;
-    private bool isJoining = false;
 
     private void Start()
     {
@@ -110,13 +109,10 @@ public class JoinGame : MonoBehaviour {
 
     public void JoinRoom(MatchInfoSnapshot match)
     {
-        if (!isJoining)
-        {
-            isJoining = true;
-            Debug.Log("Joining " + match.name);
-            networkManager.matchMaker.JoinMatch(match.networkId, "", "", "", 0, 0, networkManager.OnMatchJoined);
-            StartCoroutine(WaitForJoin());
-        }
+        cancelJoin(false);
+        Debug.Log("Joining " + match.name);
+        networkManager.matchMaker.JoinMatch(match.networkId, "", "", "", 0, 0, networkManager.OnMatchJoined);
+        StartCoroutine(WaitForJoin());
     }
 
     IEnumerator WaitForJoin()
@@ -132,16 +128,22 @@ public class JoinGame : MonoBehaviour {
         }
 
         //Failed to connect to game
-        statusText.text = "Failed to connect to game. Connection timeout afer 20 seconds.";
+        statusText.text = "Failed to connect to game. Connection timeout afer 10 seconds.";
         yield return new WaitForSeconds(2);
 
+        cancelJoin(true);
+    }
+
+    void cancelJoin(bool refreshList)
+    {
+        Debug.Log("Canceling join");
         MatchInfo matchInfo = networkManager.matchInfo;
         if (matchInfo != null)
         {
             networkManager.matchMaker.DropConnection(matchInfo.networkId, matchInfo.nodeId, 0, networkManager.OnDropConnection);
             networkManager.StopHost();
         }
-        isJoining = false;
-        RefreshList();
+        if (refreshList)
+            RefreshList();
     }
 }
