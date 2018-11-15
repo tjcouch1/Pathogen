@@ -34,7 +34,8 @@ public class WeaponManager : NetworkBehaviour {
         else Debug.Log("Setup remote default weapons");
 		List<WeaponInstancePair> weaponsToRemove = new List<WeaponInstancePair>(weapons);
 		foreach (WeaponInstancePair pair in weaponsToRemove)
-			RemoveWeapon(pair.weapon);
+            if (pair != null && pair.weapon != null)
+			    RemoveWeapon(pair.weapon);
 		weapons = new List<WeaponInstancePair>();
 		foreach (PlayerWeapon w in weaponPrefabs)
 		{
