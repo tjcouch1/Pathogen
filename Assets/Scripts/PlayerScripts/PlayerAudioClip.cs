@@ -6,5 +6,5 @@ using UnityEngine;
 public class PlayerAudioClip
 {
     public AudioClip clip;
-    public int maxDistance;
+    public int maxDistance = 500;
 }

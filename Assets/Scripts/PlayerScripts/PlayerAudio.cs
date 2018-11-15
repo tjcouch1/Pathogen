@@ -16,22 +16,13 @@ public class PlayerAudio : NetworkBehaviour {
 	public AudioSource weaponSource;
 	public PlayerAudioClip swapClip;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	public void PlayFootstep()
 	{
 		PlayerAudioClip step = footstepClips[Random.Range(0, footstepClips.Length)];
-		if (step != null)
+		if (step != null && step.clip != null)
 		{
 			footSource.clip = step.clip;
+			footSource.maxDistance = step.maxDistance;
 			footSource.Play();
             Debug.Log("Played footstep sound!");
 		}
@@ -55,9 +46,10 @@ public class PlayerAudio : NetworkBehaviour {
 
     public void PlayLand()
     {
-		if (landClip != null)
+		if (landClip != null && landClip.clip != null)
 		{
         	footSource.clip = landClip.clip;
+            footSource.maxDistance = landClip.maxDistance;
         	footSource.Play();
         }
         else Debug.Log("Land sound is null!");
@@ -81,9 +73,10 @@ public class PlayerAudio : NetworkBehaviour {
     //play sound! Runs directly on clients
     public void PlayJump()
     {
-		if (jumpClip.clip != null)
+		if (jumpClip != null && jumpClip.clip != null)
 		{
         	mouthSource.clip = jumpClip.clip;
+            mouthSource.maxDistance = jumpClip.maxDistance;
         	mouthSource.Play();
         }
         else Debug.Log("Jump sound is null!");
@@ -91,9 +84,10 @@ public class PlayerAudio : NetworkBehaviour {
 
 	public void PlaySwap()
 	{
-		if (swapClip != null)
+		if (swapClip != null && swapClip.clip != null)
 		{
 			weaponSource.clip = swapClip.clip;
+            weaponSource.maxDistance = swapClip.maxDistance;
 			weaponSource.Play();
         }
         else Debug.Log("Swap sound is null!");
@@ -101,9 +95,10 @@ public class PlayerAudio : NetworkBehaviour {
 
 	public void PlayShoot(PlayerAudioClip fireClip)
 	{
-        if (fireClip != null)
+        if (fireClip != null && fireClip.clip != null)
         {
             weaponSource.clip = fireClip.clip;
+            weaponSource.maxDistance = fireClip.maxDistance;
             weaponSource.Play();
             Debug.Log("Played fire sound!");
         }
