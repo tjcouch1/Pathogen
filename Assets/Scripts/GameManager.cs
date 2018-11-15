@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 2, sendInterval = 0.1f)]
 public class GameManager : NetworkBehaviour {
 
 	public static GameManager singleton;
@@ -11,6 +12,9 @@ public class GameManager : NetworkBehaviour {
 
 	public delegate void OnPlayerKilledCallback(string player, string source);
 	public List<OnPlayerKilledCallback> onPlayerKilledCallbacks;
+
+    public delegate void OnStartRoundCallback();
+    public List<OnStartRoundCallback> onStartRoundCallbacks;
 
 	//Required number of players for a game to start
 	[SerializeField] private int requiredPlayers = 1;
@@ -47,6 +51,7 @@ public class GameManager : NetworkBehaviour {
 
 			//Initialize Lists
 			onPlayerKilledCallbacks = new List<OnPlayerKilledCallback>();
+            onStartRoundCallbacks = new List<OnStartRoundCallback>();
 			healthyPlayers = new List<Player>();
 			infectedPlayers = new List<Player>();
 			onPlayerKilledCallbacks.Add(OnPlayerKilled);
@@ -60,6 +65,15 @@ public class GameManager : NetworkBehaviour {
 			c.Invoke(player, source);
 		}
 	}
+
+    [ClientRpc]
+    private void RpcCallOnStartRoundCallbacks()
+    {
+        foreach(OnStartRoundCallback c in onStartRoundCallbacks)
+        {
+            c.Invoke();
+        }
+    }
 
 	private void OnPlayerKilled(string player, string source)
 	{
@@ -117,19 +131,10 @@ public class GameManager : NetworkBehaviour {
 		GameTimer.singleton.clearTimerEvents();
 
 		GameTimer.singleton.addTimerEvent(new timerEvent(BeginSuddenDeath, suddenDeathTime));
+        GameTimer.singleton.addTimerEvent(new timerEvent(CmdShowQuarantineWarnings, suddenDeathTime + 15));
 		GameTimer.singleton.addTimerEvent(new timerEvent(EndRound, 0));
 
 		RpcUpdateQuarantineWarningUI(suddenDeathTime);
-	}
-
-	[ClientRpc]
-	void RpcUpdateQuarantineWarningUI(int qTime)
-	{
-		PlayerUI[] playerUIs = FindObjectsOfType<PlayerUI>();
-		foreach (PlayerUI ui in playerUIs)
-		{
-			ui.UpdateQuarantineWarning(qTime);
-		}
 	}
 
 	private void initLobbyEvents()
@@ -141,7 +146,36 @@ public class GameManager : NetworkBehaviour {
 		GameTimer.singleton.addTimerEvent(new timerEvent(EndLobby, 0));
 	}
 
-	IEnumerator checkWinCondition()
+    [Command]
+    public void CmdShowQuarantineWarnings()
+    {
+        RpcQuarantineWarningNotification();
+    }
+
+    [ClientRpc]
+    private void RpcQuarantineWarningNotification()
+    {
+        NotificationsManager.instance.CreateWarning("QUARANTINE", "Top floor being quarantined in 15 seconds!");
+    }
+
+    [ClientRpc]
+    private void RpcShowQuarantineNotification()
+    {
+        NotificationsManager.instance.CreateWarning("QUARANTINE", "Top floor is being Quarantined!");
+    }
+
+    [ClientRpc]
+    void RpcUpdateQuarantineWarningUI(int qTime)
+    {
+        PlayerUI[] playerUIs = FindObjectsOfType<PlayerUI>();
+        foreach (PlayerUI ui in playerUIs)
+        {
+            ui.UpdateQuarantineWarning(qTime);
+        }
+    }
+
+
+    IEnumerator checkWinCondition()
 	{
 		Debug.LogWarning("Starting Check for win condition");
 		while (inCurrentRound)
@@ -170,7 +204,6 @@ public class GameManager : NetworkBehaviour {
     [Command]
     public void CmdStartRound()
     {
-
 		//We only want to start a round if enough players are connected, and we are not currently in a round already
         if(getAllPlayers().Length >= requiredPlayers && inCurrentRound == false)
         {
@@ -220,6 +253,9 @@ public class GameManager : NetworkBehaviour {
             GameTimer.singleton.StartTimer(roundTime);
             Debug.Log("Round started!");
 
+            //Call StartRound callbacks
+            RpcCallOnStartRoundCallbacks();
+
             //Start Coroutine that checks for a win condition
             StartCoroutine(checkWinCondition());
         }
@@ -253,6 +289,7 @@ public class GameManager : NetworkBehaviour {
 
 		//Activate quarantine box
 		RpcQuarantineZoneSetActive(true);
+        RpcShowQuarantineNotification();
 
         RpcUpdatePlayersTimerUI(Color.red);
     }
@@ -303,6 +340,9 @@ public class GameManager : NetworkBehaviour {
 				else p.chatManager.SetAlive(false);
 			}
 
+            //Add points for all the winners
+            CmdAddPoints(healthyWin);
+
             //Display notification
             RpcCallEndGameNotifications(healthyWin);
 
@@ -319,6 +359,28 @@ public class GameManager : NetworkBehaviour {
         else
         {
             GameTimer.singleton.setRoundTitle("OVERTIME");
+        }
+    }
+
+    [Command]
+    private void CmdAddPoints(bool healthyWin)
+    {
+        if (healthyWin)
+        {
+            //Add points to all healthy players
+            foreach(Player p in healthyPlayers)
+            {
+                p.points += 5;
+            }
+        }
+        else
+        {
+            //Add points to all infected players
+            foreach(Player p in infectedPlayers)
+            {
+                p.points += 5;
+            }
+
         }
     }
 
@@ -394,7 +456,11 @@ public class GameManager : NetworkBehaviour {
         playerDictionary.Add(playerID, _player);
         _player.transform.name = playerID;
 
-		GameManager.singleton.CmdStartRound();
+        if (!_player.isLocalPlayer)
+        {
+            NotificationsManager.instance.CreateNotification(_player.username, "Has joined the game!");
+        }
+        GameManager.singleton.CmdStartRound();
     }
 
     public static void UnRegisterPlayer(string playerID)
@@ -409,6 +475,7 @@ public class GameManager : NetworkBehaviour {
             GameManager.singleton.healthyPlayers.Remove(p);
         }
         playerDictionary.Remove(playerID);
+        NotificationsManager.instance.CreateNotification(p.username, "Has left the game");
     }
 
     public static Player getPlayer(string playerID)

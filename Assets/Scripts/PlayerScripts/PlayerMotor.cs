@@ -23,16 +23,20 @@ public class PlayerMotor : MonoBehaviour {
     private float currentCamRotX = 0;
     private Rigidbody rb;
     private bool canJump = true;
+    private bool canJumpPrev = true;
 
     [SerializeField]
     private float cameraRotationLimit = 85f;
     [SerializeField]
     private float runningThreshold = 2.0f;
 
+    private PlayerAudio playerAudio;
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerAudio = GetComponent<PlayerAudio>();
         if (animator == null)
         {
             Debug.LogError("NO ANIMATOR ATTACHED TO PLAYER MOTOR!");
@@ -77,12 +81,19 @@ public class PlayerMotor : MonoBehaviour {
         if (canJump)
         {
             rb.AddForce(Vector3.up * force);
+            playerAudio.PlayJump();//play jump on my client
+            playerAudio.CmdPlayJump();//send jump to other clients
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
         canJump = true;
+        if (!canJumpPrev)//means he just landed
+        {
+            playerAudio.PlayLand();//play on client
+            playerAudio.CmdPlayLand();//send to other clients
+        }
         animator.SetBool("jumping", false);
     }
 
@@ -100,6 +111,8 @@ public class PlayerMotor : MonoBehaviour {
     {
         perfromMovement();
         performRotation();
+
+        canJumpPrev = canJump;
     }
 
     //Perfrom movement based on velocity vector

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 4, sendInterval = 0.1f)]
 [RequireComponent(typeof(WeaponManager))]
 public class InfectionTool : NetworkBehaviour {
 
@@ -15,6 +16,13 @@ public class InfectionTool : NetworkBehaviour {
 	[SerializeField] private const string spitInfectToolName = "SpitInfect";
 
 	private bool isSetup = false;
+
+    private PlayerAudio playerAudio;
+
+	void Start()
+	{
+        playerAudio = GetComponent<PlayerAudio>();
+	}
 
 	[Server]
 	public void Setup() {
@@ -46,6 +54,7 @@ public class InfectionTool : NetworkBehaviour {
 	[Server]
     public void Disable()
     {
+		Debug.Log("Infection Tool Disable was called for " + gameObject.name);
         isSetup = false;
         if(weaponManager != null)
         {
@@ -107,7 +116,6 @@ public class InfectionTool : NetworkBehaviour {
 	[Command]
 	void CmdSpit(Vector3 direction)
 	{
-        Debug.Log("Comand Spit");
 		//create spit object
 		GameObject spit = Instantiate(spitPrefab, cam.transform);
 		Spitball spitball = spit.GetComponent<Spitball>();
@@ -135,26 +143,34 @@ public class InfectionTool : NetworkBehaviour {
 			{
 				weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
 			}
-		}
+        }
+        if (playerAudio == null)
+            playerAudio = GetComponent<PlayerAudio>();
+        playerAudio.PlayShoot(weaponManager.getCurrentWeapon().fireClip);
 	}
 
     //Callled when a player gets infected by touch
 	[Command]
     void CmdPlayerInfected(string playerID, string sourceID)
     {
-        //Debug.Log(playerID + " has been shot");
-
+        Debug.Log("Cmd Player Touch Infected. playerID: " + playerID);
+        Player source = GameManager.getPlayer(sourceID);
         Player player = GameManager.getPlayer(playerID);
+
         player.SetInfected(true);
+        source.points += 10;
         RpcInfectionNotification(playerID, sourceID);
 	}
 
 	[Command]
 	public void CmdPlayerSpitInfected(string playerID, string sourceID, GameObject spit)
 	{
-        //Debug.Log("Cmd Player Spit infected");
+		Debug.Log("Cmd Player Spit Infected. playerID: " + playerID);
 		Player player = GameManager.getPlayer(playerID);
+        Player source = GameManager.getPlayer(sourceID);
+
 		player.SetInfected(true);
+        source.points += 10;
 		Destroy(spit);
         RpcInfectionNotification(playerID, sourceID);
     }
@@ -174,7 +190,7 @@ public class InfectionTool : NetworkBehaviour {
         //If our player is the one who did the infecting...
         if (source.isLocalPlayer)
         {
-            NotificationsManager.instance.CreateNotification("Infection", "You infected a player! +5 points");
+            NotificationsManager.instance.CreateNotification("Infection", "You infected a player! +10 points");
         }
     }
 

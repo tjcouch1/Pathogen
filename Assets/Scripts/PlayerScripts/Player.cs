@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[NetworkSettings(channel = 5, sendInterval = 0.1f)]
 [RequireComponent(typeof(PlayerSetup))]
 public class Player : NetworkBehaviour {
 
@@ -49,9 +50,9 @@ public class Player : NetworkBehaviour {
     [SyncVar]
     public string username = "(null)";
 
-    public int killCount;               //Killcount local to this match
-    public int deathCount;              //Death count local to this match
-    public int points;                  //Points local to this match
+    [SyncVar] public int killCount;               //Killcount local to this match
+    [SyncVar] public int deathCount;              //Death count local to this match
+    [SyncVar] public int points;                  //Points local to this match
 
     [SerializeField]
     private Behaviour[] disableOnDeath;
@@ -94,6 +95,7 @@ public class Player : NetworkBehaviour {
 	[Server]
     public bool SetInfected(bool value)
     {
+		Debug.Log("Player " + username + " SetInfected");
         if (value)
         {
             if (isInfected)
@@ -111,6 +113,7 @@ public class Player : NetworkBehaviour {
         }
         else
         {
+            Debug.Log("Player losing infection");
             isInfected = false;
             infectionTool.Disable();
         }

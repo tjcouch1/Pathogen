@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+[NetworkSettings(channel = 8, sendInterval = 0.1f)]
 public class WeaponManager : NetworkBehaviour {
 
     [SerializeField] private const string remoteLayerName = "RemotePlayer";
@@ -16,9 +17,13 @@ public class WeaponManager : NetworkBehaviour {
     [SyncVar] [SerializeField] private int selectedWeaponIndex = 0;//serialized for debug reasons
     public bool isReloading = false;
 
+    private PlayerAudio playerAudio;
+
     // Use this for initialization
     void Start()
     {
+        Debug.Log("Sah");
+        playerAudio = GetComponent<PlayerAudio>();
 		setupDefaultWeapons();
 	}
 
@@ -28,9 +33,13 @@ public class WeaponManager : NetworkBehaviour {
 	/// </summary>
 	public void setupDefaultWeapons()
 	{
+        if (isLocalPlayer)
+            Debug.Log("Setup local default weapons");
+        else Debug.Log("Setup remote default weapons");
 		List<WeaponInstancePair> weaponsToRemove = new List<WeaponInstancePair>(weapons);
 		foreach (WeaponInstancePair pair in weaponsToRemove)
-			RemoveWeapon(pair.weapon);
+            if (pair != null && pair.weapon != null)
+			    RemoveWeapon(pair.weapon);
 		weapons = new List<WeaponInstancePair>();
 		foreach (PlayerWeapon w in weaponPrefabs)
 		{
@@ -48,6 +57,7 @@ public class WeaponManager : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSpawnWeapon(string weaponName, bool select)
 	{
+        Debug.Log("Weapon: " + weaponName + " spawned!");
 		PlayerWeapon weaponPrefab = getWeaponPrefabByName(weaponName);
 		if (weaponPrefab != null)
 			SpawnWeapon(weaponPrefab, select);
@@ -168,6 +178,8 @@ public class WeaponManager : NetworkBehaviour {
 		{
 			weapons[requestedIndex].weaponInstance.SetActive(true);
 		}
+        
+        playerAudio.PlaySwap();
     }
 
     public PlayerWeapon getCurrentWeapon()
@@ -192,7 +204,7 @@ public class WeaponManager : NetworkBehaviour {
                 return weapons[i].weapon;
             }
         }
-        Debug.Log("This player does not have the weapon: " + Name);
+        Debug.Log("Player " + GetComponent<Player>().username + " does not have the weapon: " + Name);
         return null;
 	}
 

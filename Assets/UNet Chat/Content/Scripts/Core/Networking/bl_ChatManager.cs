@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
+[NetworkSettings(channel = 9, sendInterval = 0.1f)]
 [RequireComponent(typeof(NetworkIdentity))]
 public class bl_ChatManager : NetworkBehaviour
 {

@@ -8,3 +8,11 @@ Pass: serialkiller
 
 User:test1234	
 pass:test1234
+
+New Hashed players:
+
+ShaDude
+shadood
+
+Poopman
+poopie

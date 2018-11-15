@@ -20,12 +20,12 @@ public class SubmitInput : MonoBehaviour {
 		eSystem = EventSystem.current;
 		localPlayer = GameManager.getLocalPlayer();
 		inputToSubmit.onEndEdit.AddListener(delegate { EndEdit(inputToSubmit); });
+
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-
 		if (Input.GetButtonDown("Submit"))
 		{
 			if (eSystem.currentSelectedGameObject == gameObject)//if the player is typing, send it

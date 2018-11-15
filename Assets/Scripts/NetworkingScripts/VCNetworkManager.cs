@@ -5,6 +5,14 @@ using UnityEngine.Networking;
 
 public class VCNetworkManager : NetworkManager
 {
+	private void Start()
+	{
+		//https://forum.unity.com/threads/timeout-disconnect-after-a-few-minutes.367545/
+		connectionConfig.AcksType = ConnectionAcksType.Acks64;
+		connectionConfig.MaxSentMessageQueueSize = 1024;//big warnings about this one. Default 128
+		connectionConfig.MaxCombinedReliableMessageCount = 1;
+	}
+
 	public override void OnStartClient(NetworkClient client)
 	{
 		base.OnStartClient (client);

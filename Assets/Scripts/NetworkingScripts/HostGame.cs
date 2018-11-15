@@ -7,18 +7,26 @@ public class HostGame : MonoBehaviour {
 
     [SerializeField]
     private uint roomSize = 10;
+    [SerializeField] private uint maxRoomSize = 10;
     private NetworkManager networkManager;
     private string roomName;
+    private bool isClicked = false;
     [SerializeField] private Text errorText;
+    [SerializeField] private GameObject hostName;
+    [SerializeField] private GameObject hostNum;
 
     private void Start()
     {
 		Random.InitState((int)System.DateTime.Now.Ticks);
+        isClicked = false;
 		networkManager = NetworkManager.singleton;
         if(networkManager.matchMaker == null)
         {
             networkManager.StartMatchMaker();
         }
+
+        hostName.GetComponent<InputField>().text = UserAccountManager.playerUsername + "'s Room";
+        hostNum.GetComponent<InputField>().text = roomSize.ToString();
     }
 
     public void SetRoomName(string name)
@@ -37,10 +45,14 @@ public class HostGame : MonoBehaviour {
 
     public void CreateRoom()
     {
+        if (isClicked)
+            return;
+
         if(roomName != "" && roomName != null)
         {
-            if(roomSize <= 20 && roomSize > 1)
+            if(roomSize <= maxRoomSize && roomSize > 1)
             {
+                isClicked = true;
                 Debug.Log("Creating Room: " + roomName + " for " + roomSize + " players.");
 
                 //create room
@@ -49,8 +61,8 @@ public class HostGame : MonoBehaviour {
             }
             else
             {
-                Debug.LogError("Invalid room size! Please use room size 2-20");
-                errorText.text = "Invalid room size! Please use room size 2 - 20";
+                Debug.LogError("Invalid room size! Please use room size 2 - " + maxRoomSize);
+                errorText.text = "Invalid room size! Please use room size 2 - " + maxRoomSize;
             }      
         }
         else

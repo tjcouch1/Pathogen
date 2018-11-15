@@ -13,6 +13,7 @@ public class JoinGame : MonoBehaviour {
     [SerializeField] private Text statusText;
     [SerializeField] private GameObject roomListItemPrefab;
     [SerializeField] private Transform roomListItemParent;
+    private bool quickPlaying = false;
 
     private void Start()
     {
@@ -73,22 +74,26 @@ public class JoinGame : MonoBehaviour {
 
     public void QuickPlay()
     {
-        //Try to join an existing game
-        try
+        if (!quickPlaying)
         {
-            RoomListItem _rli = roomList[0].GetComponent<RoomListItem>();
-            if (_rli != null)
+            quickPlaying = true;
+            //Try to join an existing game
+            try
             {
-                _rli.JoinRoom();
+                RoomListItem _rli = roomList[0].GetComponent<RoomListItem>();
+                if (_rli != null)
+                {
+                    _rli.JoinRoom();
+                }
+                Debug.LogError("A room was found in the list, but a connection could not be made.");
             }
-            Debug.LogError("A room was found in the list, but a connection could not be made.");
-        }
-        //If none available, try to start a new match
-        catch (ArgumentOutOfRangeException)
-        {
-            Debug.Log("No Rooms Available :(");
-            string matchName = UserAccountManager.playerUsername + "'s Room";
-            networkManager.matchMaker.CreateMatch(matchName, 10, true, "", "", "", 0, 0, networkManager.OnMatchCreate);
+            //If none available, try to start a new match
+            catch (ArgumentOutOfRangeException)
+            {
+                Debug.Log("No Rooms Available :(");
+                string matchName = UserAccountManager.playerUsername + "'s Room";
+                networkManager.matchMaker.CreateMatch(matchName, 10, true, "", "", "", 0, 0, networkManager.OnMatchCreate);
+            }
         }
     }
 
@@ -104,6 +109,7 @@ public class JoinGame : MonoBehaviour {
 
     public void JoinRoom(MatchInfoSnapshot match)
     {
+        cancelJoin(false);
         Debug.Log("Joining " + match.name);
         networkManager.matchMaker.JoinMatch(match.networkId, "", "", "", 0, 0, networkManager.OnMatchJoined);
         StartCoroutine(WaitForJoin());
@@ -114,7 +120,7 @@ public class JoinGame : MonoBehaviour {
         ClearRoomList();
         statusText.text = "Joining game...";
 
-        int countdown = 20;
+        int countdown = 10;
         while (countdown > 0)
         {
             countdown--;
@@ -122,15 +128,22 @@ public class JoinGame : MonoBehaviour {
         }
 
         //Failed to connect to game
-        statusText.text = "Failed to connect to game. Connection timeout afer 20 seconds.";
+        statusText.text = "Failed to connect to game. Connection timeout afer 10 seconds.";
         yield return new WaitForSeconds(2);
 
+        cancelJoin(true);
+    }
+
+    void cancelJoin(bool refreshList)
+    {
+        Debug.Log("Canceling join");
         MatchInfo matchInfo = networkManager.matchInfo;
         if (matchInfo != null)
         {
             networkManager.matchMaker.DropConnection(matchInfo.networkId, matchInfo.nodeId, 0, networkManager.OnDropConnection);
             networkManager.StopHost();
         }
-        RefreshList();
+        if (refreshList)
+            RefreshList();
     }
 }
