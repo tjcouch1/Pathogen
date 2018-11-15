@@ -6,21 +6,15 @@ using UnityEngine.Networking;
 [NetworkSettings(channel = 11, sendInterval = 0.1f)]
 public class PlayerAudio : NetworkBehaviour {
 
-	public struct PlayerAudioClip
-	{
-		public AudioClip clip;
-		public int maxDistance;
-	}
-
 	public AudioSource footSource;
-	public AudioClip[] footstepClips;
-	public AudioClip landClip;
+	public PlayerAudioClip[] footstepClips;
+	public PlayerAudioClip landClip;
 
 	public AudioSource mouthSource;
-	public AudioClip jumpClip;
+	public PlayerAudioClip jumpClip;
 
 	public AudioSource weaponSource;
-	public AudioClip swapClip;
+	public PlayerAudioClip swapClip;
 
 	// Use this for initialization
 	void Start () {
@@ -34,10 +28,10 @@ public class PlayerAudio : NetworkBehaviour {
 
 	public void PlayFootstep()
 	{
-		AudioClip step = footstepClips[Random.Range(0, footstepClips.Length)];
+		PlayerAudioClip step = footstepClips[Random.Range(0, footstepClips.Length)];
 		if (step != null)
 		{
-			footSource.clip = step;
+			footSource.clip = step.clip;
 			footSource.Play();
             Debug.Log("Played footstep sound!");
 		}
@@ -63,7 +57,7 @@ public class PlayerAudio : NetworkBehaviour {
     {
 		if (landClip != null)
 		{
-        	footSource.clip = landClip;
+        	footSource.clip = landClip.clip;
         	footSource.Play();
         }
         else Debug.Log("Land sound is null!");
@@ -87,9 +81,9 @@ public class PlayerAudio : NetworkBehaviour {
     //play sound! Runs directly on clients
     public void PlayJump()
     {
-		if (jumpClip != null)
+		if (jumpClip.clip != null)
 		{
-        	mouthSource.clip = jumpClip;
+        	mouthSource.clip = jumpClip.clip;
         	mouthSource.Play();
         }
         else Debug.Log("Jump sound is null!");
@@ -99,17 +93,17 @@ public class PlayerAudio : NetworkBehaviour {
 	{
 		if (swapClip != null)
 		{
-			weaponSource.clip = swapClip;
+			weaponSource.clip = swapClip.clip;
 			weaponSource.Play();
         }
         else Debug.Log("Swap sound is null!");
 	}
 
-	public void PlayShoot(AudioClip fireClip)
+	public void PlayShoot(PlayerAudioClip fireClip)
 	{
         if (fireClip != null)
         {
-            weaponSource.clip = fireClip;
+            weaponSource.clip = fireClip.clip;
             weaponSource.Play();
             Debug.Log("Played fire sound!");
         }
