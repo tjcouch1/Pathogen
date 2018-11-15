@@ -6,6 +6,12 @@ using UnityEngine.Networking;
 [NetworkSettings(channel = 11, sendInterval = 0.1f)]
 public class PlayerAudio : NetworkBehaviour {
 
+	public struct PlayerAudioClip
+	{
+		public AudioClip clip;
+		public int maxDistance;
+	}
+
 	public AudioSource footSource;
 	public AudioClip[] footstepClips;
 	public AudioClip landClip;
