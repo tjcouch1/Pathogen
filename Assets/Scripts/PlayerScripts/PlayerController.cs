@@ -15,12 +15,12 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        if (GetComponent<Player>().shouldPreventInput)
+       /* if (GetComponent<Player>().shouldPreventInput)
         {
             motor.move(Vector3.zero);
             motor.rotate(Vector3.zero, 0);
             return;
-        }
+        }*/
 
         //Calc movement velocity
         float X_mov = Input.GetAxis("Horizontal");
