@@ -2997,7 +2997,7 @@ MonoBehaviour:
     maxInacuracy: 0.02
     sprayDecayRate: 0.5
     sprayHealRate: 0.5
-    weaponGFX: {fileID: 1250855496221732, guid: 655637af834c04b4eb4a1d0615a0b014,
+    weaponGFX: {fileID: 1047649103974714, guid: 655637af834c04b4eb4a1d0615a0b014,
       type: 2}
     weaponIcon: {fileID: 21300016, guid: 76bdad1258c27a64fa6bff9c813759cb, type: 3}
     fireClip: {fileID: 0}
