@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using DatabaseControl; // << Remember to add this reference to your scripts which use DatabaseControl
 using UnityEditor;
+using UnityEngine.UI;
 
 public class DeployManager : MonoBehaviour {
 
-	public bool register = false;
-    public string version = "";
-	public bool deploy = true;
+    [SerializeField] private GameObject versionInput;
+    [SerializeField] private GameObject versionInputPlaceholder;
+    [SerializeField] private GameObject deployToggle;
+    [SerializeField] private GameObject updateButton;
+    
 
 	public const string user = "deploy";
 	public const string pass = "versionPassW0Ot";
@@ -17,15 +20,29 @@ public class DeployManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (register)
-		{
-            StartCoroutine(RegisterUser());
-		}
-		else
-		{
-			StartCoroutine(SetData());
-		}
+        //lock the ui elements until the server data is loaded
+        versionInput.GetComponent<InputField>().enabled = false;
+        versionInputPlaceholder.GetComponent<Text>().text = Application.version;
+        deployToggle.GetComponent<Toggle>().enabled = false;
+
+        DoGetDataUpdateUI();
 	}
+
+    //set the values for the ui to the server values
+    private void updateUI(string data)
+    {
+        string deployVersion = UADataTranslator.DataToVersion(data);
+        bool isDeployed = UADataTranslator.DataToDeploy(data);
+
+        versionInput.GetComponent<InputField>().enabled = true;
+        deployToggle.GetComponent<Toggle>().enabled = true;
+
+        if (deployVersion != Application.version)
+            versionInput.GetComponent<InputField>().text = deployVersion;
+        else versionInput.GetComponent<InputField>().text = "";
+
+        deployToggle.GetComponent<Toggle>().isOn = isDeployed;
+    }
 
 	private static string deployString(string version, bool deploy)
 	{
@@ -37,10 +54,15 @@ public class DeployManager : MonoBehaviour {
 		return "[VERSION]" + customVersion + "/[DEPLOY]" + deploy + "/";
 	}
 
+    public void DoRegisterUser()
+    {
+        StartCoroutine(RegisterUser());
+    }
+
     IEnumerator RegisterUser()
     {
 		Debug.Log("Register");
-		string data = deployString(version, deploy);
+		string data = deployString(versionInput.GetComponent<InputField>().text, deployToggle.GetComponent<Toggle>().isOn);
         IEnumerator e = DCF.RegisterUser(user, pass, data); // << Send request to register a new user, providing submitted username and password. It also provides an initial value for the data string on the account, which is "Hello World".
         while (e.MoveNext())
         {
@@ -51,10 +73,6 @@ public class DeployManager : MonoBehaviour {
         if (response == "Success")
         {
 			Debug.Log("successfully registered deploy with data: " + data);
-
-#if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-#endif
         }
         else
         {
@@ -71,9 +89,14 @@ public class DeployManager : MonoBehaviour {
         }
     }
 
+    public void DoSetData()
+    {
+        StartCoroutine(SetData());
+    }
+
     IEnumerator SetData()
     {
-		string data = deployString(version, deploy);
+		string data = deployString(versionInput.GetComponent<InputField>().text, deployToggle.GetComponent<Toggle>().isOn);
         IEnumerator e = DCF.SetUserData(user, pass, data); // << Send request to set the player's data string. Provides the username, password and new data string
         while (e.MoveNext())
         {
@@ -84,10 +107,6 @@ public class DeployManager : MonoBehaviour {
         if (response == "Success")
         {
 			Debug.Log("Successfully set deploy data to: " + data);
-
-#if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-#endif
         }
         else
         {
@@ -97,7 +116,12 @@ public class DeployManager : MonoBehaviour {
         }
     }
 
-    public static IEnumerator GetData(OnDataRecievedCallback onDataRecieved)
+    public void DoGetDataUpdateUI()
+    {
+        StartCoroutine(GetData(updateUI));
+    }
+
+    public static IEnumerator GetData(OnDataRecievedCallback onDataReceived)
     {
         IEnumerator e = DCF.GetUserData(user, pass); // << Send request to get the player's data string. Provides the username and password
         while (e.MoveNext())
@@ -116,8 +140,8 @@ public class DeployManager : MonoBehaviour {
         {
             //The player's data was retrieved. Puts the player's data in the UAM
             Debug.Log("Got deploy info: " + response);
-            if (onDataRecieved != null)
-                onDataRecieved.Invoke(response);
+            if (onDataReceived != null)
+                onDataReceived.Invoke(response);
         }
     }
 }
