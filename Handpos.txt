@@ -1,0 +1,5 @@
+RightHand
+pos
+x 0 y 0.1958095 z 0
+rot
+x 0.363 y -7.93 z -5.015
