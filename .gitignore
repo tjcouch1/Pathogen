@@ -35,6 +35,7 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-Assets/ProBuilder Data/ProBuilderPreferences.asset
+Assets/ProBuilder Data/*
+Assets/ProBuilder Data.meta
 Assets/Allegorithmic/*
 Assets/Allegorithmic.meta
