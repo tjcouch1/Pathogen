@@ -365,7 +365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1316035041661432
 GameObject:
   m_ObjectHideFlags: 1
@@ -461,7 +461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1349798672369306
 GameObject:
   m_ObjectHideFlags: 1
@@ -2188,7 +2188,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1340817644079000}
   m_LocalRotation: {x: -0, y: -0.9066339, z: -0, w: -0.42191818}
-  m_LocalPosition: {x: -16.994, y: 4.79, z: -19.161}
+  m_LocalPosition: {x: -6.479633, y: 0.995, z: -7.5894804}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4158693348233746}
@@ -2511,7 +2511,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2519,23 +2519,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.002
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.320455
+      outSlope: -3.320455
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.28015205
+    - serializedVersion: 3
+      time: 0.31214905
+      value: 0.3252002
+      inSlope: -1.0806923
+      outSlope: -1.0806923
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.257062
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.015521193
+      outSlope: 0.015521193
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.4384486
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2558,7 +2567,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.07619095
       value: 0
       inSlope: 0
       outSlope: 0
@@ -2606,7 +2615,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2614,23 +2623,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.002
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.320455
+      outSlope: -3.320455
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.28015205
+    - serializedVersion: 3
+      time: 0.31214905
+      value: 0.3252002
+      inSlope: -1.0806923
+      outSlope: -1.0806923
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.257062
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.015521193
+      outSlope: 0.015521193
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.4384486
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2653,7 +2671,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.07619095
       value: 0
       inSlope: 0
       outSlope: 0
@@ -2701,7 +2719,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2709,23 +2727,32 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.002
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.320455
+      outSlope: -3.320455
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.28015205
+    - serializedVersion: 3
+      time: 0.31214905
+      value: 0.3252002
+      inSlope: -1.0806923
+      outSlope: -1.0806923
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.257062
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 0.015521193
+      outSlope: 0.015521193
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.4384486
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2748,7 +2775,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.07619095
       value: 0
       inSlope: 0
       outSlope: 0
@@ -2796,7 +2823,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 15
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2806,21 +2833,48 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.08131351
+      outSlope: -0.08131351
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.27933025
+      value: 0.82302874
+      inSlope: -1.0714285
+      outSlope: -1.0714285
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      time: 0.49834687
+      value: 0.5048992
+      inSlope: -1.7785165
+      outSlope: -1.7785165
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
+      outWeight: 0.39002773
+    - serializedVersion: 3
+      time: 0.7323054
+      value: 0.13234657
+      inSlope: -0.9091849
+      outSlope: -0.9091849
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.6745166
       outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.15953165
+      outSlope: -0.15953165
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2829,7 +2883,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2843,7 +2897,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.07619095
       value: 0
       inSlope: 0
       outSlope: 0
@@ -2901,20 +2955,20 @@ MonoBehaviour:
   footSource: {fileID: 82421233733704446}
   footstepClips:
   - clip: {fileID: 8300000, guid: 665b48e93d6dc8d48a342add7bef6e9d, type: 3}
-    maxDistance: 500
+    maxDistance: 2
   - clip: {fileID: 8300000, guid: e3e9f4b6bc93e6341a2c5acd17041862, type: 3}
-    maxDistance: 500
+    maxDistance: 2
   landClip:
     clip: {fileID: 8300000, guid: 665b48e93d6dc8d48a342add7bef6e9d, type: 3}
-    maxDistance: 500
+    maxDistance: 2
   mouthSource: {fileID: 82422451130136062}
   jumpClip:
     clip: {fileID: 8300000, guid: a6048d1fda9bd4642a469805069fa184, type: 3}
-    maxDistance: 500
+    maxDistance: 2
   weaponSource: {fileID: 82567932788025148}
   swapClip:
     clip: {fileID: 8300000, guid: 5dda9d7f377384e47916d7597e9a9bc8, type: 3}
-    maxDistance: 500
+    maxDistance: 2
 --- !u!114 &114047413726360128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2952,6 +3006,7 @@ MonoBehaviour:
   - {fileID: 1992960846065634}
   - {fileID: 1496368008810458}
   chatManager: {fileID: 0}
+  audioListener: {fileID: 1306508001676522}
 --- !u!114 &114145905624053148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3260,7 +3315,7 @@ MonoBehaviour:
     weaponIcon: {fileID: 21300016, guid: 76bdad1258c27a64fa6bff9c813759cb, type: 3}
     fireClip:
       clip: {fileID: 0}
-      maxDistance: 4000
+      maxDistance: 4
   - weaponName: Knife
     isDefault: 1
     damage: 40
@@ -3281,7 +3336,7 @@ MonoBehaviour:
     weaponIcon: {fileID: 21300000, guid: 2fdda1e966eae7a4bbf0b509c06be42a, type: 3}
     fireClip:
       clip: {fileID: 8300000, guid: 2a68881fca79f9249a614b83d28d8dc6, type: 3}
-      maxDistance: 500
+      maxDistance: 1
   - weaponName: Holstered
     isDefault: 1
     damage: 0
@@ -3343,7 +3398,7 @@ MonoBehaviour:
     weaponIcon: {fileID: 21300000, guid: b81cb2ac2dca23f4d8ba30a0a9dde2c2, type: 3}
     fireClip:
       clip: {fileID: 8300000, guid: b1a276919418e1445832cada08fd8535, type: 3}
-      maxDistance: 2000
+      maxDistance: 2
   weaponHolder: {fileID: 4712131735447502}
   weapons: []
   selectedWeaponIndex: 0

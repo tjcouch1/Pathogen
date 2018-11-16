@@ -63,6 +63,8 @@ public class Player : NetworkBehaviour {
 	[HideInInspector]
 	public bl_ChatManager chatManager;
 
+    [SerializeField] private GameObject audioListener;
+
     public void Setup()
     {
         //Start all players in the lobby as soon as they join
@@ -128,14 +130,13 @@ public class Player : NetworkBehaviour {
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		GetComponentInChildren<AudioListener>().enabled = false;
 	}
 
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
 		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
-		GetComponentInChildren<AudioListener>().enabled = true;
+		audioListener.SetActive(true);
 		GetComponent<AudioSource>().enabled = false;
 	}
 
@@ -160,6 +161,9 @@ public class Player : NetworkBehaviour {
 		if (!isLocalPlayer)
 			GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(false);
 		else chatManager.SetAlive(false);
+
+        //if the player is moving, stop his footsteps
+        GetComponent<PlayerAudio>().StopPlayFootsteps();
 
         CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");

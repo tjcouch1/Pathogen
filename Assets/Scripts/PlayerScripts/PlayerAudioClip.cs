@@ -5,15 +5,35 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerAudioClip
 {
-    public enum FalloffDistances
+    public enum FalloffValues
     {
-        VeryClose = 200,
-        Close = 350,
-        Medium = 500,
-        Far = 4000,
-        VeryFar = 10000
+        VeryClose,
+        Close,
+        Medium,
+        Far,
+        VeryFar
+    }
+
+    public int getMaxDistance()
+    {
+        switch (maxDistance)
+        {
+            case FalloffValues.VeryClose:
+                return 7;
+            case FalloffValues.Close:
+                return 15;
+            case FalloffValues.Medium:
+                return 30;
+            case FalloffValues.Far:
+                return 50;
+            case FalloffValues.VeryFar:
+                return 100;
+
+        }
+        Debug.Log("Somehow got out of getMaxDistance");
+        return 0;
     }
 
     public AudioClip clip;
-    public FalloffDistances maxDistance = FalloffDistances.Medium;
+    [SerializeField] private FalloffValues maxDistance = FalloffValues.Medium;
 }
