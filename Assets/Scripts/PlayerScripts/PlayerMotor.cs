@@ -23,7 +23,6 @@ public class PlayerMotor : MonoBehaviour {
     private float currentCamRotX = 0;
     private Rigidbody rb;
     private bool canJump = true;
-    private bool canJumpPrev = true;
 
     [SerializeField]
     private float cameraRotationLimit = 85f;
@@ -31,6 +30,7 @@ public class PlayerMotor : MonoBehaviour {
     private float runningThreshold = 2.0f;
 
     private PlayerAudio playerAudio;
+    private bool isMovingPrev = false;
 
 
     private void Start()
@@ -49,6 +49,11 @@ public class PlayerMotor : MonoBehaviour {
         velocity = v;
         if(v.magnitude > 0.1)
         {
+            if (!animator.GetBool("isMoving"))//start the footsteps
+            {
+                playerAudio.StartPlayFootsteps();//play footsteps on my client
+                playerAudio.CmdStartPlayFootsteps();//send footsteps to other clients
+            }
             animator.SetBool("isMoving", true);
             if (v.magnitude >= runningThreshold)
             {
@@ -61,6 +66,11 @@ public class PlayerMotor : MonoBehaviour {
         }
         else
         {
+            if (animator.GetBool("isMoving"))
+            {
+                playerAudio.StopPlayFootsteps();//stop footsteps on my client
+                playerAudio.CmdStopPlayFootsteps();//send stop footsteps to other clients
+            }
             animator.SetBool("isMoving", false);
         }
     }
@@ -88,12 +98,13 @@ public class PlayerMotor : MonoBehaviour {
 
     private void OnCollisionStay(Collision collision)
     {
-        canJump = true;
-        if (!canJumpPrev)//means he just landed
+        if (!canJump)//just landed
         {
-            playerAudio.PlayLand();//play on client
-            playerAudio.CmdPlayLand();//send to other clients
+            if (playerAudio == null)
+                playerAudio = GetComponent<PlayerAudio>();
+            playerAudio.PlayLand();
         }
+        canJump = true;
         animator.SetBool("jumping", false);
     }
 
@@ -111,8 +122,6 @@ public class PlayerMotor : MonoBehaviour {
     {
         perfromMovement();
         performRotation();
-
-        canJumpPrev = canJump;
     }
 
     //Perfrom movement based on velocity vector

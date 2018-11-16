@@ -7,11 +7,11 @@ public class PlayerAudioClip
 {
     public enum FalloffDistances
     {
-        VeryClose = 100,
-        Close = 250,
+        VeryClose = 200,
+        Close = 350,
         Medium = 500,
-        Far = 1000,
-        VeryFar = 2000
+        Far = 4000,
+        VeryFar = 10000
     }
 
     public AudioClip clip;

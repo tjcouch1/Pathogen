@@ -16,6 +16,67 @@ public class PlayerAudio : NetworkBehaviour {
 	public AudioSource weaponSource;
 	public PlayerAudioClip swapClip;
 
+	private Coroutine footstepCoroutine;
+	private float footstepSpeed = .3125f;
+
+    //send play sound to server, server sends to clients
+    [Command]
+    public void CmdStartPlayFootsteps()
+    {
+        RpcStartPlayFootsteps();
+    }
+
+    //start playing sound on clients other than local player
+    [ClientRpc]
+    public void RpcStartPlayFootsteps()
+    {
+        if (!isLocalPlayer)
+		{
+            StartPlayFootsteps();
+		}
+    }
+
+	public void StartPlayFootsteps()
+	{
+		footstepCoroutine = StartCoroutine(PlayFootsteps());
+        Debug.Log("started footsteps");
+    }
+
+    //send stop footsteps to server, server sends to clients
+    [Command]
+    public void CmdStopPlayFootsteps()
+    {
+        RpcStopPlayFootsteps();
+    }
+
+    //start playing sound on clients other than local player
+    [ClientRpc]
+    public void RpcStopPlayFootsteps()
+    {
+        if (!isLocalPlayer)
+            StopPlayFootsteps();
+    }
+
+	public void StopPlayFootsteps()
+	{
+        if (footstepCoroutine != null)
+		{
+            StopCoroutine(footstepCoroutine);
+        	footstepCoroutine = null;
+        }
+        Debug.Log("stopped footsteps");
+	}
+
+	public IEnumerator PlayFootsteps()
+    {
+        while (true)
+        {
+            PlayFootstep();
+            yield return new WaitForSeconds(footstepSpeed);
+        }
+
+	}
+
 	public void PlayFootstep()
 	{
 		PlayerAudioClip step = footstepClips[Random.Range(0, footstepClips.Length)];
@@ -24,24 +85,8 @@ public class PlayerAudio : NetworkBehaviour {
 			footSource.clip = step.clip;
 			footSource.maxDistance = (int) step.maxDistance;
 			footSource.Play();
-            Debug.Log("Played footstep sound!");
 		}
 		else Debug.Log("Footstep sound is null!");
-    }
-
-    //send play sound to server, server sends to clients
-    [Command]
-    public void CmdPlayLand()
-    {
-        RpcPlayLand();
-    }
-
-    //play sound on clients other than local player
-    [ClientRpc]
-    public void RpcPlayLand()
-    {
-        if (!isLocalPlayer)
-            PlayLand();
     }
 
     public void PlayLand()
@@ -103,5 +148,10 @@ public class PlayerAudio : NetworkBehaviour {
             Debug.Log("Played fire sound!");
         }
         else Debug.Log("Fire sound is null!");
+	}
+
+	void OnDestroy()
+	{
+		StopPlayFootsteps();
 	}
 }

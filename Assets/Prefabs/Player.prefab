@@ -3260,7 +3260,7 @@ MonoBehaviour:
     weaponIcon: {fileID: 21300016, guid: 76bdad1258c27a64fa6bff9c813759cb, type: 3}
     fireClip:
       clip: {fileID: 0}
-      maxDistance: 2000
+      maxDistance: 4000
   - weaponName: Knife
     isDefault: 1
     damage: 40
@@ -3343,7 +3343,7 @@ MonoBehaviour:
     weaponIcon: {fileID: 21300000, guid: b81cb2ac2dca23f4d8ba30a0a9dde2c2, type: 3}
     fireClip:
       clip: {fileID: 8300000, guid: b1a276919418e1445832cada08fd8535, type: 3}
-      maxDistance: 1000
+      maxDistance: 2000
   weaponHolder: {fileID: 4712131735447502}
   weapons: []
   selectedWeaponIndex: 0

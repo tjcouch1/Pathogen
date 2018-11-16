@@ -22,7 +22,6 @@ public class WeaponManager : NetworkBehaviour {
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Sah");
         playerAudio = GetComponent<PlayerAudio>();
 		setupDefaultWeapons();
 	}
