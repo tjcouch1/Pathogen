@@ -4,10 +4,10 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Circuitry
-  m_Shader: {fileID: 4800000, guid: 507e5419769c64e00932f47c2307f9fa, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9125ff01e37d44d5ca212b5ed8a9de90, type: 3}
   m_ShaderKeywords: _DETAIL_ALBEDO_MAP _DETAIL_MASK _DETAIL_NORMAL_MAP _EMISSION_MAP
     _METALLIC_MAP _NORMAL_MAP _OCCLUSION_MAP _SMOOTHNESS_METALLIC
   m_LightmapFlags: 0
@@ -43,6 +43,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: cb8292d7b05e24ce2bac28d43938ace1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MOHSMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 3e24fcab8e17a4664b37ee69f9b39b52, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -67,8 +71,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TopMOHSMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopMainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _BlendExponent: 2
+    - _BlendHeightStrength: 0.5
+    - _BlendOffset: 0.25
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailBumpScale: 1
@@ -77,6 +96,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _MapScale: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
