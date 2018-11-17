@@ -282,6 +282,7 @@ public class WeaponManager : NetworkBehaviour {
         {
             try
             {
+                playerAudio.PlayReload();
                 Animator anim = currentGraphics.GetComponent<Animator>();
                 anim.SetTrigger("Reload");
             }

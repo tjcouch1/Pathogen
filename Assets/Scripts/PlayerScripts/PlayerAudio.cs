@@ -15,6 +15,7 @@ public class PlayerAudio : NetworkBehaviour {
 
 	public AudioSource weaponSource;
 	public PlayerAudioClip swapClip;
+    public PlayerAudioClip reloadClip;
 
 	private Coroutine footstepCoroutine;
 	private float footstepSpeed = .3125f;
@@ -149,6 +150,17 @@ public class PlayerAudio : NetworkBehaviour {
         }
         else Debug.Log("Fire sound is null!");
 	}
+
+    public void PlayReload()
+    {
+        if (reloadClip != null && reloadClip.clip != null)
+        {
+            weaponSource.clip = reloadClip.clip;
+            weaponSource.maxDistance = reloadClip.getMaxDistance();
+            weaponSource.Play();
+        }
+        else Debug.Log("Reload sound is null!");
+    }
 
 	void OnDestroy()
 	{
