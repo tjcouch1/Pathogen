@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 [NetworkSettings(channel = 5, sendInterval = 0.1f)]
 [RequireComponent(typeof(PlayerSetup))]
+[RequireComponent(typeof(PlayerAudio))]
 public class Player : NetworkBehaviour {
 
     [SyncVar]
@@ -86,6 +87,7 @@ public class Player : NetworkBehaviour {
         }
         currentHealth -= amount;
         Debug.Log(transform.name + " took " + amount + " points of damage from " + sourceID);
+        GetComponent<PlayerAudio>().PlayHurtAudio();
         if (currentHealth <= 0)
         {
             Die(sourceID);
@@ -162,8 +164,10 @@ public class Player : NetworkBehaviour {
 			GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(false);
 		else chatManager.SetAlive(false);
 
-        //if the player is moving, stop his footsteps
-        GetComponent<PlayerAudio>().StopPlayFootsteps();
+        //Audio stuff
+        var playerAudio = GetComponent<PlayerAudio>();   //if the player is moving, stop his footsteps
+        playerAudio.StopPlayFootsteps();
+        playerAudio.PlayDeathAudio();
 
         CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");

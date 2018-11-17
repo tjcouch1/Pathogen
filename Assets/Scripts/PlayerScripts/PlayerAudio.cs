@@ -9,6 +9,8 @@ public class PlayerAudio : NetworkBehaviour {
 	public AudioSource footSource;
 	public PlayerAudioClip[] footstepClips;
 	public PlayerAudioClip landClip;
+    public PlayerAudioClip hurtSound;
+    public PlayerAudioClip deathSound;
 
 	public AudioSource mouthSource;
 	public PlayerAudioClip jumpClip;
@@ -158,6 +160,28 @@ public class PlayerAudio : NetworkBehaviour {
             weaponSource.clip = reloadClip.clip;
             weaponSource.maxDistance = reloadClip.getMaxDistance();
             weaponSource.Play();
+        }
+        else Debug.Log("Reload sound is null!");
+    }
+
+    public void PlayHurtAudio()
+    {
+        if (hurtSound != null && hurtSound.clip != null)
+        {
+            footSource.clip = hurtSound.clip;
+            footSource.maxDistance = hurtSound.getMaxDistance();
+            footSource.Play();
+        }
+        else Debug.Log("Reload sound is null!");
+    }
+
+    public void PlayDeathAudio()
+    {
+        if (deathSound != null && deathSound.clip != null)
+        {
+            footSource.clip = deathSound.clip;
+            footSource.maxDistance = deathSound.getMaxDistance();
+            footSource.Play();
         }
         else Debug.Log("Reload sound is null!");
     }

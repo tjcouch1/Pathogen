@@ -2961,6 +2961,12 @@ MonoBehaviour:
   landClip:
     clip: {fileID: 8300000, guid: 665b48e93d6dc8d48a342add7bef6e9d, type: 3}
     maxDistance: 2
+  hurtSound:
+    clip: {fileID: 8300000, guid: f5557dc027b811c45a3021123e0591b4, type: 3}
+    maxDistance: 2
+  deathSound:
+    clip: {fileID: 8300000, guid: f042c3366706d7d4a976987e3e2bb1d2, type: 3}
+    maxDistance: 2
   mouthSource: {fileID: 82422451130136062}
   jumpClip:
     clip: {fileID: 8300000, guid: a6048d1fda9bd4642a469805069fa184, type: 3}
@@ -2968,7 +2974,7 @@ MonoBehaviour:
   weaponSource: {fileID: 82567932788025148}
   swapClip:
     clip: {fileID: 8300000, guid: 5dda9d7f377384e47916d7597e9a9bc8, type: 3}
-    maxDistance: 2
+    maxDistance: 0
   reloadClip:
     clip: {fileID: 8300000, guid: 7f89d732b4b0f424b82acb1810b5899e, type: 3}
     maxDistance: 1
