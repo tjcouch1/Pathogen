@@ -18,9 +18,11 @@ public class PlayerShoot : NetworkBehaviour {
 	private float shootTime = 0.0f; //the amount of time in seconds until the next shot may be fired
 
     private PlayerAudio playerAudio;
+    private Animator anim;
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         //weaponManager = GetComponent<WeaponManager>();
         if(cam == null)
         {
@@ -54,8 +56,18 @@ public class PlayerShoot : NetworkBehaviour {
             return;
         }
 
-		//deal with when the weapon can shoot
-		if (shootTime > 0)
+        //Control animator
+        if (weaponManager.getCurrentWeapon().weaponName == "Rifle")
+        {
+            anim.SetBool("GunOut", true);
+        }
+        else
+        {
+            anim.SetBool("GunOut", false);
+        }
+
+        //deal with when the weapon can shoot
+        if (shootTime > 0)
 		{
 			shootTime -= Time.deltaTime;
 			if (shootTime < 0f)
