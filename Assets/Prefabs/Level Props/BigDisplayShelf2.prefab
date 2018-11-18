@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4449982546873924}
   - component: {fileID: 114159463718639422}
   m_Layer: 0
-  m_Name: BigDisplayShelf
+  m_Name: BigDisplayShelf2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 067444f52c5756942932c6ea1404fe6c, type: 2}
+  - {fileID: 2100000, guid: ce827e2eabe84c343a6fef4cdb9a0082, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

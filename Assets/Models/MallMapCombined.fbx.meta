@@ -29,6 +29,7 @@ ModelImporter:
     100046: WalkInStore4
     100048: WalkInStore5
     100050: WalkInStores
+    100052: WholeMall
     400000: Columns
     400002: ElevatorShaft
     400004: Escalators
@@ -55,6 +56,7 @@ ModelImporter:
     400046: WalkInStore4
     400048: WalkInStore5
     400050: WalkInStores
+    400052: WholeMall
     2100000: lambert1
     2300000: Columns
     2300002: ElevatorShaft

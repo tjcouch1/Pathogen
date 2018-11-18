@@ -1,37 +1,21 @@
 fileFormatVersion: 2
-guid: a946809ab65c1ee4d9aa9463cd628af6
+guid: 7b00f5e241c42e241a5e00a0a9043bc3
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: BigShelfUnit
-    100004: BigSlevingUnit
-    100006: boxes
-    100008: boxes1
-    100010: boxes1 1
-    100012: transform12
-    100014: transform13
-    100016: transform14
+    100002: polySurface82
+    100004: SmallBridge
+    100006: transform1
     400000: //RootNode
-    400002: BigShelfUnit
-    400004: BigSlevingUnit
-    400006: boxes
-    400008: boxes1
-    400010: boxes1 1
-    400012: transform12
-    400014: transform13
-    400016: transform14
+    400002: polySurface82
+    400004: SmallBridge
+    400006: transform1
     2100000: lambert1
-    2300000: boxes1
-    3300000: boxes1
-    4300000: boxes1
-    2186277476908879412: ImportLogs
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert1
-    second: {fileID: 2100000, guid: ce827e2eabe84c343a6fef4cdb9a0082, type: 2}
+    2300000: polySurface82
+    3300000: polySurface82
+    4300000: polySurface82
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0

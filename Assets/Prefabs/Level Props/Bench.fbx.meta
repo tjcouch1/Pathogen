@@ -1,37 +1,53 @@
 fileFormatVersion: 2
-guid: a946809ab65c1ee4d9aa9463cd628af6
+guid: 08695db890c5fc444b593e4bcfb6c3bb
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: BigShelfUnit
-    100004: BigSlevingUnit
-    100006: boxes
-    100008: boxes1
-    100010: boxes1 1
-    100012: transform12
-    100014: transform13
-    100016: transform14
     400000: //RootNode
-    400002: BigShelfUnit
-    400004: BigSlevingUnit
-    400006: boxes
-    400008: boxes1
-    400010: boxes1 1
-    400012: transform12
-    400014: transform13
-    400016: transform14
     2100000: lambert1
-    2300000: boxes1
-    3300000: boxes1
-    4300000: boxes1
-    2186277476908879412: ImportLogs
+    2100002: BenchSlatsMat
+    2100004: BenchMetalMat
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Bench
+    4300002: polySurface26
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert1
-    second: {fileID: 2100000, guid: ce827e2eabe84c343a6fef4cdb9a0082, type: 2}
+      name: BenchMetalMat
+    second: {fileID: 2100000, guid: bd0c9e6d6ea0ada4e9fd12f1a70dc987, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BenchSlatsMat
+    second: {fileID: 2100000, guid: 99fa2a22ddf9885438e08da01d18cdd4, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bench_BenchMetalMat_AlbedoTransparency
+    second: {fileID: 2800000, guid: 3f86f1869545de0408c5c37b87a96540, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bench_BenchMetalMat_Normal
+    second: {fileID: 2800000, guid: 7380bf061c1ba8b4295678435f1fe9bf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bench_BenchSlatsMat_AlbedoTransparency
+    second: {fileID: 2800000, guid: 23ccbcf4c0865ed42b49b708a4c375cd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bench_BenchSlatsMat_MetallicSmoothness
+    second: {fileID: 2800000, guid: 8f778c44db2eb6f4bb9192253eb395e2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bench_BenchSlatsMat_Normal
+    second: {fileID: 2800000, guid: 5cfa2718fd3f68e4ba9847c1109da9fc, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
