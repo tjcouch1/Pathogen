@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 
 public class VCNetworkManager : NetworkManager
 {
+	public bool isPrivate = false;
+
 	private void Start()
 	{
 		//https://forum.unity.com/threads/timeout-disconnect-after-a-few-minutes.367545/
