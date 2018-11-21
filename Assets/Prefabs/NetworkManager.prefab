@@ -65,7 +65,7 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: MainMenu
+  m_OfflineScene: Lobby_old
   m_OnlineScene: MallMap
   m_SpawnPrefabs:
   - {fileID: 1506215158362252, guid: 81589866e9fd2de40b0bf323b3a256ae, type: 2}
@@ -111,7 +111,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 0500000000000000040000000400000004000000040000000400000004000000040000000400000004000000
+  m_Channels: 050000000000000004000000040000000400000004000000040000000400000004000000040000000400000004000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
