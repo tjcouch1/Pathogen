@@ -35,7 +35,7 @@ public class PlayerShoot : NetworkBehaviour {
     {
         currentWeapon = weaponManager.getCurrentWeapon();
 
-        if (PauseMenu.isOn)
+        if (GetComponent<Player>().shouldPreventInput)
             return;
 
         var scrollWheel = Input.GetAxis("Mouse ScrollWheel");

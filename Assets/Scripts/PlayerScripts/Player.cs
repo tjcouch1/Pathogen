@@ -27,8 +27,16 @@ public class Player : NetworkBehaviour {
 
 	public bool shouldPreventInput//when true, should prevent typing
 	{
-		get { return PauseMenu.isOn || isTyping; }
+		get { return PauseMenu.isOn || isTyping || !hasFocus; }
 	}
+
+    private bool _hasFocus = true;//whether the window has focus
+
+    public bool hasFocus
+    {
+        get {return _hasFocus;}
+        protected set {_hasFocus = value;}
+    }
 
     //Getter/Setter for isAlive
     public bool isAlive
@@ -288,4 +296,9 @@ public class Player : NetworkBehaviour {
     {
         return (float)currentHealth / maxHealth;
 	}
+
+    void OnApplicationFocus(bool focused)
+    {
+        hasFocus = focused;
+    }
 }

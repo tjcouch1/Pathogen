@@ -34,7 +34,7 @@ public class InfectionTool : NetworkBehaviour {
 
     void Update() {
 
-		if (PauseMenu.isOn)
+		if (GetComponent<Player>().shouldPreventInput)
 			return;
 
 		if (!isSetup)
