@@ -42,7 +42,6 @@ public class PlayerAudio : NetworkBehaviour {
 	public void StartPlayFootsteps()
 	{
 		footstepCoroutine = StartCoroutine(PlayFootsteps());
-        Debug.Log("started footsteps");
     }
 
     //send stop footsteps to server, server sends to clients
@@ -67,7 +66,6 @@ public class PlayerAudio : NetworkBehaviour {
             StopCoroutine(footstepCoroutine);
         	footstepCoroutine = null;
         }
-        Debug.Log("stopped footsteps");
 	}
 
 	public IEnumerator PlayFootsteps()
@@ -148,7 +146,6 @@ public class PlayerAudio : NetworkBehaviour {
             weaponSource.clip = fireClip.clip;
             weaponSource.maxDistance = fireClip.getMaxDistance();
             weaponSource.Play();
-            Debug.Log("Played fire sound!");
         }
         else Debug.Log("Fire sound is null!");
 	}
