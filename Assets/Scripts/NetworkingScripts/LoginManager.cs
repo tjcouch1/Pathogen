@@ -106,6 +106,7 @@ public class LoginManager : MonoBehaviour {
                 {
                     //The Username was wrong so display relevent error message
                     Login_ErrorText.text = "Error: Username not Found";
+                    TabManager.SelectWithInput(Login_UsernameField.GetComponent<Selectable>());
                 }
                 else
                 {
@@ -113,11 +114,13 @@ public class LoginManager : MonoBehaviour {
                     {
                         //The Password was wrong so display relevent error message
                         Login_ErrorText.text = "Error: Password Incorrect";
+                        TabManager.SelectWithInput(Login_PasswordField.GetComponent<Selectable>());
                     }
                     else
                     {
                         //There was another error. This error message should never appear, but is here just in case.
                         Login_ErrorText.text = "Error: Unknown Error. Please try again later.";
+                        TabManager.SelectWithInput(Login_UsernameField.GetComponent<Selectable>());
                     }
                 }
             }
@@ -127,6 +130,7 @@ public class LoginManager : MonoBehaviour {
             loadingParent.GetComponent<LO_LoadScene>().HideScreen();
             loginUIParent.SetActive(true);
             loginParent.gameObject.SetActive(true);
+            TabManager.SelectWithInput(Login_UsernameField.GetComponent<Selectable>());
 
             if (!isDeployed)
                 Login_ErrorText.text = "Error: Servers are closed. Try again later.";
@@ -159,13 +163,18 @@ public class LoginManager : MonoBehaviour {
             //Username and Password were valid. Account has been created. Stop showing 'Loading...' and show the loggedIn UI and set text to display the username.
             ResetAllUIElements();
             //loadingParent.gameObject.SetActive(false);
-            UAM.Login(playerUsername, playerPassword);
+            //UAM.Login(playerUsername, playerPassword);
+            loadingParent.GetComponent<LO_LoadScene>().HideScreen();
+            loginUIParent.SetActive(true);
+            loginParent.gameObject.SetActive(true);
+            TabManager.SelectWithInput(Login_PasswordField.GetComponent<Selectable>());
         } else
         {
             //Something went wrong logging in. Stop showing 'Loading...' and go back to RegisterUI
             loadingParent.GetComponent<LO_LoadScene>().HideScreen();
             loginUIParent.SetActive(true);
             registerParent.gameObject.SetActive(true);
+            TabManager.SelectWithInput(Register_UsernameField.GetComponent<Selectable>());
             if (response == "UserError")
             {
                 //The username has already been taken. Player needs to choose another. Shows error message.
@@ -206,17 +215,20 @@ public class LoginManager : MonoBehaviour {
                 {
                     //Password too short so it must be wrong
                     Login_ErrorText.text = "Error: Password Incorrect";
+                    TabManager.SelectWithInput(Login_PasswordField.GetComponent<Selectable>());
                 }
             } else
             {
                 //Username too short so it must be wrong
                 Login_ErrorText.text = "Error: Username too short";
+                TabManager.SelectWithInput(Login_UsernameField.GetComponent<Selectable>());
             }
         }
         else
         {
             //using a reserved name. Make it quiet, though, so people don't know it's reserved
             Login_ErrorText.text = "Error: Password Incorrect";
+            TabManager.SelectWithInput(Login_PasswordField.GetComponent<Selectable>());
         }
     }
     public void Login_RegisterButtonPressed ()
@@ -255,18 +267,21 @@ public class LoginManager : MonoBehaviour {
                 {
                     //Passwords don't match, show error
                     Register_ErrorText.text = "Error: Password's don't Match";
+                    TabManager.SelectWithInput(Register_PasswordField.GetComponent<Selectable>());
                 }
             }
             else
             {
                 //Password too short so show error
                 Register_ErrorText.text = "Error: Password too Short";
+                TabManager.SelectWithInput(Register_PasswordField.GetComponent<Selectable>());
             }
         }
         else
         {
             //Username too short so show error
             Register_ErrorText.text = "Error: Username too Short";
+            TabManager.SelectWithInput(Register_UsernameField.GetComponent<Selectable>());
         }
     }
     public void Register_BackButtonPressed ()
