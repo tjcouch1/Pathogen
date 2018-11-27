@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33140852271831686}
   - component: {fileID: 23544317819498560}
   - component: {fileID: 114091746682547274}
+  - component: {fileID: 95181138595909162}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Untagged
@@ -84,14 +85,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1047649103974714}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.27306, y: -0.643049, z: 0.26386574, w: 0.66505724}
+  m_LocalPosition: {x: 0.143, y: 0, z: 1.066}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4758205362737622}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 44.633003, y: -88.079, z: -0.017}
 --- !u!4 &4437356308487378
 Transform:
   m_ObjectHideFlags: 1
@@ -178,6 +179,24 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1047649103974714}
   m_Mesh: {fileID: 4300164, guid: d46ad33f3fb568549a456c46007120b3, type: 3}
+--- !u!95 &95181138595909162
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1047649103974714}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f8d8b190fc3eed44ba73d681557162b6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114091746682547274
 MonoBehaviour:
   m_ObjectHideFlags: 1

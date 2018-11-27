@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 [NetworkSettings(channel = 5, sendInterval = 0.1f)]
 [RequireComponent(typeof(PlayerSetup))]
+[RequireComponent(typeof(PlayerAudio))]
 public class Player : NetworkBehaviour {
 
     [SyncVar]
@@ -26,8 +27,16 @@ public class Player : NetworkBehaviour {
 
 	public bool shouldPreventInput//when true, should prevent typing
 	{
-		get { return PauseMenu.isOn || isTyping; }
+		get { return PauseMenu.isOn || isTyping || !hasFocus; }
 	}
+
+    private bool _hasFocus = true;//whether the window has focus
+
+    public bool hasFocus
+    {
+        get {return _hasFocus;}
+        protected set {_hasFocus = value;}
+    }
 
     //Getter/Setter for isAlive
     public bool isAlive
@@ -63,6 +72,8 @@ public class Player : NetworkBehaviour {
 	[HideInInspector]
 	public bl_ChatManager chatManager;
 
+    [SerializeField] private GameObject audioListener;
+
     public void Setup()
     {
         //Start all players in the lobby as soon as they join
@@ -84,6 +95,7 @@ public class Player : NetworkBehaviour {
         }
         currentHealth -= amount;
         Debug.Log(transform.name + " took " + amount + " points of damage from " + sourceID);
+        GetComponent<PlayerAudio>().PlayHurtAudio();
         if (currentHealth <= 0)
         {
             Die(sourceID);
@@ -128,14 +140,13 @@ public class Player : NetworkBehaviour {
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		GetComponentInChildren<AudioListener>().enabled = false;
 	}
 
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
 		GameObject.Find("_VoiceChat").GetComponent<VoiceChat.VoiceChatRecorder>().clientPlayer = this;
-		GetComponentInChildren<AudioListener>().enabled = true;
+		audioListener.SetActive(true);
 		GetComponent<AudioSource>().enabled = false;
 	}
 
@@ -160,6 +171,11 @@ public class Player : NetworkBehaviour {
 		if (!isLocalPlayer)
 			GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(false);
 		else chatManager.SetAlive(false);
+
+        //Audio stuff
+        var playerAudio = GetComponent<PlayerAudio>();   //if the player is moving, stop his footsteps
+        playerAudio.StopPlayFootsteps();
+        playerAudio.PlayDeathAudio();
 
         CmdSendPlayerToLobby(); 
         Debug.Log(transform.name + " has died. ");
@@ -280,4 +296,9 @@ public class Player : NetworkBehaviour {
     {
         return (float)currentHealth / maxHealth;
 	}
+
+    void OnApplicationFocus(bool focused)
+    {
+        hasFocus = focused;
+    }
 }

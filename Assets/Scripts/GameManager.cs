@@ -338,6 +338,8 @@ public class GameManager : NetworkBehaviour {
 				if (!p.isLocalPlayer)
 					p.GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(false);
 				else p.chatManager.SetAlive(false);
+
+                p.GetComponent<PlayerAudio>().StopPlayFootsteps();//TURN OFF FOOTSTEPS!!! XD
 			}
 
             //Add points for all the winners

@@ -9,12 +9,15 @@ public class PlayerAudio : NetworkBehaviour {
 	public AudioSource footSource;
 	public PlayerAudioClip[] footstepClips;
 	public PlayerAudioClip landClip;
+    public PlayerAudioClip hurtSound;
+    public PlayerAudioClip deathSound;
 
 	public AudioSource mouthSource;
 	public PlayerAudioClip jumpClip;
 
 	public AudioSource weaponSource;
 	public PlayerAudioClip swapClip;
+    public PlayerAudioClip reloadClip;
 
 	private Coroutine footstepCoroutine;
 	private float footstepSpeed = .3125f;
@@ -39,7 +42,6 @@ public class PlayerAudio : NetworkBehaviour {
 	public void StartPlayFootsteps()
 	{
 		footstepCoroutine = StartCoroutine(PlayFootsteps());
-        Debug.Log("started footsteps");
     }
 
     //send stop footsteps to server, server sends to clients
@@ -64,7 +66,6 @@ public class PlayerAudio : NetworkBehaviour {
             StopCoroutine(footstepCoroutine);
         	footstepCoroutine = null;
         }
-        Debug.Log("stopped footsteps");
 	}
 
 	public IEnumerator PlayFootsteps()
@@ -83,7 +84,7 @@ public class PlayerAudio : NetworkBehaviour {
 		if (step != null && step.clip != null)
 		{
 			footSource.clip = step.clip;
-			footSource.maxDistance = (int) step.maxDistance;
+			footSource.maxDistance = step.getMaxDistance();
 			footSource.Play();
 		}
 		else Debug.Log("Footstep sound is null!");
@@ -94,7 +95,7 @@ public class PlayerAudio : NetworkBehaviour {
 		if (landClip != null && landClip.clip != null)
 		{
         	footSource.clip = landClip.clip;
-            footSource.maxDistance = (int) landClip.maxDistance;
+            footSource.maxDistance = landClip.getMaxDistance();
         	footSource.Play();
         }
         else Debug.Log("Land sound is null!");
@@ -121,7 +122,7 @@ public class PlayerAudio : NetworkBehaviour {
 		if (jumpClip != null && jumpClip.clip != null)
 		{
         	mouthSource.clip = jumpClip.clip;
-            mouthSource.maxDistance = (int) jumpClip.maxDistance;
+            mouthSource.maxDistance = jumpClip.getMaxDistance();
         	mouthSource.Play();
         }
         else Debug.Log("Jump sound is null!");
@@ -132,7 +133,7 @@ public class PlayerAudio : NetworkBehaviour {
 		if (swapClip != null && swapClip.clip != null)
 		{
 			weaponSource.clip = swapClip.clip;
-            weaponSource.maxDistance = (int) swapClip.maxDistance;
+            weaponSource.maxDistance = swapClip.getMaxDistance();
 			weaponSource.Play();
         }
         else Debug.Log("Swap sound is null!");
@@ -143,12 +144,44 @@ public class PlayerAudio : NetworkBehaviour {
         if (fireClip != null && fireClip.clip != null)
         {
             weaponSource.clip = fireClip.clip;
-            weaponSource.maxDistance = (int) fireClip.maxDistance;
+            weaponSource.maxDistance = fireClip.getMaxDistance();
             weaponSource.Play();
-            Debug.Log("Played fire sound!");
         }
         else Debug.Log("Fire sound is null!");
 	}
+
+    public void PlayReload()
+    {
+        if (reloadClip != null && reloadClip.clip != null)
+        {
+            weaponSource.clip = reloadClip.clip;
+            weaponSource.maxDistance = reloadClip.getMaxDistance();
+            weaponSource.Play();
+        }
+        else Debug.Log("Reload sound is null!");
+    }
+
+    public void PlayHurtAudio()
+    {
+        if (hurtSound != null && hurtSound.clip != null)
+        {
+            footSource.clip = hurtSound.clip;
+            footSource.maxDistance = hurtSound.getMaxDistance();
+            footSource.Play();
+        }
+        else Debug.Log("Reload sound is null!");
+    }
+
+    public void PlayDeathAudio()
+    {
+        if (deathSound != null && deathSound.clip != null)
+        {
+            footSource.clip = deathSound.clip;
+            footSource.maxDistance = deathSound.getMaxDistance();
+            footSource.Play();
+        }
+        else Debug.Log("Reload sound is null!");
+    }
 
 	void OnDestroy()
 	{

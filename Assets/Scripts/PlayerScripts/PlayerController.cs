@@ -15,12 +15,12 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-       /* if (GetComponent<Player>().shouldPreventInput)
+        if (GetComponent<Player>().shouldPreventInput)
         {
             motor.move(Vector3.zero);
             motor.rotate(Vector3.zero, 0);
             return;
-        }*/
+        }
 
         //Calc movement velocity
         float X_mov = Input.GetAxis("Horizontal");
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
 
         //Apply movement
         motor.move(velocity);
-
+        
         //Calculate rotation (turning around Y)
         float Y_rot = Input.GetAxisRaw("Mouse X");
         Vector3 rotation = new Vector3(0f, Y_rot, 0f) * mouseSensitivity;

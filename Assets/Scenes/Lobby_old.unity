@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -874,11 +874,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
-        type: 2}
-      propertyPath: m_Channels.Array.size
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 4389650705719794, guid: eeb211708e19b474488157e2938f3447, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -910,11 +905,6 @@ Prefab:
     - target: {fileID: 4389650705719794, guid: eeb211708e19b474488157e2938f3447, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114601185152507164, guid: eeb211708e19b474488157e2938f3447,
-        type: 2}
-      propertyPath: m_Channels.Array.data[11]
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eeb211708e19b474488157e2938f3447, type: 2}
@@ -1188,7 +1178,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 269.67084, y: -339}
+  m_AnchoredPosition: {x: 286.3375, y: -344}
   m_SizeDelta: {x: 450, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &631769173
@@ -2700,7 +2690,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 561.5125, y: -339}
+  m_AnchoredPosition: {x: 611.5125, y: -344}
   m_SizeDelta: {x: 5, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1825909321
@@ -3183,7 +3173,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 853.3542, y: -339}
+  m_AnchoredPosition: {x: 936.6875, y: -344}
   m_SizeDelta: {x: 450, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2040185717
