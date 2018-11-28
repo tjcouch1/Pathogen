@@ -32,6 +32,10 @@ public class PlayerMotor : MonoBehaviour {
     private PlayerAudio playerAudio;
     private bool isMovingPrev = false;
 
+    [SerializeField] private LayerMask groundMask;
+    private const float groundHeightCheck = .1f;
+
+
 
     private void Start()
     {
@@ -96,23 +100,26 @@ public class PlayerMotor : MonoBehaviour {
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+    //determine whether or not the dude is on the ground
+    private bool IsGrounded()
     {
-        if (!canJump)//just landed
+        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        return Physics.CheckCapsule(collider.bounds.center, new Vector3(collider.bounds.center.x, collider.bounds.min.y - groundHeightCheck, collider.bounds.center.z), collider.radius - .1f, groundMask);
+    }
+
+    private void Update()
+    {
+        //determine whether or not you can jump
+        bool canJumpPrev = canJump;
+        canJump = IsGrounded();
+        if (canJump && !canJumpPrev)//just landed
         {
             if (playerAudio == null)
                 playerAudio = GetComponent<PlayerAudio>();
             playerAudio.PlayLand();
         }
-        canJump = true;
-        animator.SetBool("jumping", false);
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.contacts.Length == 0)
+        if (!canJump && canJumpPrev)//just jumped
         {
-            canJump = false;
             animator.SetBool("jumping", true);
         }
     }

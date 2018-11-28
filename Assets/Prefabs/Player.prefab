@@ -3260,6 +3260,9 @@ MonoBehaviour:
   animator: {fileID: 95720482938099428}
   cameraRotationLimit: 85
   runningThreshold: 2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!114 &114622668242531870
 MonoBehaviour:
   m_ObjectHideFlags: 1

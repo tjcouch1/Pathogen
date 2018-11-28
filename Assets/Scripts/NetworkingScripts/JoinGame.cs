@@ -93,7 +93,18 @@ public class JoinGame : MonoBehaviour {
             {
                 Debug.Log("No Rooms Available :(");
                 string matchName = UserAccountManager.playerUsername + "'s Room";
-                networkManager.matchMaker.CreateMatch(matchName, 10, true, "", "", "", 0, 0, networkManager.OnMatchCreate);
+                uint players = 10;
+
+                //public room
+                networkManager.matchMaker.CreateMatch(matchName, players, true, "", "", "", 0, 0, networkManager.OnMatchCreate);
+                networkManager.matchSize = players;
+
+                //private room
+                //NetworkManager.singleton.maxConnections = (int) players - 1;
+                //networkManager.networkPort = serverPort;
+                //networkManager.isPrivate = true;
+                //networkManager.StartHost();
+                //networkManager.matchSize = players;
             }
         }
     }
