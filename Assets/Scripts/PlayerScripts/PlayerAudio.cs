@@ -51,12 +51,19 @@ public class PlayerAudio : NetworkBehaviour {
         RpcStopPlayFootsteps();
     }
 
-    //start playing sound on clients other than local player
+    //stop playing sound on clients other than local player
     [ClientRpc]
     public void RpcStopPlayFootsteps()
     {
         if (!isLocalPlayer)
             StopPlayFootsteps();
+    }
+
+    //stop playing sound on all clients
+    [ClientRpc]
+    public void RpcStopPlayAllFootsteps()
+    {
+        StopPlayFootsteps();
     }
 
 	public void StopPlayFootsteps()
