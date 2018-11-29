@@ -144,12 +144,15 @@ public class PlayerMotor : MonoBehaviour {
     private void performRotation()
     {
         //Converts our vector3 to a quaternion that can be used by the rigidbody
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
-        if(cam != null)
+        if (rotation != Vector3.zero || tiltX != 0)
         {
-            currentCamRotX += tiltX;
-            currentCamRotX = Mathf.Clamp(currentCamRotX, -cameraRotationLimit, cameraRotationLimit);
-            cam.transform.localEulerAngles = new Vector3(currentCamRotX, 0f, 0f);
+            rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
+            if(cam != null)
+            {
+                currentCamRotX += tiltX;
+                currentCamRotX = Mathf.Clamp(currentCamRotX, -cameraRotationLimit, cameraRotationLimit);
+                cam.transform.localEulerAngles = new Vector3(currentCamRotX, 0f, 0f);
+            }
         }
     }
 }

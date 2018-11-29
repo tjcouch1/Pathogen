@@ -3016,6 +3016,7 @@ MonoBehaviour:
   - {fileID: 1496368008810458}
   chatManager: {fileID: 0}
   audioListener: {fileID: 1306508001676522}
+  camera: {fileID: 1992960846065634}
 --- !u!114 &114145905624053148
 MonoBehaviour:
   m_ObjectHideFlags: 1
