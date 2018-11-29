@@ -6,18 +6,19 @@ using UnityEngine.Networking.Match;
 
 public class PauseMenu : MonoBehaviour
 {
-    private NetworkManager NM;
+    private VCNetworkManager NM;
     public static bool isOn = false;
 
     private void Start()
     {
-        NM = NetworkManager.singleton;
+        NM = (VCNetworkManager) NetworkManager.singleton;
     }
 
     public void LeaveRoom()
     {
         MatchInfo matchInfo = NM.matchInfo;
-        NM.matchMaker.DropConnection(matchInfo.networkId, matchInfo.nodeId, 0, NM.OnDropConnection);
+        if (!NM.isPrivate)
+            NM.matchMaker.DropConnection(matchInfo.networkId, matchInfo.nodeId, 0, NM.OnDropConnection);
         NM.StopHost();
     }
 }

@@ -312,8 +312,7 @@ public class GameManager : NetworkBehaviour {
     }
 
     //Happens when roundGameTimer.singleton == 0, or should be called when a win case is met
-    //Confusingly, this is not a Command like StartRound is, which means this runs on every client locally. 
-    //TO-DO: Fix this confusing behavior, but it works fine for now.
+    [Server]
     public void EndRound()
     {
         GameTimer.singleton.StopTimer();
@@ -339,7 +338,7 @@ public class GameManager : NetworkBehaviour {
 					p.GetComponent<VoiceChat.VoiceChatPlayer>().SetAlive(false);
 				else p.chatManager.SetAlive(false);
 
-                p.GetComponent<PlayerAudio>().StopPlayFootsteps();//TURN OFF FOOTSTEPS!!! XD
+                p.GetComponent<PlayerAudio>().RpcStopPlayAllFootsteps();//TURN OFF FOOTSTEPS!!! XD
 			}
 
             //Add points for all the winners

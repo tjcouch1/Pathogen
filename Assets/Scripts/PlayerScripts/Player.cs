@@ -74,6 +74,8 @@ public class Player : NetworkBehaviour {
 
     [SerializeField] private GameObject audioListener;
 
+    [SerializeField] private GameObject camera;
+
     public void Setup()
     {
         //Start all players in the lobby as soon as they join
@@ -263,6 +265,7 @@ public class Player : NetworkBehaviour {
         Transform respawnPoint = NetworkManager.singleton.GetStartPosition();
         transform.position = respawnPoint.position;
         transform.rotation = respawnPoint.rotation;
+        camera.transform.rotation = camera.transform.parent.rotation;
 
         if (isLocalPlayer)
         {

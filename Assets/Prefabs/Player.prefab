@@ -3016,6 +3016,7 @@ MonoBehaviour:
   - {fileID: 1496368008810458}
   chatManager: {fileID: 0}
   audioListener: {fileID: 1306508001676522}
+  camera: {fileID: 1992960846065634}
 --- !u!114 &114145905624053148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3260,6 +3261,9 @@ MonoBehaviour:
   animator: {fileID: 95720482938099428}
   cameraRotationLimit: 85
   runningThreshold: 2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!114 &114622668242531870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3272,7 +3276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.16666667
+  m_SendInterval: 0.04761905
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -3306,7 +3310,7 @@ MonoBehaviour:
   weaponPrefabs:
   - weaponName: Rifle
     isDefault: 1
-    damage: 20
+    damage: 40
     startingClips: 2
     clips: 0
     bullets: 0
@@ -3327,13 +3331,13 @@ MonoBehaviour:
       maxDistance: 4
   - weaponName: Knife
     isDefault: 1
-    damage: 40
+    damage: 100
     startingClips: 0
     clips: 0
     bullets: 0
     infiniteAmmo: 1
     clipSize: 0
-    range: 0.95
+    range: 1.25
     automatic: 1
     fireRate: 2
     reloadTime: 0

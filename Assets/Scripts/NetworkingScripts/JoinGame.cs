@@ -9,15 +9,16 @@ using System;
 public class JoinGame : MonoBehaviour {
 
     List<GameObject> roomList = new List<GameObject>();
-    private NetworkManager networkManager;
+    private VCNetworkManager networkManager;
     [SerializeField] private Text statusText;
     [SerializeField] private GameObject roomListItemPrefab;
     [SerializeField] private Transform roomListItemParent;
+    [SerializeField] private InputField joinPrivateInput;
     private bool quickPlaying = false;
 
     private void Start()
     {
-        networkManager = NetworkManager.singleton;
+        networkManager = (VCNetworkManager) NetworkManager.singleton;
         if(networkManager.matchMaker == null)
         {
             networkManager.StartMatchMaker();
@@ -92,7 +93,18 @@ public class JoinGame : MonoBehaviour {
             {
                 Debug.Log("No Rooms Available :(");
                 string matchName = UserAccountManager.playerUsername + "'s Room";
-                networkManager.matchMaker.CreateMatch(matchName, 10, true, "", "", "", 0, 0, networkManager.OnMatchCreate);
+                uint players = 10;
+
+                //public room
+                networkManager.matchMaker.CreateMatch(matchName, players, true, "", "", "", 0, 0, networkManager.OnMatchCreate);
+                networkManager.matchSize = players;
+
+                //private room
+                //NetworkManager.singleton.maxConnections = (int) players - 1;
+                //networkManager.networkPort = serverPort;
+                //networkManager.isPrivate = true;
+                //networkManager.StartHost();
+                //networkManager.matchSize = players;
             }
         }
     }
@@ -113,6 +125,26 @@ public class JoinGame : MonoBehaviour {
         Debug.Log("Joining " + match.name);
         networkManager.matchMaker.JoinMatch(match.networkId, "", "", "", 0, 0, networkManager.OnMatchJoined);
         StartCoroutine(WaitForJoin());
+    }
+
+    //join game off matchmaking
+    public void JoinPrivateRoom()
+    {
+        cancelJoin(false);
+
+        string serverIP = joinPrivateInput.text;
+        if (string.IsNullOrEmpty(serverIP))
+            serverIP = "localhost";
+
+        Debug.Log("Joining private " + serverIP);
+
+        //join private room - big thanks to l3fty at https://forum.unity.com/threads/lan-with-unet.346182/
+        //networkManager.networkPort = serverPort;
+        networkManager.networkAddress = serverIP;
+        networkManager.isPrivate = true;
+        networkManager.StartClient();
+        //networkManager.matchMaker.JoinMatch(match.networkId, "", "", "", 0, 0, networkManager.OnMatchJoined);
+        //StartCoroutine(WaitForJoin());
     }
 
     IEnumerator WaitForJoin()
