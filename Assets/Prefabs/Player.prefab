@@ -3309,7 +3309,7 @@ MonoBehaviour:
   weaponPrefabs:
   - weaponName: Rifle
     isDefault: 1
-    damage: 20
+    damage: 40
     startingClips: 2
     clips: 0
     bullets: 0
@@ -3330,13 +3330,13 @@ MonoBehaviour:
       maxDistance: 4
   - weaponName: Knife
     isDefault: 1
-    damage: 40
+    damage: 100
     startingClips: 0
     clips: 0
     bullets: 0
     infiniteAmmo: 1
     clipSize: 0
-    range: 0.95
+    range: 1.25
     automatic: 1
     fireRate: 2
     reloadTime: 0
