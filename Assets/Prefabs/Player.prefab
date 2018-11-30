@@ -2840,31 +2840,31 @@ AudioSource:
       inWeight: 0
       outWeight: 1
     - serializedVersion: 3
-      time: 0.27933025
-      value: 0.82302874
-      inSlope: -1.0714285
-      outSlope: -1.0714285
+      time: 0.5259962
+      value: 0.8328478
+      inSlope: -1.0464889
+      outSlope: -1.0464889
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.27122423
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.49834687
-      value: 0.5048992
-      inSlope: -1.7785165
-      outSlope: -1.7785165
+      time: 0.75501496
+      value: 0.49017447
+      inSlope: -2.3559163
+      outSlope: -2.3559163
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.42943373
       outWeight: 0.39002773
     - serializedVersion: 3
-      time: 0.7323054
-      value: 0.13234657
-      inSlope: -0.9091849
-      outSlope: -0.9091849
+      time: 0.925619
+      value: 0.048865736
+      inSlope: -1.1554586
+      outSlope: -1.1554586
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.6745166
+      inWeight: 0.85632956
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
@@ -2978,6 +2978,7 @@ MonoBehaviour:
   reloadClip:
     clip: {fileID: 8300000, guid: 7f89d732b4b0f424b82acb1810b5899e, type: 3}
     maxDistance: 1
+  volume: 0.3
 --- !u!114 &114047413726360128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3183,7 +3184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 200
+  jumpVelocity: 4
   mouseSensitivity: 2
 --- !u!114 &114483829658251804
 MonoBehaviour:
@@ -3264,6 +3265,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 4096
+  tryingToMove: 0
 --- !u!114 &114622668242531870
 MonoBehaviour:
   m_ObjectHideFlags: 1

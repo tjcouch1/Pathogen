@@ -22,6 +22,15 @@ public class PlayerAudio : NetworkBehaviour {
 	private Coroutine footstepCoroutine;
 	private float footstepSpeed = .3125f;
 
+    [SerializeField] private float volume = .4f;
+
+    void Start()
+    {
+        footSource.volume = volume;
+        mouthSource.volume = volume;
+        weaponSource.volume = volume;
+    }
+
     //send play sound to server, server sends to clients
     [Command]
     public void CmdStartPlayFootsteps()
