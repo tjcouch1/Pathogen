@@ -81,6 +81,7 @@ ModelImporter:
     100150: Teeth
     100152: Tongue
     100154: transform1
+    100156: Jacket1
     400000: ball_l
     400002: ball_r
     400004: boots
@@ -159,6 +160,7 @@ ModelImporter:
     400150: Teeth
     400152: Tongue
     400154: transform1
+    400156: Jacket1
     2100000: player_mat
     2300000: boots
     2300002: Eyebrows2
@@ -211,6 +213,7 @@ ModelImporter:
     4300028: Tongue
     4300030: Eyebrows
     4300032: Eyes
+    4300034: Jacket1
     7400000: Take 001
     9500000: //RootNode
     13700000: boots
@@ -224,6 +227,7 @@ ModelImporter:
     13700016: Skin
     13700018: Teeth
     13700020: Tongue
+    13700022: Jacket1
     2186277476908879412: ImportLogs
   externalObjects:
   - first:
@@ -242,8 +246,7 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: "Avatar creation failed:\n\tTransform 'lowerarm_l' is not an
-      ancestor of 'hand_l'\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 

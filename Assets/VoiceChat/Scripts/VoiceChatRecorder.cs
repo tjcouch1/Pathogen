@@ -102,7 +102,7 @@ namespace VoiceChat
 			{
 				bool inputBlocked = false;
 				if (clientPlayer != null)
-					inputBlocked = clientPlayer.shouldPreventInput;
+					inputBlocked = clientPlayer.shouldPreventComms;
 				return !inputBlocked && (transmitToggled || Input.GetButton("PushToTalk"));
 			}
         }

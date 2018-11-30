@@ -23,6 +23,7 @@ public class PlayerMotor : MonoBehaviour {
     private float currentCamRotX = 0;
     private Rigidbody rb;
     private bool canJump = true;
+    private bool jumped = false;
 
     [SerializeField]
     private float cameraRotationLimit = 85f;
@@ -68,13 +69,18 @@ public class PlayerMotor : MonoBehaviour {
                 animator.SetBool("isRunning", false);
             }
         }
-        else
+        else if (v.magnitude > .01f)
         {
             if (animator.GetBool("isMoving"))
             {
                 playerAudio.StopPlayFootsteps();//stop footsteps on my client
                 playerAudio.CmdStopPlayFootsteps();//send stop footsteps to other clients
             }
+            animator.SetBool("isMoving", false);
+        }
+        else
+        {
+            velocity = Vector3.zero;
             animator.SetBool("isMoving", false);
         }
     }
@@ -97,6 +103,7 @@ public class PlayerMotor : MonoBehaviour {
             rb.AddForce(Vector3.up * force);
             playerAudio.PlayJump();//play jump on my client
             playerAudio.CmdPlayJump();//send jump to other clients
+            jumped = true;
         }
     }
 
@@ -109,34 +116,55 @@ public class PlayerMotor : MonoBehaviour {
 
     private void Update()
     {
+        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        if (canJump && rb.velocity.y <= 0)//no gravity while on the ground to prevent sliding down the stairs
+        {
+            collider.material.dynamicFriction = 1f;
+            collider.material.staticFriction = 1f;
+            collider.material.frictionCombine = PhysicMaterialCombine.Average;
+        }
+        else
+        {
+            collider.material.dynamicFriction = .05f;
+            collider.material.staticFriction = .05f;
+            collider.material.frictionCombine = PhysicMaterialCombine.Minimum;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        performMovement();
+        performRotation();
+
         //determine whether or not you can jump
         bool canJumpPrev = canJump;
         canJump = IsGrounded();
+
         if (canJump && !canJumpPrev)//just landed
         {
             if (playerAudio == null)
                 playerAudio = GetComponent<PlayerAudio>();
             playerAudio.PlayLand();
+            animator.SetBool("jumping", false);
         }
-        if (!canJump && canJumpPrev)//just jumped
+        if (!canJump && canJumpPrev)//just came off the ground
         {
-            animator.SetBool("jumping", true);
+            if (!jumped)
+                rb.velocity = new Vector3(rb.velocity.x, -2f, rb.velocity.z);//make him not fly upward off the stairs
+            else//just jumped
+            {
+                animator.SetBool("jumping", true);
+                jumped = false;
+            }
         }
-    }
-
-    //Runs on every physics iteration
-    private void FixedUpdate()
-    {
-        perfromMovement();
-        performRotation();
     }
 
     //Perfrom movement based on velocity vector
-    private void perfromMovement()
+    private void performMovement()
     {
         if(velocity != Vector3.zero)
         {
-            rb.MovePosition(transform.position + velocity * Time.fixedDeltaTime);
+            rb.velocity = new Vector3(velocity.x, rb.velocity.y, velocity.z);
         }
 
     }

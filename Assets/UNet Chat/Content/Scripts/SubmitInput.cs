@@ -35,7 +35,7 @@ public class SubmitInput : MonoBehaviour {
 				eSystem.SetSelectedGameObject(null);
 			}
 		}
-		if (Input.GetButtonDown("Chat") && !localPlayer.shouldPreventInput)//open the chat box
+		if (Input.GetButtonDown("Chat") && !localPlayer.shouldPreventComms)//open the chat box
 		{
 			localPlayer.CmdPlayerSetTyping(true);
 

@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 public class Player : NetworkBehaviour {
 
     [SyncVar]
-    private bool _isAlive = true;
+    private bool _isAlive = false;
 
     [SyncVar]
     private bool isInfected = false;     //Bool for storing what team Player is on. Default is human
@@ -25,10 +25,15 @@ public class Player : NetworkBehaviour {
 		protected set { _isTyping = value; }
 	}
 
-	public bool shouldPreventInput//when true, should prevent typing
+	public bool shouldPreventComms//when true, should prevent communication
 	{
 		get { return PauseMenu.isOn || isTyping || !hasFocus; }
-	}
+    }
+
+    public bool shouldPreventInput//when true, should prevent typing
+    {
+        get { return shouldPreventComms || !isAlive; }
+    }
 
     private bool _hasFocus = true;//whether the window has focus
 
@@ -266,6 +271,9 @@ public class Player : NetworkBehaviour {
         transform.position = respawnPoint.position;
         transform.rotation = respawnPoint.rotation;
         camera.transform.rotation = camera.transform.parent.rotation;
+
+        GetComponent<PlayerMotor>().move(Vector3.zero);
+        GetComponent<PlayerMotor>().rotate(Vector3.zero, 0);
 
         if (isLocalPlayer)
         {
