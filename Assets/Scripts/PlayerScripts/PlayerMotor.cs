@@ -83,6 +83,11 @@ public class PlayerMotor : MonoBehaviour {
         else
         {
             velocity = Vector3.zero;
+            if (animator.GetBool("isMoving"))
+            {
+                playerAudio.StopPlayFootsteps();//stop footsteps on my client
+                playerAudio.CmdStopPlayFootsteps();//send stop footsteps to other clients
+            }
             animator.SetBool("isMoving", false);
         }
     }
@@ -102,7 +107,8 @@ public class PlayerMotor : MonoBehaviour {
     {
         if (canJump)
         {
-            rb.AddForce(Vector3.up * force);
+            rb.velocity = new Vector3(rb.velocity.x, force, rb.velocity.z);
+            //rb.AddForce(Vector3.up * force);
             playerAudio.PlayJump();//play jump on my client
             playerAudio.CmdPlayJump();//send jump to other clients
             jumped = true;

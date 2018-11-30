@@ -4,7 +4,7 @@
 public class PlayerController : MonoBehaviour {
 
     [SerializeField] private float speed = 5f;
-    [SerializeField] private float jumpForce = 200f;
+    [SerializeField] private float jumpVelocity = 10f;
     [SerializeField] private float mouseSensitivity = 3;
     private PlayerMotor motor;
 
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
         //Jumping
         if (Input.GetButtonDown("Jump"))
         {
-            motor.Jump(jumpForce);
+            motor.Jump(jumpVelocity);
         }
 
         Vector3 movHorizontal = transform.right * X_mov;
