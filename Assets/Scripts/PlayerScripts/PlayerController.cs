@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 velocity = (movHorizontal + movVertical) * speed;
 
         //Apply movement
+        motor.tryingToMove = velocity != Vector3.zero;
         motor.move(velocity);
         
         //Calculate rotation (turning around Y)

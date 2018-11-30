@@ -3119,22 +3119,6 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 781547345}
-    - target: {fileID: 114172634670978632, guid: c7d1e958afb59914c9060c5453594139,
-        type: 2}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: c56b3d89cd065154b870015c08dde08c,
-        type: 3}
-    - target: {fileID: 224746767503136228, guid: c7d1e958afb59914c9060c5453594139,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 166.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114172634670978632, guid: c7d1e958afb59914c9060c5453594139,
-        type: 2}
-      propertyPath: m_Color.a
-      value: 0.67058825
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7d1e958afb59914c9060c5453594139, type: 2}
   m_IsPrefabAsset: 0
