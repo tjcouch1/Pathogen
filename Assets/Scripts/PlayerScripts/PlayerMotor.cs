@@ -75,6 +75,8 @@ public class PlayerMotor : MonoBehaviour {
         {
             if (animator.GetBool("isMoving"))
             {
+                if (playerAudio == null)
+                    playerAudio = GetComponent<PlayerAudio>();
                 playerAudio.StopPlayFootsteps();//stop footsteps on my client
                 playerAudio.CmdStopPlayFootsteps();//send stop footsteps to other clients
             }
@@ -85,6 +87,8 @@ public class PlayerMotor : MonoBehaviour {
             velocity = Vector3.zero;
             if (animator.GetBool("isMoving"))
             {
+                if (playerAudio == null)
+                    playerAudio = GetComponent<PlayerAudio>();
                 playerAudio.StopPlayFootsteps();//stop footsteps on my client
                 playerAudio.CmdStopPlayFootsteps();//send stop footsteps to other clients
             }
