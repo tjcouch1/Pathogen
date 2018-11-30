@@ -3313,7 +3313,7 @@ MonoBehaviour:
   - weaponName: Rifle
     isDefault: 1
     damage: 40
-    startingClips: 2
+    startingClips: 1
     clips: 0
     bullets: 0
     infiniteAmmo: 0
