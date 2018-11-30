@@ -8,6 +8,7 @@ using System;
 public class WeaponManager : NetworkBehaviour {
 
     [SerializeField] private const string remoteLayerName = "RemotePlayer";
+    [SerializeField] private const string dontDrawLayerName = "DontDraw";
     [SerializeField] private List<PlayerWeapon> weaponPrefabs;
     [SerializeField] private Transform weaponHolder;
 
@@ -82,6 +83,10 @@ public class WeaponManager : NetworkBehaviour {
             if (!isLocalPlayer)
             {
                 Util.SetLayerRecursively(wGraphicsInstance, LayerMask.NameToLayer(remoteLayerName));
+            }
+            else if (isLocalPlayer)
+            {
+                Util.SetLayerRecursively(wGraphicsInstance, LayerMask.NameToLayer(dontDrawLayerName));
             }
         }
         else
