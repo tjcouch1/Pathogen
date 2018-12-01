@@ -5820,7 +5820,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400038, guid: 5b7d3e1ac06d665418f288963ed10afe, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 400030, guid: 5b7d3e1ac06d665418f288963ed10afe, type: 3}
       propertyPath: m_RootOrder
@@ -5828,7 +5828,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400034, guid: 5b7d3e1ac06d665418f288963ed10afe, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 2300002, guid: 5b7d3e1ac06d665418f288963ed10afe, type: 3}
       propertyPath: m_Materials.Array.data[0]

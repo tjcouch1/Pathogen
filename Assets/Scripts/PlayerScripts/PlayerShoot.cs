@@ -120,13 +120,7 @@ public class PlayerShoot : NetworkBehaviour {
     [ClientRpc]
     void RpcDoMuzzleFlash()
     {
-        if (weaponManager.getCurrentWeaponGraphics() != null)
-        {
-            if(weaponManager.getCurrentWeaponGraphics().muzzleFlash != null)
-            {
-                weaponManager.getCurrentWeaponGraphics().muzzleFlash.Play();
-            }
-        }
+        weaponManager.DoMuzzleFlash();
         if (playerAudio == null)
             playerAudio = GetComponent<PlayerAudio>();
         playerAudio.PlayShoot(weaponManager.getCurrentWeapon().fireClip);

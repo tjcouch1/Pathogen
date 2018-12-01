@@ -9,6 +9,8 @@ public class WeaponManager : NetworkBehaviour {
 
     [SerializeField] private const string remoteLayerName = "RemotePlayer";
     [SerializeField] private const string dontDrawLayerName = "DontDraw";
+    [SerializeField] private WeaponGraphics localRife;
+    [SerializeField] private WeaponGraphics localKnife;
     [SerializeField] private List<PlayerWeapon> weaponPrefabs;
     [SerializeField] private Transform weaponHolder;
 
@@ -25,6 +27,13 @@ public class WeaponManager : NetworkBehaviour {
     {
         playerAudio = GetComponent<PlayerAudio>();
 		setupDefaultWeapons();
+
+        if (!isLocalPlayer)
+        {
+            Util.SetLayerRecursively(localRife.gameObject, LayerMask.NameToLayer(dontDrawLayerName));
+            Util.SetLayerRecursively(localKnife.gameObject, LayerMask.NameToLayer(dontDrawLayerName));
+        }
+       
 	}
 
 	/// <summary>
@@ -182,8 +191,37 @@ public class WeaponManager : NetworkBehaviour {
 		{
 			weapons[requestedIndex].weaponInstance.SetActive(true);
 		}
-        
+
+        if (isLocalPlayer)
+        {
+            SwitchLocalWeapon(deactivateIndex, requestedIndex);
+        }
+
         playerAudio.PlaySwap();
+    }
+
+    //AGH. BAD CODE! but its fine for now shhh don't look at it :)
+    private void SwitchLocalWeapon(int deactivateIndex, int requestedIndex)
+    {
+        //Activate local guy
+        if (weapons[requestedIndex].weapon.weaponName == "Rifle")
+        {
+            localRife.gameObject.SetActive(true);
+        }
+        else if (weapons[requestedIndex].weapon.weaponName == "Knife")
+        {
+            localKnife.gameObject.SetActive(true);
+        }
+
+        //Deactivate local guy
+        if (weapons[deactivateIndex].weapon.weaponName == "Rifle")
+        {
+            localRife.gameObject.SetActive(false);
+        }
+        else if (weapons[deactivateIndex].weapon.weaponName == "Knife")
+        {
+            localKnife.gameObject.SetActive(false);
+        }
     }
 
     public PlayerWeapon getCurrentWeapon()
@@ -236,6 +274,29 @@ public class WeaponManager : NetworkBehaviour {
         {
             Debug.Log("Weapon " + weapons[selectedWeaponIndex].weapon.weaponName + " has no graphics");
             return null;
+        }
+    }
+
+    public void DoMuzzleFlash()
+    {
+        var gfx = getCurrentWeaponGraphics();
+        if (gfx != null)
+        {
+            if (gfx.muzzleFlash != null)
+            {
+                gfx.muzzleFlash.Play();
+            }
+        }
+
+        //Play local weapon flash
+        if (isLocalPlayer)
+        {
+            if(weapons[selectedWeaponIndex].weapon.weaponName == "Rifle")
+            {
+                localRife.muzzleFlash.Play();
+            }
+
+            //Would put knife particle effect here if it had one
         }
     }
 
