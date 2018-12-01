@@ -80,9 +80,20 @@ public class PlayerSetup : NetworkBehaviour {
         Player player = GameManager.getPlayer(playerID);
         if(player != null)
         {
-            Debug.Log(username + " has joined the game!");
             player.username = username;
 			RpcSetupChatUI(playerID, username);
+        }
+        RpcNewPlayerNotification(playerID);
+    }
+
+    [ClientRpc]
+    void RpcNewPlayerNotification(string playerID)
+    {
+        Player _player = GameManager.getPlayer(playerID);
+        Debug.Log(_player.username + " has joined the game!");
+        if (!_player.isLocalPlayer)
+        {
+            NotificationsManager.instance.CreateNotification(_player.username, "Has joined the game!");
         }
     }
 

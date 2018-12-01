@@ -18,7 +18,7 @@ public class ScoreboardElement : MonoBehaviour
     public void Setup(string username, int karma, int kills, int deaths)
     {
         usernameText.text = " " + username + " ";
-        karmaText.text = " Karma: " + karma + " ";
+        karmaText.text = " Trust Factor: " + karma + " ";
         killsText.text = " Kills: " + kills + " ";
         deathsText.text = " Deaths: " + deaths + " ";
     }

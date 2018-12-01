@@ -457,10 +457,6 @@ public class GameManager : NetworkBehaviour {
         playerDictionary.Add(playerID, _player);
         _player.transform.name = playerID;
 
-        if (!_player.isLocalPlayer)
-        {
-            NotificationsManager.instance.CreateNotification(_player.username, "Has joined the game!");
-        }
         GameManager.singleton.CmdStartRound();
     }
 
