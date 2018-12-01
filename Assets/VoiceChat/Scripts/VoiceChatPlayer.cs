@@ -23,6 +23,8 @@ namespace VoiceChat
 
         public const float audioLiveDistance = 25;
 
+        [SerializeField] private float volume = 1.5f;
+
         public bool ShouldPlay
         {
             get { return _shouldPlay; }
@@ -151,6 +153,10 @@ namespace VoiceChat
 
             // Add more time to received
             received += VoiceChatSettings.Instance.SampleTime;
+
+            //amplify new voice chat
+            for (int i = 0; i < length; i++)
+                sample[i] *= volume;
 
             // Push data to buffer
             Array.Copy(sample, 0, data, index, length);

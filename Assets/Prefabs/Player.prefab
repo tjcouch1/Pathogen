@@ -470,6 +470,7 @@ GameObject:
   - component: {fileID: 114622668242531870}
   - component: {fileID: 95720482938099428}
   - component: {fileID: 114902582104419856}
+  - component: {fileID: 114883675392687898}
   - component: {fileID: 82987890017087448}
   - component: {fileID: 114035973648050970}
   m_Layer: 8
@@ -3083,31 +3084,31 @@ AudioSource:
       inWeight: 0
       outWeight: 1
     - serializedVersion: 3
-      time: 0.27933025
-      value: 0.82302874
-      inSlope: -1.0714285
-      outSlope: -1.0714285
+      time: 0.43599987
+      value: 0.77391833
+      inSlope: -1.1579719
+      outSlope: -1.1579719
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.2507644
+      outWeight: 0.5241014
     - serializedVersion: 3
-      time: 0.49834687
-      value: 0.5048992
-      inSlope: -1.7785165
-      outSlope: -1.7785165
+      time: 0.6916757
+      value: 0.28883475
+      inSlope: -1.6149952
+      outSlope: -1.6149952
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.39002773
+      inWeight: 0.42943373
+      outWeight: 0.4915332
     - serializedVersion: 3
-      time: 0.7323054
-      value: 0.13234657
-      inSlope: -0.9091849
-      outSlope: -0.9091849
+      time: 0.90563
+      value: 0.039039075
+      inSlope: -0.42827415
+      outSlope: -0.42827415
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.6745166
+      inWeight: 1
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
@@ -3221,6 +3222,7 @@ MonoBehaviour:
   reloadClip:
     clip: {fileID: 8300000, guid: 7f89d732b4b0f424b82acb1810b5899e, type: 3}
     maxDistance: 1
+  volume: 0.5
 --- !u!114 &114047413726360128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3426,7 +3428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpForce: 200
+  jumpVelocity: 4
   mouseSensitivity: 2
 --- !u!114 &114483829658251804
 MonoBehaviour:
@@ -3507,6 +3509,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 4096
+  tryingToMove: 0
 --- !u!114 &114622668242531870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3556,7 +3559,7 @@ MonoBehaviour:
   - weaponName: Rifle
     isDefault: 1
     damage: 40
-    startingClips: 2
+    startingClips: 1
     clips: 0
     bullets: 0
     infiniteAmmo: 0
@@ -3720,6 +3723,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114883675392687898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1340817644079000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59b1242259e779d4cb4fc25b48201e51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: 8
+  playbackDelay: 0.5
+  packetBufferSize: 10
 --- !u!114 &114898922887527562
 MonoBehaviour:
   m_ObjectHideFlags: 1
