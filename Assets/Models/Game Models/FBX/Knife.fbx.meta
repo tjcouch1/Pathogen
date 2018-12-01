@@ -7,10 +7,47 @@ ModelImporter:
     400000: //RootNode
     2100000: lambert1
     2100002: lambert2
+    2100004: pxrKnifeHandle
+    2100006: pxrKnifeHandleInsert
+    2100008: KnifeHandle
+    2100010: pxrKnifeBlade
+    2100012: pxrKnifeEdge
+    2100014: KnifeBlade
     2300000: //RootNode
     3300000: //RootNode
     4300000: Knife
-  externalObjects: {}
+    4300002: knife
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KnifeBlade
+    second: {fileID: 2100000, guid: 7d4aec7aa37d0ff4cb699e4f6570fe3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KnifeHandle
+    second: {fileID: 2100000, guid: 34d4d2c8868aefe4f81ea8bf59cdd268, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pxrKnifeBlade
+    second: {fileID: 2100000, guid: 7d4aec7aa37d0ff4cb699e4f6570fe3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pxrKnifeEdge
+    second: {fileID: 2100000, guid: c88856b82b560e2449a91b9300367229, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pxrKnifeHandle
+    second: {fileID: 2100000, guid: 34d4d2c8868aefe4f81ea8bf59cdd268, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pxrKnifeHandleInsert
+    second: {fileID: 2100000, guid: 0d2751d9dc9af224a8ed4ca5c052d900, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
