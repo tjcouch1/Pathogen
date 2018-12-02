@@ -9,74 +9,45 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1882673612711416}
+  m_RootGameObject: {fileID: 1861462656695234}
   m_IsPrefabAsset: 1
---- !u!1 &1211028335035136
+--- !u!1 &1861462656695234
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4631514964684570}
-  - component: {fileID: 33458563183258946}
-  - component: {fileID: 23742595644265794}
-  - component: {fileID: 65977055009433126}
-  m_Layer: 12
-  m_Name: RoundPlanter1
+  - component: {fileID: 4718428752587762}
+  - component: {fileID: 33020348349893656}
+  - component: {fileID: 23761212473348874}
+  - component: {fileID: 65690480602922126}
+  m_Layer: 0
+  m_Name: HealthCrate 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1882673612711416
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4093625456203290}
-  m_Layer: 12
-  m_Name: RoundPlanterWPlant
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4093625456203290
+--- !u!4 &4718428752587762
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1882673612711416}
+  m_GameObject: {fileID: 1861462656695234}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0008541667, y: 0.00070416665, z: -0.39139587}
-  m_LocalScale: {x: 0.020833334, y: 0.020833334, z: 0.020833334}
-  m_Children:
-  - {fileID: 4631514964684570}
+  m_LocalPosition: {x: 18.406, y: 4.92, z: -12.804}
+  m_LocalScale: {x: 65.383995, y: 65.383995, z: 63.924423}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4631514964684570
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1211028335035136}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.607, z: 0}
-  m_LocalScale: {x: 0.024375875, y: 0.024375875, z: 0.024375875}
-  m_Children: []
-  m_Father: {fileID: 4093625456203290}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23742595644265794
+--- !u!23 &23761212473348874
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1211028335035136}
+  m_GameObject: {fileID: 1861462656695234}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -86,7 +57,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: b4ee33669e0238245a15b77b505d3abf, type: 2}
+  - {fileID: 2100000, guid: 8d0de2baf795cfa41be54ff2cdb1a77a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,22 +77,22 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33458563183258946
+--- !u!33 &33020348349893656
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1211028335035136}
-  m_Mesh: {fileID: 4300000, guid: 1b15ac3d72b9191429f0953186ca5f24, type: 3}
---- !u!65 &65977055009433126
+  m_GameObject: {fileID: 1861462656695234}
+  m_Mesh: {fileID: 4300000, guid: 1d7c1cdf6f5add54fb499c908e316d8c, type: 3}
+--- !u!65 &65690480602922126
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1211028335035136}
+  m_GameObject: {fileID: 1861462656695234}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 17.8, y: 20.405928, z: 18.7}
-  m_Center: {x: -0.041442998, y: -14.862694, z: 2.9}
+  m_Size: {x: 0.01720947, y: 0.01720947, z: 0.017209472}
+  m_Center: {x: 0, y: 0, z: -0.000000014901161}
