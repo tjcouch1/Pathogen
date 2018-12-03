@@ -88,7 +88,7 @@ MonoBehaviour:
   requiredPlayers: 2
   roundTime: 600
   suddenDeathTime: 180
-  lobbyTime: 30
+  lobbyTime: 15
   startGameTime: 5
   QuarantineZone: {fileID: 0}
   inCurrentRound: 0
