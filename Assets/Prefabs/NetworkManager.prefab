@@ -65,7 +65,7 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: Lobby_old
+  m_OfflineScene: MainMenu
   m_OnlineScene: MallMap
   m_SpawnPrefabs:
   - {fileID: 1506215158362252, guid: 81589866e9fd2de40b0bf323b3a256ae, type: 2}
@@ -124,6 +124,7 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  isPrivate: 0
 --- !u!114 &114919929485034042
 MonoBehaviour:
   m_ObjectHideFlags: 1
