@@ -42,9 +42,6 @@ public class WeaponManager : NetworkBehaviour {
 	/// </summary>
 	public void setupDefaultWeapons()
 	{
-        if (isLocalPlayer)
-            Debug.Log("Setup local default weapons");
-        else Debug.Log("Setup remote default weapons");
 		List<WeaponInstancePair> weaponsToRemove = new List<WeaponInstancePair>(weapons);
 		foreach (WeaponInstancePair pair in weaponsToRemove)
             if (pair != null && pair.weapon != null)
@@ -55,7 +52,8 @@ public class WeaponManager : NetworkBehaviour {
 			if (w.isDefault)
 				SpawnWeapon(w, false);
 		}
-		weapons[selectedWeaponIndex].weaponInstance.SetActive(true);
+		//weapons[selectedWeaponIndex].weaponInstance.SetActive(true);
+        CmdRequestWeaponSwitch(selectedWeaponIndex);
 	}
 
 	/// <summary>
@@ -203,16 +201,6 @@ public class WeaponManager : NetworkBehaviour {
     //AGH. BAD CODE! but its fine for now shhh don't look at it :)
     private void SwitchLocalWeapon(int deactivateIndex, int requestedIndex)
     {
-        //Activate local guy
-        if (weapons[requestedIndex].weapon.weaponName == "Rifle")
-        {
-            localRife.gameObject.SetActive(true);
-        }
-        else if (weapons[requestedIndex].weapon.weaponName == "Knife")
-        {
-            localKnife.gameObject.SetActive(true);
-        }
-
         //Deactivate local guy
         if (weapons[deactivateIndex].weapon.weaponName == "Rifle")
         {
@@ -221,6 +209,16 @@ public class WeaponManager : NetworkBehaviour {
         else if (weapons[deactivateIndex].weapon.weaponName == "Knife")
         {
             localKnife.gameObject.SetActive(false);
+        }
+
+        //Activate local guy
+        if (weapons[requestedIndex].weapon.weaponName == "Rifle")
+        {
+            localRife.gameObject.SetActive(true);
+        }
+        else if (weapons[requestedIndex].weapon.weaponName == "Knife")
+        {
+            localKnife.gameObject.SetActive(true);
         }
     }
 
