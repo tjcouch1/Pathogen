@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Opcode_Software
+  companyName: Surprise_Crabs
   productName: Pathogen
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -44,8 +44,6 @@ PlayerSettings:
     duration: 2
   - logo: {fileID: 21300000, guid: 08d5530149f386746a6cdf39fa0eaa4e, type: 3}
     duration: 2
-  - logo: {fileID: 21300000, guid: 0cbebc1be437ccc428b16dd3ab41501f, type: 3}
-    duration: 3
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1920
