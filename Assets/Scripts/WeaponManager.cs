@@ -185,16 +185,20 @@ public class WeaponManager : NetworkBehaviour {
 				weapons[deactivateIndex].weaponInstance.SetActive(false);
 			}
 		
-		if (weapons[requestedIndex].weaponInstance != null)
-		{
-			weapons[requestedIndex].weaponInstance.SetActive(true);
-		}
+        if (requestedIndex < weapons.Count)
+            if (weapons[requestedIndex].weaponInstance != null)
+            {
+                weapons[requestedIndex].weaponInstance.SetActive(true);
+            }
 
-        if (isLocalPlayer)
-        {
-            SwitchLocalWeapon(deactivateIndex, requestedIndex);
-        }
+        if (deactivateIndex < weapons.Count && requestedIndex < weapons.Count)
+            if (isLocalPlayer)
+            {
+                SwitchLocalWeapon(deactivateIndex, requestedIndex);
+            }
 
+        if (playerAudio == null)
+            playerAudio = GetComponent<PlayerAudio>();
         playerAudio.PlaySwap();
     }
 
