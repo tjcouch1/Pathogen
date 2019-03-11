@@ -22,12 +22,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: BuildingMat
-    second: {fileID: 2100000, guid: 4f99f8d3a2afacf4c858af91dc6232a1, type: 2}
+    second: {fileID: 2100000, guid: 40630ca6157fb324e9e9ba2b3c74b84a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: e04fddc9ca4e34b4db55af34a34c0cfd, type: 2}
+    second: {fileID: 2100000, guid: 62cb2efd161a56b4d8f84efa31f98545, type: 2}
   materials:
     importMaterials: 1
     materialName: 2
@@ -58,7 +58,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 1.1
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
