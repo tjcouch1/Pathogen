@@ -1,0 +1,18 @@
+GAME UPDATE: 2-8-18
+Check out these sick images yo!
+
+
+Let's talk about why these exist a little bit shall we?
+So, because we want to release Pathogen as a commercial game eventually, we've had to change a lot about how we do things. The biggest hurdle has to do with Autodesk's liscensing. Last semester our artists used Autodesk Maya to create all sorts of assets and props for the game. They were able to do this because Autodesk has a free "Educational" version of their software avialable to students. Sweet! This was a perfect solution when Pathogen was nothing but a little prototype game for school. But now that we have bigger plans, things will have to change. Autodesk has a clause in their terms of use that states that anything you create with that liscense isn't really your own IP, and as such you can't use it in any commercial products. We were hoping that there would be some simple workaround for this...and there are, but unfortunately those workarounds aren't *entirely* legal, and we would rather play this safe and NOT get sued by Autodesk.
+
+So what does this mean? It means we have three options: 
+1: Remake all the same models in Blender
+2: Buy a Maya liscense and re-import everything ($1,500/year for Maya! Ouch!)
+3: Make brand new assets in Blender
+
+We've chosen option 3, and what you are seeing is the very first new asset I made in blender! I've spent the majority of January learning the basics of Blender so that I can work on new assets for an entirely new Pathogen map, and am having a lot of fun learning it. So why aren't we remaking the old assets? Well, the people best qualified to do that kind of work are Eric, Breanna, and Gabe, and at at the end of last semester they each decided to leave the project. So we would be attempting to immitate their work, and that's not easy or fun. 
+
+The new map layout you see there isn't finalized, but mostly just an 'idea' of what we could do with a 'small town' aesthetic. It's going to be slow going this semester since this project has to fit into time outside of class, but I hope you guys can get excited to start seeing new Pathogen content again! Thanks for supporting us in the development of this stupidly huge project. 
+
+(I promise I'm going to make a devblog site for these updates soon :oof:)
+
